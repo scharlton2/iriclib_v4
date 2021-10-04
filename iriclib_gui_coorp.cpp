@@ -1,5 +1,6 @@
 #include "iriclib.h"
 #include "iriclib_errorcodes.h"
+#include "iriclib_solution.h"
 
 #include <Poco/File.h>
 
@@ -16,4 +17,9 @@ int iRIC_Check_Cancel()
 	}
 
 	return IRIC_NO_ERROR;
+}
+
+int cg_iRIC_Check_Update(int fid)
+{
+	return cg_iRIC_Write_Sol_End(fid);
 }

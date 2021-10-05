@@ -1153,6 +1153,10 @@ void IRICLIBDLL FMNAME(iric_check_cancel_f2c, IRIC_CHECK_CANCEL_F2C) (int *ier) 
 	*ier = iRIC_Check_Cancel();
 }
 
+void IRICLIBDLL FMNAME(cg_iric_check_update_f2c, CG_IRIC_CHECK_UPDATE_F2C) (int* fid, int *ier) {
+	*ier = cg_iRIC_Check_Update(*fid);
+}
+
 
 // from iriclib_init.h
 void IRICLIBDLL FMNAME(cg_iric_open_f2c, CG_IRIC_OPEN_F2C) (STR_PSTR(filename), int* mode, int* fid, int *ier STR_PLEN(filename)) {

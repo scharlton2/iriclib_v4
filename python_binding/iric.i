@@ -127,6 +127,7 @@ int cg_iRIC_Read_Grid2d_CellNodeCount(int grid_handle, int cellId, int* OUTPUT);
 
 // from iriclib_gui_coorp.h
 int iRIC_Check_Cancel();
+int cg_iRIC_Check_Update(int fid);
 
 // from iriclib_init.h
 int cg_iRIC_Open(const char* filename, int mode, int* OUTPUT);

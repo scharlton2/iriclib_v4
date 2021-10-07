@@ -1,4 +1,10 @@
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.14) # SWIG_MODULE_NAME
+
+# SWIG: use SWIG_MODULE_NAME property.
+# for more run 'cmake --help-policy CMP0086'
+if(POLICY CMP0086)
+  cmake_policy(SET CMP0086 NEW)
+endif()
 
 project (
   iriclib
@@ -9,7 +15,7 @@ project (
 # set standard directory locations
 include(GNUInstallDirs)
 
-# # detect Fortran/C interface
+# # @todo detect Fortran/C interface
 # include(FortranCInterface)
 
 if(WIN32)
@@ -31,6 +37,10 @@ endif()
 find_package(HDF5 1.8 REQUIRED)
 
 find_package(PocoFoundation REQUIRED)
+
+find_package(SWIG REQUIRED)
+
+find_package(Python 3.8 REQUIRED COMPONENTS Interpreter Development)
 
 SET(iriclib_SOURCES
   error_macros.h
@@ -444,6 +454,8 @@ endif()
 install(FILES ${PROJECT_SOURCE_DIR}/iric.f90 DESTINATION src)           # @todo check non-windows builds
 
 add_library(iriclib::iriclib ALIAS iriclib)
+
+add_subdirectory(python_binding)
 
 include(CTest)
 

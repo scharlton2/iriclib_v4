@@ -11,6 +11,7 @@ env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
   BUILD_TYPE: Release
   GENERATOR: 'Visual Studio 16 2019'
+  GENERATOR_NO_QUOTES: Visual Studio 16 2019
   SGEN: vs2019-x64
   IFORT_COMPILER21: C:\Program Files (x86)\Intel\oneAPI\compiler\2021.2.0\windows\
 
@@ -114,7 +115,7 @@ jobs:
         X_CMAKE_INSTALL_PREFIX: ${{github.workspace}}/lib/install/poco-${{env.POCO_VER}}/lib/cmake/Poco;${{github.workspace}}/lib/install/hdf5-${{env.HDF5_VER}}/release/cmake/hdf5
         IFORT_COMPILER21: C:\Program Files (x86)\Intel\oneAPI\compiler\2021.2.0\windows\
       run: |
-        ctest -S iriclib_v4.cmake -DCONF_DIR:STRING=release -D"CTEST_CMAKE_GENERATOR:STRING=$(GENERATOR_NO_QUOTES)"" -C Release -VV -O $(LOG_DIR)\$(SGEN)-iriclib_v4-release.log
+        ctest -S iriclib_v4.cmake -DCONF_DIR:STRING=release -D"CTEST_CMAKE_GENERATOR:STRING=$(GENERATOR_NO_QUOTES)" -C Release -VV -O $(LOG_DIR)\$(SGEN)-iriclib_v4-release.log
 
     # - name: Test iriclib debug
     #   run: cd lib/build/iriclib-${{env.IRICLIB_VER}} && ctest -C debug

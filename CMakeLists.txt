@@ -40,7 +40,7 @@ find_package(PocoFoundation REQUIRED)
 
 find_package(SWIG REQUIRED)
 
-find_package(Python 3.8 REQUIRED COMPONENTS Interpreter Development)
+find_package(Python 3.8 EXACT REQUIRED COMPONENTS Interpreter Development)
 
 SET(iriclib_SOURCES
   error_macros.h

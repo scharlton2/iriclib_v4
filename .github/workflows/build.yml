@@ -134,88 +134,88 @@ jobs:
         path: iricsdk.7z
 
 
-    # - name: Commit and push
-    #   if: ${{ github.repository == 'i-RIC/iriclib_v4' }}
-    #   uses: actions-js/push@master
-    #   with:
-    #     github_token: ${{secrets.GITHUB_TOKEN}}
-    #     directory: lib/src/iriclib-git
-    #     # branch: ${{github.ref}}
-    #     branch: develop_v4
+    - name: Commit and push
+      if: ${{ github.repository == 'i-RIC/iriclib_v4' }}
+      uses: actions-js/push@master
+      with:
+        github_token: ${{secrets.GITHUB_TOKEN}}
+        directory: lib/src/iriclib-git
+        # branch: ${{github.ref}}
+        branch: develop_v4
 
-    # - name: Commit and push branch
-    #   if: ${{ github.repository != 'i-RIC/iriclib_v4' }}
-    #   uses: actions-js/push@master
-    #   with:
-    #     github_token: ${{secrets.GITHUB_TOKEN}}
-    #     directory: lib/src/iriclib-git
-    #     branch: __${{github.event.repository.name}}_${{github.run_number}}
+    - name: Commit and push branch
+      if: ${{ github.repository != 'i-RIC/iriclib_v4' }}
+      uses: actions-js/push@master
+      with:
+        github_token: ${{secrets.GITHUB_TOKEN}}
+        directory: lib/src/iriclib-git
+        branch: __${{github.event.repository.name}}_${{github.run_number}}
 
-    # - name: Create release
-    #   env:
-    #     releases_url: ${{github.api_url}}/repos/${{github.repository}}/releases
-    #   run: |
-    #     Push-Location lib/src/iriclib-git
+    - name: Create release
+      env:
+        releases_url: ${{github.api_url}}/repos/${{github.repository}}/releases
+      run: |
+        Push-Location lib/src/iriclib-git
 
-    #     # store new commit
-    #     $target_commitish = (git log -n1 --format=format:"%H")
+        # store new commit
+        $target_commitish = (git log -n1 --format=format:"%H")
 
-    #     Pop-Location
+        Pop-Location
 
-    #     if (! ($env:IRICLIB_VER -match "^(?<major>0|[1-9]\d*)\.(?<minor>[0|1-9]\d*)\.(?<patch>[0|1-9]\d*)$") ) {
-    #       throw "Bad version"
-    #     }
+        if (! ($env:IRICLIB_VER -match "^(?<major>0|[1-9]\d*)\.(?<minor>[0|1-9]\d*)\.(?<patch>[0|1-9]\d*)$") ) {
+          throw "Bad version"
+        }
 
-    #     # create headers dictionary
-    #     $h = @{"Authorization" = "token ${{secrets.GITHUB_TOKEN}}"}
+        # create headers dictionary
+        $h = @{"Authorization" = "token ${{secrets.GITHUB_TOKEN}}"}
 
-    #     $releases_url = "${{env.releases_url}}"
+        $releases_url = "${{env.releases_url}}"
 
-    #     # create release
-    #     # POST /repos/{owner}/{repo}/releases
-    #     # see https://docs.github.com/en/rest/reference/repos#create-a-release
-    #     # see https://docs.github.com/ja/rest/reference/repos#create-a-release
-    #     #
-    #     $create = @{
-    #       "tag_name"         = "v" + $Matches[0]
-    #       "target_commitish" = "$target_commitish"
-    #       "name"             = "iriclib " + $Matches[0]
-    #       "draft"            = $true
-    #     }
-    #     $create_json = $create | ConvertTo-Json
-    #     $release = Invoke-WebRequest -Uri $releases_url -Headers $h -Method POST -Body $create_json
+        # create release
+        # POST /repos/{owner}/{repo}/releases
+        # see https://docs.github.com/en/rest/reference/repos#create-a-release
+        # see https://docs.github.com/ja/rest/reference/repos#create-a-release
+        #
+        $create = @{
+          "tag_name"         = "v" + $Matches[0]
+          "target_commitish" = "$target_commitish"
+          "name"             = "iriclib " + $Matches[0]
+          "draft"            = $true
+        }
+        $create_json = $create | ConvertTo-Json
+        $release = Invoke-WebRequest -Uri $releases_url -Headers $h -Method POST -Body $create_json
 
-    #     # upload artifact (asset)
-    #     # POST /repos/{owner}/{repo}/releases/{release_id}/assets
-    #     # see https://docs.github.com/en/rest/reference/repos#upload-a-release-asset
-    #     # see https://docs.github.com/ja/rest/reference/repos#upload-a-release-asset
-    #     #
-    #     $upload_uri = ($release.Content | ConvertFrom-Json).upload_url
-    #     if (! ($upload_uri -match  "(.*)\{\?name,label\}") ) {
-    #       # expecting URI{?name,label}
-    #       # ie https://uploads.github.com/repos/scharlton2/iriclib_v4/releases/24058628/assets{?name,label}
-    #       throw "Bad upload_url"
-    #     }
-    #     $upload_uri = $Matches[1] + "?name=iricsdk-$env:IRICLIB_VER.7z"
-    #     $h["Content-type"] = "application/x-7z-compressed"
-    #     $bytes = [System.IO.File]::ReadAllBytes("iricsdk.7z")
-    #     $upload = Invoke-WebRequest -Uri $upload_uri -Headers $h -Method POST -Body $bytes
+        # upload artifact (asset)
+        # POST /repos/{owner}/{repo}/releases/{release_id}/assets
+        # see https://docs.github.com/en/rest/reference/repos#upload-a-release-asset
+        # see https://docs.github.com/ja/rest/reference/repos#upload-a-release-asset
+        #
+        $upload_uri = ($release.Content | ConvertFrom-Json).upload_url
+        if (! ($upload_uri -match  "(.*)\{\?name,label\}") ) {
+          # expecting URI{?name,label}
+          # ie https://uploads.github.com/repos/scharlton2/iriclib_v4/releases/24058628/assets{?name,label}
+          throw "Bad upload_url"
+        }
+        $upload_uri = $Matches[1] + "?name=iricsdk-$env:IRICLIB_VER.7z"
+        $h["Content-type"] = "application/x-7z-compressed"
+        $bytes = [System.IO.File]::ReadAllBytes("iricsdk.7z")
+        $upload = Invoke-WebRequest -Uri $upload_uri -Headers $h -Method POST -Body $bytes
 
-    #     # update release
-    #     # PATCH /repos/{owner}/{repo}/releases/{release_id}
-    #     # see https://docs.github.com/en/rest/reference/repos#update-a-release
-    #     # see https://docs.github.com/ja/rest/reference/repos#update-a-release
-    #     #
-    #     $release_id = ($release.Content | ConvertFrom-Json).id
-    #     $h.Remove("Content-type")
-    #     $update = @{ "draft" = $false }
-    #     $update_json = $update | ConvertTo-Json
-    #     $release = Invoke-WebRequest -Uri "$releases_url/$release_id" -Headers $h -Method PATCH -Body $update_json
+        # update release
+        # PATCH /repos/{owner}/{repo}/releases/{release_id}
+        # see https://docs.github.com/en/rest/reference/repos#update-a-release
+        # see https://docs.github.com/ja/rest/reference/repos#update-a-release
+        #
+        $release_id = ($release.Content | ConvertFrom-Json).id
+        $h.Remove("Content-type")
+        $update = @{ "draft" = $false }
+        $update_json = $update | ConvertTo-Json
+        $release = Invoke-WebRequest -Uri "$releases_url/$release_id" -Headers $h -Method PATCH -Body $update_json
 
-    #     # display download url
-    #     Write-Output "$((($release.Content | ConvertFrom-Json).assets).browser_download_url)"
-    #     Get-FileHash "iricsdk.7z"
-    #     Remove-Item iricsdk.7z
+        # display download url
+        Write-Output "$((($release.Content | ConvertFrom-Json).assets).browser_download_url)"
+        Get-FileHash "iricsdk.7z"
+        Remove-Item iricsdk.7z
 
     # - name: Update iriclib version
     #   run: |

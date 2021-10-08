@@ -114,11 +114,10 @@ jobs:
       env:
         X_CMAKE_INSTALL_PREFIX: ${{github.workspace}}/lib/install/poco-${{env.POCO_VER}}/lib/cmake/Poco;${{github.workspace}}/lib/install/hdf5-${{env.HDF5_VER}}/release/cmake/hdf5
         IFORT_COMPILER21: C:\Program Files (x86)\Intel\oneAPI\compiler\2021.2.0\windows\
-      run: |
-        ctest -S iriclib_v4.cmake -DCONF_DIR:STRING=release -D"CTEST_CMAKE_GENERATOR:STRING=${env:GENERATOR_NO_QUOTES}" -C Release -VV -O ${env:SGEN}-iriclib_v4-release.log
+      run: msbuild /noLogo /maxCpuCount /target:iriclib_v4-build iricdev.proj
 
-    # - name: Test iriclib debug
-    #   run: cd lib/build/iriclib-${{env.IRICLIB_VER}} && ctest -C debug
+    - name: Test iriclib debug
+      run: cd lib/build/iriclib-${{env.IRICLIB_VER}} && ctest -C debug
 
     - name: Test iriclib release
       run: cd lib/build/iriclib-${{env.IRICLIB_VER}} && ctest -C release

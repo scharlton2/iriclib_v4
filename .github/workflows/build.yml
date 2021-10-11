@@ -234,6 +234,7 @@ jobs:
         Remove-Item iricsdk.7z
 
     # - name: Update iriclib version
+      if: ${{ github.repository == 'i-RIC/iriclib_v4' }}
     #   run: |
     #     # versions.cmd
     #     (Get-Content .\versions.cmd) | Foreach-Object {
@@ -242,17 +243,11 @@ jobs:
     #       }
     #       return $_
     #     } | Set-Content .\versions.cmd
-    #     # versions.sh
-    #     (Get-Content .\versions.sh) | Foreach-Object {
-    #       if ($_ -match '^IRICLIB_VER=.*$') {
-    #         return 'IRICLIB_VER=' + $env:IRICLIB_VER
-    #       }
-    #       return $_
-    #     } | Set-Content .\versions.sh
     #     git status
     #     git diff
 
     # - name: Commit and push iricdev
+      if: ${{ github.repository == 'i-RIC/iriclib_v4' }}
     #   uses: actions-js/push@master
     #   with:
     #     github_token: ${{secrets.IRICLIB_V4_ACTION_GHP_TOKEN}}

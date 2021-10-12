@@ -23,3 +23,12 @@ target_link_libraries(iric
     iriclib::iriclib
     Python::Python
 )
+
+install(TARGETS iric
+  LIBRARY DESTINATION ${CMAKE_INSTALL_BINDIR}/Lib/site-packages
+)
+
+install(FILES ${CMAKE_CURRENT_LIST_DIR}/iric_custom.py
+  DESTINATION ${CMAKE_INSTALL_BINDIR}/Lib/site-packages
+  RENAME iric.py
+)

@@ -110,22 +110,6 @@ jobs:
       if: steps.cache-hdf5.outputs.cache-hit != 'true'
       run: msbuild /noLogo /maxCpuCount /target:hdf5-build iricdev.proj
 
-    - name: Cache Miniconda
-      id: cache-miniconda
-      uses: actions/cache@v2
-      with:
-        path:  $env:USERPROFILE/Miniconda3
-        key: Miniconda3-py38_4.9.2-Windows-x86_64.exe
-
-    - name: Install Miniconda
-      if: steps.cache-miniconda.outputs.cache-hit != 'true'
-      run: |
-        $exePath = "$env:TEMP\Miniconda3-py38_4.9.2-Windows-x86_64.exe"
-        (New-Object Net.WebClient).DownloadFile("https://repo.anaconda.com/miniconda/Miniconda3-py38_4.9.2-Windows-x86_64.exe", $exePath)
-        cmd /c start /wait $exePath /InstallationType=JustMe /RegisterPython=0 /AddToPath=0 /S /D="$env:USERPROFILE\Miniconda3"
-        Remove-Item $exePath
-        cmd /c "$env:USERPROFILE\Miniconda3\Library\bin\conda.bat" create -p "$env:USERPROFILE\Miniconda3\envs\iric" python=3.8 numpy -y -q
-
     - name: Build iriclib
       env:
         X_CMAKE_INSTALL_PREFIX: ${{github.workspace}}/lib/install/poco-${{env.POCO_VER}}/lib/cmake/Poco;${{github.workspace}}/lib/install/hdf5-${{env.HDF5_VER}}/release/cmake/hdf5
@@ -143,12 +127,6 @@ jobs:
         Rename-Item .\lib\install iricsdk
         7z a iricsdk.7z .\lib\iricsdk
         Rename-Item .\lib\iricsdk install
-
-    - uses: actions/upload-artifact@v2
-      with:
-        name: sdk
-        path: iricsdk.7z
-
 
     - name: Commit and push
       if: ${{ github.repository == 'i-RIC/iriclib_v4' }}

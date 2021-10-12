@@ -11,6 +11,7 @@ env:
   # Customize the CMake build type here (Release, Debug, RelWithDebInfo, etc.)
   BUILD_TYPE: Release
   GENERATOR: 'Visual Studio 16 2019'
+  GENERATOR_NO_QUOTES: Visual Studio 16 2019
   SGEN: vs2019-x64
   IFORT_COMPILER21: C:\Program Files (x86)\Intel\oneAPI\compiler\2021.2.0\windows\
 
@@ -142,7 +143,7 @@ jobs:
       with:
         github_token: ${{secrets.GITHUB_TOKEN}}
         directory: lib/src/iriclib-git
-        branch: __${{github.event.repository.name}}_${{github.run_number}}
+        branch: __${{github.event.repository.name}}_${{github.run_id}}
 
     - name: Create release
       env:
@@ -211,6 +212,7 @@ jobs:
         Remove-Item iricsdk.7z
 
     - name: Update iriclib version
+      if: ${{ github.repository == 'i-RIC/iriclib_v4' }}
       run: |
         # versions.cmd
         (Get-Content .\versions.cmd) | Foreach-Object {
@@ -219,17 +221,11 @@ jobs:
           }
           return $_
         } | Set-Content .\versions.cmd
-        # versions.sh
-        (Get-Content .\versions.sh) | Foreach-Object {
-          if ($_ -match '^IRICLIB_VER=.*$') {
-            return 'IRICLIB_VER=' + $env:IRICLIB_VER
-          }
-          return $_
-        } | Set-Content .\versions.sh
         git status
         git diff
 
     - name: Commit and push iricdev
+      if: ${{ github.repository == 'i-RIC/iriclib_v4' }}
       uses: actions-js/push@master
       with:
         github_token: ${{secrets.IRICLIB_V4_ACTION_GHP_TOKEN}}

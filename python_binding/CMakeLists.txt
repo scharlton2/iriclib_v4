@@ -10,12 +10,20 @@ set_property(SOURCE iric.i PROPERTY SWIG_MODULE_NAME iric)
 set_property(SOURCE iric.i PROPERTY CPLUSPLUS ON)
 swig_add_library(iric LANGUAGE python SOURCES ${CMAKE_CURRENT_LIST_DIR}/iric.i)
 
-# this is required to avoid a header file (pyconfig.h) forcing
+# this is required to avoid the header file pyconfig.h forcing
 # a link against python38_d.lib during debug builds
-target_compile_definitions(iric
-  PRIVATE
-    SWIG_PYTHON_INTERPRETER_NO_DEBUG
-)
+# Python_LIBRARIES="C:/Users/charlton/Miniconda3/libs/python38.lib"
+# vs
+# Python_LIBRARIES="optimized;C:/Python38-x64/libs/python38.lib;debug;C:/Python38-x64/libs/python38_d.lib"
+if (WIN32)
+  list(FIND Python_LIBRARIES debug debug_index)
+  if (debug_index EQUAL -1)
+    target_compile_definitions(iric
+      PRIVATE
+        SWIG_PYTHON_INTERPRETER_NO_DEBUG
+    )
+  endif()
+endif()
 
 # use imported targets for iric
 target_link_libraries(iric

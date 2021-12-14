@@ -13,6 +13,8 @@ configure_file(case_read_adf_no_sols.cgn  case_read_adf_no_sols.cgn  COPYONLY)
 configure_file(case_read_hdf5.cgn         case_read_hdf5.cgn         COPYONLY)
 configure_file(case_read_hdf5_no_sols.cgn case_read_hdf5_no_sols.cgn COPYONLY)
 configure_file(case_unst_hdf5.cgn         case_unst_hdf5.cgn         COPYONLY)
+configure_file(case_init_fm.cgn           case_init_fm.cgn           COPYONLY)
+configure_file(case_init_fm_3d.cgn        case_init_fm_3d.cgn        COPYONLY)
 
 # unittests_cgnsfile target
 add_executable(unittests_cgnsfile main.cpp)

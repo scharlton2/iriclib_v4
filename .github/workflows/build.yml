@@ -83,7 +83,7 @@ jobs:
           call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
           msbuild /noLogo /maxCpuCount /target:poco-build iricdev.proj
 
-  build:
+  build-iriclib:
     runs-on: windows-2019
     needs: [cache-hdf5, cache-poco]
 

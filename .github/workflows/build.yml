@@ -142,7 +142,10 @@ jobs:
           Write-Output "IRICLIB_VER=$env:IRICLIB_VER" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
       - name: Build iriclib
-        run: msbuild /noLogo /maxCpuCount /target:iriclib_v4-build iricdev.proj
+        shell: cmd
+        run: |
+          call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
+          msbuild /noLogo /maxCpuCount /target:iriclib_v4-build iricdev.proj
 
       - name: Test iriclib debug
         run: cd lib/build/iriclib-${{env.IRICLIB_VER}} && ctest -C debug

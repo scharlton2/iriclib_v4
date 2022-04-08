@@ -95,18 +95,18 @@ jobs:
           persist-credentials: false               # required to commit with a Personal access token
           ref: 2019                                # @todo change to master_v4 or develop_v4
 
-    #   - name: Checkout iriclib
-    #     uses: actions/checkout@v2
-    #     with:
-    #       path: lib/src/iriclib-git
+      - name: Checkout iriclib
+        uses: actions/checkout@v2
+        with:
+          path: lib/src/iriclib-git
 
-    #   - name: Init github env
-    #     run: .\init.github_env.ps1 | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+      - name: Init github env
+        run: .\init.github_env.ps1 | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
-    #   - name: Setup path for msbuild
-    #     uses: microsoft/setup-msbuild@v1.0.2
-    #     with:
-    #       vs-version: '[16.9,17)'
+      - name: Setup path for msbuild
+        uses: microsoft/setup-msbuild@v1.0.2
+        with:
+          vs-version: '[16.9,17)'
 
     #   - name: Cache hdf5
     #     id: cache-hdf5

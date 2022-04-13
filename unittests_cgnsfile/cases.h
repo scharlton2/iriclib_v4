@@ -15,6 +15,8 @@ void case_BcWrite();
 void case_Complex();
 
 void case_GridRead();
+void case_GridRead_FaSTMECH();
+void case_GridRead_FaSTMECH_3d_results();
 void case_GridReadUnstructured();
 void case_GridReadFunc();
 void case_GridWrite();

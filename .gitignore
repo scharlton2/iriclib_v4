@@ -12,3 +12,6 @@ Makefile.*
 *.sdf
 *.user.*
 *.pyc
+
+# toplevel directories starting with underscore '_'
+_*/**

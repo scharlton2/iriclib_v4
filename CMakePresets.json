@@ -1,0 +1,113 @@
+{
+  "version": 2,
+  "cmakeMinimumRequired": {
+    "major": 3,
+    "minor": 20,
+    "patch": 0
+  },
+  "configurePresets": [
+    {
+      "name": "vs2019",
+      "displayName": "Visual Studio 2019",
+      "description": "Visual Studio 2019 with Fortran testing",
+      "generator": "Visual Studio 16 2019",
+      "architecture": "x64",
+      "binaryDir": "${sourceDir}/_${presetName}",
+      "cacheVariables": {
+        "HDF5_DIR": {
+          "type": "PATH",
+          "value": "${sourceDir}/../../install/hdf5-$env{HDF5_VER}/cmake/hdf5"
+        },
+        "PocoFoundation_DIR": {
+          "type": "PATH",
+          "value": "${sourceDir}/../../install/poco-$env{POCO_VER}/lib/cmake/Poco"
+        },
+        "IRICLIB_FORTRAN_TESTING": {
+          "type": "BOOL",
+          "value": "ON"
+        }
+      },
+      "environment": {},
+      "vendor": {
+        "notes": {
+          "HOWTO_CONFIGURE": "cmake --preset vs2019",
+          "HOWTO_BUILD": "cmake --build --preset vs2019 --config <release|debug>",
+          "HOWTO_TEST": "ctest --build --preset vs2019 --build-config <release|debug>",
+          "iriclib_git_sourceDir": "<iricdev-2019-repo>/lib/src/iriclib-git",
+          "CMD_to_set_versions": "run <iricdev-2019-repo>/versions.cmd  (in a command prompt)",
+          "PS_to_set_versions": "run <iricdev-2019-repo>/init.github_env.ps1 (in a powershell or pwsh prompt)"
+        }
+      }
+    },
+    {
+      "name": "vs2019_no_fortran",
+      "displayName": "Visual Studio 2019",
+      "description": "Visual Studio 2019 WITHOUT Fortran testing",
+      "generator": "Visual Studio 16 2019",
+      "architecture": "x64",
+      "binaryDir": "${sourceDir}/_${presetName}",
+      "cacheVariables": {
+        "HDF5_DIR": {
+          "type": "PATH",
+          "value": "${sourceDir}/../../install/hdf5-$env{HDF5_VER}/cmake/hdf5"
+        },
+        "PocoFoundation_DIR": {
+          "type": "PATH",
+          "value": "${sourceDir}/../../install/poco-$env{POCO_VER}/lib/cmake/Poco"
+        },
+        "IRICLIB_FORTRAN_TESTING": {
+          "type": "BOOL",
+          "value": "OFF"
+        }
+      },
+      "environment": {},
+      "vendor": {
+        "notes": {
+          "HOWTO_CONFIGURE": "cmake --preset vs2019_no_fortran",
+          "HOWTO_BUILD": "cmake --build --preset vs2019_no_fortran --config <release|debug>",
+          "HOWTO_TEST": "ctest --build --preset vs2019_no_fortran --build-config <release|debug>",
+          "iriclib_git_sourceDir": "<iricdev-2019-repo>/lib/src/iriclib-git",
+          "CMD_to_set_versions": "run <iricdev-2019-repo>/versions.cmd  (in a command prompt)",
+          "PS_to_set_versions": "run <iricdev-2019-repo>/init.github_env.ps1 (in a powershell or pwsh prompt)"
+        }
+      }
+    }
+  ],
+  "buildPresets": [
+    {
+      "name": "vs2019",
+      "configurePreset": "vs2019"
+    },
+    {
+      "name": "vs2019_no_fortran",
+      "configurePreset": "vs2019_no_fortran"
+    }
+  ],
+  "testPresets": [
+    {
+      "name": "vs2019",
+      "configurePreset": "vs2019",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error",
+        "stopOnFailure": true
+      }
+    },
+    {
+      "name": "vs2019_no_fortran",
+      "configurePreset": "vs2019_no_fortran",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error",
+        "stopOnFailure": true
+      }
+    }
+  ],
+  "vendor": {
+    "notes": {}
+  }
+}

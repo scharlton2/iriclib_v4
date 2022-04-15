@@ -65,7 +65,7 @@
         "notes": {
           "HOWTO_CONFIGURE": "cmake --preset vs2019_no_fortran",
           "HOWTO_BUILD": "cmake --build --preset vs2019_no_fortran --config <release|debug>",
-          "HOWTO_TEST": "ctest --build --preset vs2019_no_fortran --build-config <release|debug>",
+          "HOWTO_TEST": "ctest --preset vs2019_no_fortran --build-config <release|debug>",
           "iriclib_git_sourceDir": "<iricdev-2019-repo>/lib/src/iriclib-git",
           "CMD_to_set_versions": "run <iricdev-2019-repo>/versions.cmd  (in a command prompt)",
           "PS_to_set_versions": "run <iricdev-2019-repo>/init.github_env.ps1 (in a powershell or pwsh prompt)"

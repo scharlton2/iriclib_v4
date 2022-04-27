@@ -327,9 +327,7 @@ H5CgnsFlowSolution* H5CgnsZone::Impl::openNodeSolution()
 {
 	if (m_solutionId == 0) {return nullptr;}
 
-	std::ostringstream ss;
-	ss << "FlowSolution" << m_solutionId;
-	auto name = ss.str();
+	auto name = getSolutionName("FlowSolutionPointers", "FlowSolution", m_solutionId);
 
 	hid_t gId;
 	_IRIC_LOGGER_TRACE_CALL_START("H5Util::openGroup");
@@ -367,16 +365,15 @@ H5CgnsFlowSolution* H5CgnsZone::Impl::openCellSolution()
 {
 	if (m_solutionId == 0) {return nullptr;}
 
-	std::ostringstream ss;
-	ss << "FlowCellSolution" << m_solutionId;
+	auto name = getSolutionName("FlowCellSolutionPointers", "FlowCellSolution", m_solutionId);
 
 	hid_t gId;
 	_IRIC_LOGGER_TRACE_CALL_START("H5CgnsZone::Impl::openSolutionGroup");
-	int ier = openSolutionGroup(ss.str(), &gId);
+	int ier = openSolutionGroup(name, &gId);
 	_IRIC_LOGGER_TRACE_CALL_END_WITHVAL("H5CgnsZone::Impl::openSolutionGroup", ier);
 	if (ier != IRIC_NO_ERROR) {return nullptr;}
 
-	auto sol = new H5CgnsCellFlowSolution(ss.str(), gId, m_zone);
+	auto sol = new H5CgnsCellFlowSolution(name, gId, m_zone);
 	m_cellSolution = sol;
 
 	return sol;
@@ -406,16 +403,15 @@ H5CgnsFlowSolution* H5CgnsZone::Impl::openIFaceSolution()
 {
 	if (m_solutionId == 0) {return nullptr;}
 
-	std::ostringstream ss;
-	ss << "FlowIFaceSolution" << m_solutionId;
+	auto name = getSolutionName("FlowIFaceSolutionPointers", "FlowIFaceSolution", m_solutionId);
 
 	hid_t gId;
 	_IRIC_LOGGER_TRACE_CALL_START("H5Util::openSolutionGroup");
-	int ier = openSolutionGroup(ss.str(), &gId);
+	int ier = openSolutionGroup(name, &gId);
 	_IRIC_LOGGER_TRACE_CALL_END_WITHVAL("H5Util::openSolutionGroup", ier);
 	if (ier != IRIC_NO_ERROR) {return nullptr;}
 
-	auto sol = new H5CgnsIFaceFlowSolution(ss.str(), gId, m_zone);
+	auto sol = new H5CgnsIFaceFlowSolution(name, gId, m_zone);
 	m_iFaceSolution = sol;
 
 	return sol;
@@ -444,16 +440,15 @@ H5CgnsFlowSolution* H5CgnsZone::Impl::openJFaceSolution()
 {
 	if (m_solutionId == 0) {return nullptr;}
 
-	std::ostringstream ss;
-	ss << "FlowJFaceSolution" << m_solutionId;
+	auto name = getSolutionName("FlowJFaceSolutionPointers", "FlowJFaceSolution", m_solutionId);
 
 	hid_t gId;
 	_IRIC_LOGGER_TRACE_CALL_START("H5Util::openSolutionGroup");
-	int ier = openSolutionGroup(ss.str(), &gId);
+	int ier = openSolutionGroup(name, &gId);
 	_IRIC_LOGGER_TRACE_CALL_END_WITHVAL("H5Util::openSolutionGroup", ier);
 	if (ier != IRIC_NO_ERROR) {return nullptr;}
 
-	auto sol = new H5CgnsJFaceFlowSolution(ss.str(), gId, m_zone);
+	auto sol = new H5CgnsJFaceFlowSolution(name, gId, m_zone);
 	m_jFaceSolution = sol;
 
 	return sol;
@@ -482,16 +477,15 @@ H5CgnsFlowSolution* H5CgnsZone::Impl::openKFaceSolution()
 {
 	if (m_solutionId == 0) {return nullptr;}
 
-	std::ostringstream ss;
-	ss << "FlowKFaceSolution" << m_solutionId;
+	auto name = getSolutionName("FlowKFaceSolutionPointers", "FlowKFaceSolution", m_solutionId);
 
 	hid_t gId;
 	_IRIC_LOGGER_TRACE_CALL_START("H5Util::openSolutionGroup");
-	int ier = openSolutionGroup(ss.str(), &gId);
+	int ier = openSolutionGroup(name, &gId);
 	_IRIC_LOGGER_TRACE_CALL_END("H5Util::openSolutionGroup");
 	if (ier != IRIC_NO_ERROR) {return nullptr;}
 
-	auto sol = new H5CgnsKFaceFlowSolution(ss.str(), gId, m_zone);
+	auto sol = new H5CgnsKFaceFlowSolution(name, gId, m_zone);
 	m_kFaceSolution = sol;
 
 	return sol;
@@ -520,16 +514,15 @@ H5CgnsParticleGroupSolution* H5CgnsZone::Impl::openParticleGroupSolution()
 {
 	if (m_solutionId == 0) {return nullptr;}
 
-	std::ostringstream ss;
-	ss << "ParticleGroupSolution" << m_solutionId;
+	auto name = getSolutionName("ParticleGroupSolutionPointers", "ParticleGroupSolution", m_solutionId);
 
 	hid_t gId;
 	_IRIC_LOGGER_TRACE_CALL_START("H5Util::openGroup");
-	int ier = H5Util::openGroup(m_groupId, ss.str(), H5Util::userDefinedDataLabel(), &gId);
+	int ier = H5Util::openGroup(m_groupId, name, H5Util::userDefinedDataLabel(), &gId);
 	_IRIC_LOGGER_TRACE_CALL_END_WITHVAL("H5Util::openGroup", ier);
 	if (ier != IRIC_NO_ERROR) {return nullptr;}
 
-	auto sol = new H5CgnsParticleGroupSolution(ss.str(), gId, m_zone);
+	auto sol = new H5CgnsParticleGroupSolution(name, gId, m_zone);
 	m_particleGroupSolution = sol;
 
 	return sol;
@@ -558,16 +551,15 @@ H5CgnsParticleSolution* H5CgnsZone::Impl::openParticleSolution()
 {
 	if (m_solutionId == 0) {return nullptr;}
 
-	std::ostringstream ss;
-	ss << "ParticleSolution" << m_solutionId;
+	auto name = getSolutionName("ParticleSolutionPointers", "ParticleSolution", m_solutionId);
 
 	hid_t gId;
 	_IRIC_LOGGER_TRACE_CALL_START("H5Util::openGroup");
-	int ier = H5Util::openGroup(m_groupId, ss.str(), H5Util::userDefinedDataLabel(), &gId);
+	int ier = H5Util::openGroup(m_groupId, name, H5Util::userDefinedDataLabel(), &gId);
 	_IRIC_LOGGER_TRACE_CALL_END_WITHVAL("H5Util::openGroup", ier);
 	if (ier != IRIC_NO_ERROR) {return nullptr;}
 
-	auto sol = new H5CgnsParticleSolution(ss.str(), gId, m_zone);
+	auto sol = new H5CgnsParticleSolution(name, gId, m_zone);
 	m_particleSolution = sol;
 
 	return sol;
@@ -596,16 +588,15 @@ H5CgnsPolyDataSolution* H5CgnsZone::Impl::openPolyDataSolution()
 {
 	if (m_solutionId == 0) {return nullptr;}
 
-	std::ostringstream ss;
-	ss << "PolydataSolution" << m_solutionId;
+	auto name = getSolutionName("PolydataSolutionPointers", "PolydataSolution", m_solutionId);
 
 	hid_t gId;
 	_IRIC_LOGGER_TRACE_CALL_START("H5Util::openGroup");
-	int ier = H5Util::openGroup(m_groupId, ss.str(), H5Util::userDefinedDataLabel(), &gId);
+	int ier = H5Util::openGroup(m_groupId, name, H5Util::userDefinedDataLabel(), &gId);
 	_IRIC_LOGGER_TRACE_CALL_END_WITHVAL("H5Util::openGroup", ier);
 	if (ier != IRIC_NO_ERROR) {return nullptr;}
 
-	auto sol = new H5CgnsPolyDataSolution(ss.str(), gId, m_zone);
+	auto sol = new H5CgnsPolyDataSolution(name, gId, m_zone);
 	m_polyDataSolution = sol;
 
 	return sol;
@@ -767,4 +758,25 @@ int H5CgnsZone::Impl::createSolutionGroup(const std::string& name, const std::st
 	}
 
 	return IRIC_NO_ERROR;
+}
+
+std::string H5CgnsZone::Impl::getSolutionName(const std::string& pointersName, const std::string& prefix, int solId)
+{
+	if (m_flowSolutionPointerNames.find(pointersName) == m_flowSolutionPointerNames.end()) {
+		std::ostringstream ss;
+		ss << prefix << solId;
+		return ss.str();
+	}
+
+	hid_t gId;
+	_IRIC_LOGGER_TRACE_CALL_START("H5Util::openGroup");
+	int ier = H5Util::openGroup(m_groupId, ZONEITERATIVEDATA_NAME, ZONEITERATIVEDATA_LABEL, &gId);
+	_IRIC_LOGGER_TRACE_CALL_END_WITHVAL("H5Util::openGroup", ier);
+	if (ier != IRIC_NO_ERROR) {return "";}
+
+	H5GroupCloser closer(gId);
+
+	std::vector<std::string> names;
+	H5Util::readDataArrayValue(gId, pointersName, &names);
+	return names.at(solId - 1);
 }

@@ -1539,6 +1539,14 @@ int H5Util::readGroupValue(hid_t groupId, std::vector<std::string>* values)
 
 	for (hsize_t i = 0; i < count; ++i) {
 		memcpy(buffer2.data(), (buffer.data() + i * maxLen), maxLen);
+
+		// in case the buffer is filled with spaces
+		for (size_t i = maxLen - 1; i >= 0; --i) {
+			if (buffer2.at(i) != ' ') {break;}
+
+			buffer2[i] = '\0';
+		}
+
 		values->push_back(buffer2.data());
 	}
 

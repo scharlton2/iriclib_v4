@@ -158,6 +158,7 @@ jobs:
           cmake --build --preset vs2019_no_fortran --config release
 
       - name: Test iriclib debug
+        if: ${{ false }}
         run: |
           Set-Location lib/src/iriclib-git
           ctest --build --preset vs2019_no_fortran --build-config debug
@@ -168,6 +169,7 @@ jobs:
           ctest --build --preset vs2019_no_fortran --build-config release
 
       - name: Install iriclib debug
+        if: ${{ false }}
         run: |
           Set-Location lib/src/iriclib-git/_vs2019_no_fortran
           cmake --install . --config debug --prefix ..\..\..\install\iriclib-$env:IRICLIB_VER\

@@ -19,6 +19,21 @@ env:
 
 jobs:
 
+  check-python:
+    runs-on: windows-2019
+
+    steps:
+      - name: check python
+        run: |
+          $env:PATH
+          $env:PATH.split(';')
+          Get-ChildItem env:
+          Get-Command py
+          py -3.8 --version
+          py -3.7 --version
+          py -3.9 --version
+          throw "Done"
+
   cache-hdf5:
   # 15m 9s
     runs-on: windows-2019
@@ -31,15 +46,6 @@ jobs:
 
       - name: Init github env
         run: .\init.github_env.ps1 | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-
-      - name: check python
-        run: |
-          Get-ChildItem env:
-          Get-Command py
-          py -3.8 --version
-          py -3.7 --version
-          py -3.9 --version
-          throw "Done"
 
       - name: Setup path for msbuild
         uses: microsoft/setup-msbuild@v1.0.2

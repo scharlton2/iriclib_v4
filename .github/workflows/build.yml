@@ -19,19 +19,6 @@ env:
 
 jobs:
 
-  check-python:
-    runs-on: windows-2019
-
-    steps:
-      - name: check python
-        run: |
-          $env:PATH
-          $env:PATH.split(';')
-          Get-ChildItem env:
-          Get-Command py
-          py --list-paths
-          throw "Done"
-
   cache-hdf5:
   # 15m 9s
     runs-on: windows-2019
@@ -160,6 +147,7 @@ jobs:
           cmake --preset vs2019_no_fortran
 
       - name: Build iriclib debug
+        if: ${{ false }}
         run: |
           Set-Location lib/src/iriclib-git
           cmake --build --preset vs2019_no_fortran --config debug

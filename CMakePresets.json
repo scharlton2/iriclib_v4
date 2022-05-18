@@ -30,6 +30,7 @@
       "environment": {},
       "vendor": {
         "notes": {
+          "HOWTO_SPECIFY_PYTHON": "cmake --build --preset vs2019 -DPython_ROOT_DIR=C:/Python38-x64",
           "HOWTO_CONFIGURE": "cmake --preset vs2019",
           "HOWTO_BUILD": "cmake --build --preset vs2019 --config <release|debug>",
           "HOWTO_TEST": "ctest --build --preset vs2019 --build-config <release|debug>",
@@ -63,6 +64,7 @@
       "environment": {},
       "vendor": {
         "notes": {
+          "HOWTO_SPECIFY_PYTHON": "cmake --build --preset vs2019 -DPython_ROOT_DIR=C:/Python38-x64",
           "HOWTO_CONFIGURE": "cmake --preset vs2019_no_fortran",
           "HOWTO_BUILD": "cmake --build --preset vs2019_no_fortran --config <release|debug>",
           "HOWTO_TEST": "ctest --preset vs2019_no_fortran --build-config <release|debug>",

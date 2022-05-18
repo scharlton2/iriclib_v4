@@ -15,15 +15,19 @@ swig_add_library(iric LANGUAGE python SOURCES ${CMAKE_CURRENT_LIST_DIR}/iric.i)
 # Python_LIBRARIES="C:/Users/charlton/Miniconda3/libs/python38.lib"
 # vs
 # Python_LIBRARIES="optimized;C:/Python38-x64/libs/python38.lib;debug;C:/Python38-x64/libs/python38_d.lib"
-if (WIN32)
-  list(FIND Python_LIBRARIES debug debug_index)
-  if (debug_index EQUAL -1)
-    target_compile_definitions(iric
-      PRIVATE
-        SWIG_PYTHON_INTERPRETER_NO_DEBUG
-    )
-  endif()
-endif()
+#
+# 2022-05-18 -- This no longer compiles on VS2019 Debug
+# Now we must use a Python distribution with libs/pythonXX_d.lib
+#
+# if (WIN32)
+#   list(FIND Python_LIBRARIES debug debug_index)
+#   if (debug_index EQUAL -1)
+#     target_compile_definitions(iric
+#       PRIVATE
+#         SWIG_PYTHON_INTERPRETER_NO_DEBUG
+#     )
+#   endif()
+# endif()
 
 # use imported targets for iric
 target_link_libraries(iric

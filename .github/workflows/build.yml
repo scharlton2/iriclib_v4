@@ -29,9 +29,7 @@ jobs:
           $env:PATH.split(';')
           Get-ChildItem env:
           Get-Command py
-          py -3.8 --version
-          py -3.7 --version
-          py -3.9 --version
+          py --list-paths
           throw "Done"
 
   cache-hdf5:

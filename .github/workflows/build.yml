@@ -19,10 +19,16 @@ env:
   PYTHON_INSTALL_DIR: C:\Python-x64
   PYTHON_VERSION: 3.8.10
 
+  # oneAPI
+  # Based on https://github.com/oneapi-src/oneapi-ci/blob/master/.github/workflows/build_all.yml
+  WINDOWS_HPCKIT_URL: https://registrationcenter-download.intel.com/akdlm/irc_nas/17762/w_HPCKit_p_2021.2.0.2901.exe
+  WINDOWS_HPCKIT_FILE: hpckit.exe
+  WINDOWS_HPCKIT_COMPONENTS: intel.oneapi.win.ifort-compiler
+
 jobs:
 
   cache-hdf5:
-  # 15m 9s
+  # 32m 44s
     runs-on: windows-2019
 
     steps:
@@ -46,10 +52,19 @@ jobs:
           path: ${{github.workspace}}/lib/install/hdf5-${{env.HDF5_VER}}
           key: ${{runner.os}}-hdf5-${{hashFiles('./hdf5.*')}}
 
+      - name: Install oneAPI Fortran
+        if: steps.cache-hdf5.outputs.cache-hit != 'true'
+        shell: cmd
+        run: |
+          curl -fSLo ${{env.WINDOWS_HPCKIT_FILE}} ${{env.WINDOWS_HPCKIT_URL}}
+          start /b /wait ${{env.WINDOWS_HPCKIT_FILE}} -s -x -f hpckit_extracted --log hpckit_extracted.log
+          hpckit_extracted\bootstrapper.exe -s --action install --components=${{env.WINDOWS_HPCKIT_COMPONENTS}} --eula=accept --continue-with-optional-error=yes -p=NEED_VS2017_INTEGRATION=0 -p=NEED_VS2019_INTEGRATION=1 --log-dir=.
+
       - name: Build hdf5
         if: steps.cache-hdf5.outputs.cache-hit != 'true'
         shell: cmd
         run: |
+          call "C:\Program Files (x86)\Intel\oneAPI\setvars.bat" intel64 vs2019
           call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
           msbuild /noLogo /maxCpuCount /target:hdf5-build iricdev.proj
 

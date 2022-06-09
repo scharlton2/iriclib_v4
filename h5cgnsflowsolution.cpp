@@ -7,6 +7,8 @@
 
 #include "private/h5cgnsflowsolution_impl.h"
 
+#include <algorithm>
+
 using namespace iRICLib;
 
 #define LABEL "FlowSolution_t"
@@ -112,6 +114,8 @@ int H5CgnsFlowSolution::writeValue(const std::string& name, const std::vector<in
 	int ier = dataDims(&dims);
 	RETURN_IF_ERR;
 
+	std::reverse(dims.begin(), dims.end());
+
 	_IRIC_LOGGER_TRACE_CALL_START("H5Util::createDataArray");
 	ier = H5Util::createDataArray(impl->m_groupId, name, values, dims);
 	_IRIC_LOGGER_TRACE_CALL_END_WITHVAL("H5Util::createDataArray", ier);
@@ -125,6 +129,8 @@ int H5CgnsFlowSolution::writeValue(const std::string& name, const std::vector<do
 	std::vector<hsize_t> dims;
 	int ier = dataDims(&dims);
 	RETURN_IF_ERR;
+
+	std::reverse(dims.begin(), dims.end());
 
 	_IRIC_LOGGER_TRACE_CALL_START("H5Util::createDataArray");
 	ier = H5Util::createDataArray(impl->m_groupId, name, values, dims);

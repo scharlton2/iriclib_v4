@@ -1,4 +1,5 @@
 #include "error_macros.h"
+#include "h5cgnsbase.h"
 #include "h5cgnsfile.h"
 #include "iriclib.h"
 #include "iriclib_errorcodes.h"
@@ -18,6 +19,28 @@ int getlastGridId(int fid, int *gid)
 	RETURN_IF_ERR;
 
 	return IRIC_NO_ERROR;
+}
+
+int getDefault2dGridId(int fid, int *gid)
+{
+  H5CgnsFile* file = nullptr;
+  int ier = _iric_h5cgnsfiles_get(fid, &file);
+  RETURN_IF_ERR;
+
+  auto base = file->base(2);
+  if (base == nullptr) {
+    return IRIC_NO_DATA;
+  }
+
+  auto zone = base->defaultZone();
+  if (zone == nullptr) {
+    return IRIC_GRID_NOT_FOUND;
+  }
+
+  ier = file->getGridId(zone, gid);
+  RETURN_IF_ERR;
+
+  return IRIC_NO_ERROR;
 }
 
 } // namespace
@@ -290,7 +313,7 @@ int cg_iRIC_Write_Grid_Complex_Cell(int fid, const char* groupname, int* v_arr)
 int cg_iRIC_Read_Grid2d_Str_Size(int fid, int* isize, int* jsize)
 {
   int gid;
-  int ier = getlastGridId(fid, &gid);
+  int ier = getDefault2dGridId(fid, &gid);
   RETURN_IF_ERR;
 
   return cg_iRIC_Read_Grid2d_Str_Size_WithGridId(fid, gid, isize, jsize);
@@ -299,7 +322,7 @@ int cg_iRIC_Read_Grid2d_Str_Size(int fid, int* isize, int* jsize)
 int cg_iRIC_Read_Grid2d_Coords(int fid, double* x_arr, double* y_arr)
 {
   int gid;
-  int ier = getlastGridId(fid, &gid);
+  int ier = getDefault2dGridId(fid, &gid);
   RETURN_IF_ERR;
 
   return cg_iRIC_Read_Grid2d_Coords_WithGridId(fid, gid, x_arr, y_arr);
@@ -574,7 +597,7 @@ int cg_iRIC_Write_Grid_Integer_Cell(int fid, const char* name, int* v_arr)
 int cg_iRIC_Read_Grid2d_Open(int fid, int* grid_handle)
 {
   int gid;
-  int ier = getlastGridId(fid, &gid);
+  int ier = getDefault2dGridId(fid, &gid);
   RETURN_IF_ERR;
 
   return cg_iRIC_Read_Grid2d_Open_WithGridId(fid, gid, grid_handle);
@@ -583,7 +606,7 @@ int cg_iRIC_Read_Grid2d_Open(int fid, int* grid_handle)
 int cg_iRIC_Read_Sol_Grid2d_Open(int fid, int solid, int* grid_handle)
 {
   int gid;
-  int ier = getlastGridId(fid, &gid);
+  int ier = getDefault2dGridId(fid, &gid);
   RETURN_IF_ERR;
 
   return cg_iRIC_Read_Sol_Grid2d_Open_WithGridId(fid, gid, solid, grid_handle);
@@ -632,7 +655,7 @@ int cg_iRIC_Write_Sol_Cell_Real(int fid, const char* name, double* v_arr)
 int cg_iRIC_Read_Sol_Grid2d_Coords(int fid, int step, double* x_arr, double* y_arr)
 {
   int gid;
-  int ier = getlastGridId(fid, &gid);
+  int ier = getDefault2dGridId(fid, &gid);
   RETURN_IF_ERR;
 
   return cg_iRIC_Read_Sol_Grid2d_Coords_WithGridId(fid, gid, step, x_arr, y_arr);
@@ -650,7 +673,7 @@ int cg_iRIC_Read_Sol_Grid3d_Coords(int fid, int step, double* x_arr, double* y_a
 int cg_iRIC_Write_Sol_Grid2d_Coords(int fid, double* x_arr, double* y_arr)
 {
   int gid;
-  int ier = getlastGridId(fid, &gid);
+  int ier = getDefault2dGridId(fid, &gid);
   RETURN_IF_ERR;
 
   return cg_iRIC_Write_Sol_Grid2d_Coords_WithGridId(fid, gid, x_arr, y_arr);

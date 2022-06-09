@@ -854,6 +854,38 @@ int H5Util::getGroupNames(hid_t groupId, std::set<std::string>* names)
 	return IRIC_NO_ERROR;
 }
 
+int H5Util::getGroupNamesWithLabel(hid_t groupId, const std::string& label, std::vector<std::string>* names)
+{
+	std::vector<std::string> tmpNames;
+
+	int ier = getGroupNames(groupId, &tmpNames);
+	RETURN_IF_ERR;
+
+	for (const auto& name : tmpNames) {
+		hid_t childGroupId;
+
+		int ier = openGroup(groupId, name, label, &childGroupId, true);
+		if (ier != IRIC_NO_ERROR) {continue;}
+
+		H5GroupCloser closer(childGroupId);
+		names->push_back(name);
+	}
+	return IRIC_NO_ERROR;
+}
+
+int H5Util::getGroupNamesWithLabel(hid_t groupId, const std::string& label, std::set<std::string>* names)
+{
+	std::vector<std::string> namesVec;
+
+	int ier = getGroupNamesWithLabel(groupId, label, &namesVec);
+	RETURN_IF_ERR;
+
+	for (const auto& name : namesVec) {
+		names->insert(name);
+	}
+	return IRIC_NO_ERROR;
+}
+
 int H5Util::getDatasetNames(hid_t groupId, std::vector<std::string>* names)
 {
 	return getObjectNames(groupId, H5O_TYPE_DATASET, names);

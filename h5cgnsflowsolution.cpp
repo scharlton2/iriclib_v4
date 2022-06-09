@@ -37,9 +37,9 @@ std::string H5CgnsFlowSolution::name() const
 
 int H5CgnsFlowSolution::readValueNames(std::vector<std::string>* names) const
 {
-	_IRIC_LOGGER_TRACE_CALL_START("H5Util::getGroupNames");
-	int ier = H5Util::getGroupNames(impl->m_groupId, names);
-	_IRIC_LOGGER_TRACE_CALL_END_WITHVAL("H5Util::getGroupNames", ier);
+	_IRIC_LOGGER_TRACE_CALL_START("H5Util::getGroupNamesWithLabel");
+	int ier = H5Util::getGroupNamesWithLabel(impl->m_groupId, H5Util::dataArrayLabel(), names);
+	_IRIC_LOGGER_TRACE_CALL_END_WITHVAL("H5Util::getGroupNamesWithLabel", ier);
 	RETURN_IF_ERR;
 
 	return IRIC_NO_ERROR;
@@ -47,9 +47,9 @@ int H5CgnsFlowSolution::readValueNames(std::vector<std::string>* names) const
 
 int H5CgnsFlowSolution::readValueNames(std::set<std::string>* names) const
 {
-	_IRIC_LOGGER_TRACE_CALL_START("H5Util::getGroupNames");
-	int ier = H5Util::getGroupNames(impl->m_groupId, names);
-	_IRIC_LOGGER_TRACE_CALL_END_WITHVAL("H5Util::getGroupNames", ier);
+	_IRIC_LOGGER_TRACE_CALL_START("H5Util::getGroupNamesWithLabel");
+	int ier = H5Util::getGroupNamesWithLabel(impl->m_groupId, H5Util::dataArrayLabel(), names);
+	_IRIC_LOGGER_TRACE_CALL_END_WITHVAL("H5Util::getGroupNamesWithLabel", ier);
 	RETURN_IF_ERR;
 
 	return IRIC_NO_ERROR;

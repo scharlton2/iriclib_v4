@@ -57,6 +57,14 @@ def gen_f90_interface_content(fdef):
   if '_grid3d_coords' in fname_lower:
     return _gen_f90_interface_content(fname_lower, [1, 3])
 
+  if '_bc_indices' in fname_lower and not '_bc_indicessize' in fname_lower:
+    return _gen_f90_interface_content(fname_lower, [1, 2, 3])
+
+  if '_functional' in fname_lower and not (
+    'string' in fname_lower or '_functionalsize' in fname_lower or 'dimension' in fname_lower or 'time' in fname_lower
+  ):
+    return _gen_f90_interface_content(fname_lower, [1, 2, 3])
+
   return ""
 
 def _gen_f90_source_content(fdef, dim):
@@ -201,6 +209,20 @@ def gen_f90_source_content(fdef):
   if '_grid3d_coords' in fname_lower:
     cont = ''
     for dim in [1, 3]:
+      cont += _gen_f90_source_content(fdef, dim)
+    return cont
+
+  if '_bc_indices' in fname_lower and not '_bc_indicessize' in fname_lower:
+    cont = ''
+    for dim in [1, 2, 3]:
+      cont += _gen_f90_source_content(fdef, dim)
+    return cont
+
+  if '_functional' in fname_lower and not (
+    'string' in fname_lower or '_functionalsize' in fname_lower or 'dimension' in fname_lower or 'time' in fname_lower
+  ):
+    cont = ''
+    for dim in range(1, 5):
       cont += _gen_f90_source_content(fdef, dim)
     return cont
 

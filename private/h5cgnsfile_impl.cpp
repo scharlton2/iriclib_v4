@@ -46,6 +46,7 @@ int H5CgnsFile::Impl::close()
 		delete base;
 	}
 	m_bases.clear();
+	m_baseMap.clear();
 	m_zones.clear();
 
 	_IRIC_LOGGER_TRACE_CALL_START("H5Fclose");

@@ -57,6 +57,12 @@ program Test1
 	integer:: i, j, iter
 	double precision:: t
 
+#if _WIN32
+	call execute_command_line("copy /Y test_input_hdf5.cgn.orig test_input_hdf5.cgn")
+#else
+	call execute_command_line("cp -f test_input_hdf5.cgn.orig test_input_hdf5.cgn")
+#endif
+
 	! CGNS ファイルのオープン
 	call cg_iric_open('test_input_hdf5.cgn', IRIC_MODE_MODIFY, fid, ier)
 	if (ier /=0) STOP "*** Open error of CGNS file ***"

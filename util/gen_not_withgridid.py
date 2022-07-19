@@ -41,7 +41,7 @@ def gen_not_withgridid_header():
       with open(os.path.join('..', filename), 'r', encoding='utf-8') as f:
         for line in f:
           if 'IRICLIBDLL' in line and 'WithGridId' in line:
-            if 'WriteGridCoord' in line or ('Write_Grid' in line and 'd_Coords' in line):
+            if 'WriteGridCoord' in line or (('Write_Grid' in line or 'Write_NamedGrid' in line) and 'd_Coords' in line):
               newline = gen_not_withgridid_header_line_writegrid(line)
             else:
               newline = gen_not_withgridid_header_line(line)
@@ -62,11 +62,15 @@ def gen_not_withgridid_source_content(withgridid_def):
   content += "{\n"
   content += "  int gid;\n"
 
+  getgrid_func = 'getlastGridId'
+  if '2d' in withgridid_def:
+    getgrid_func = 'getDefault2dGridId'
+
   if not ret_is_void:
-    content += "  int ier = getlastGridId(fid, &gid);\n"
+    content += "  int ier = " + getgrid_func + "(fid, &gid);\n"
     content += "  RETURN_IF_ERR;\n"
   else:
-    content += "  getlastGridId(fid, &gid);\n"
+    content += "  " + getgrid_func + "(fid, &gid);\n"
 
   content += "\n"
   if ret_is_void:
@@ -106,7 +110,7 @@ def gen_not_withgridid_source():
       with open(os.path.join('..', filename), 'r', encoding='utf-8') as f:
         for line in f:
           if 'IRICLIBDLL' in line and 'WithGridId' in line:
-            if 'WriteGridCoord' in line or ('Write_Grid' in line and 'd_Coords' in line):
+            if 'WriteGridCoord' in line or (('Write_Grid' in line or 'Write_NamedGrid' in line) and 'd_Coords' in line):
               content = gen_not_withgridid_source_content_writegrid(line)
             else:
               content = gen_not_withgridid_source_content(line)

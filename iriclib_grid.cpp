@@ -550,6 +550,104 @@ int cg_iRIC_Write_Grid3d_Coords_WithGridId(int fid, int isize, int jsize, int ks
 	return file->getGridId(zone, gid);
 }
 
+int cg_iRIC_Write_NamedGrid1d_Coords_WithGridId(int fid, const char* name, int isize, double* x_arr, int* gid)
+{
+	_IRIC_LOGGER_TRACE_ENTER();
+
+	H5CgnsFile* file = nullptr;
+	int ier = _iric_h5cgnsfiles_get(fid, &file);
+	RETURN_IF_ERR;
+
+	auto base = file->base(1);
+	std::vector<int> size;
+	size.push_back(isize);
+	size.push_back(isize - 1);
+	auto zone = base->createZone(name, H5CgnsZone::Type::Structured, size);
+
+	std::vector<double> coords(isize);
+
+	_pointerToVectorT(x_arr, &coords);
+
+	ier = zone->gridCoordinates()->writeCoordinatesX(coords);
+	RETURN_IF_ERR;
+
+	_IRIC_LOGGER_TRACE_LEAVE();
+	return file->getGridId(zone, gid);
+}
+
+int cg_iRIC_Write_NamedGrid2d_Coords_WithGridId(int fid, const char* name, int isize, int jsize, double* x_arr, double* y_arr, int* gid)
+{
+	_IRIC_LOGGER_TRACE_ENTER();
+
+	H5CgnsFile* file = nullptr;
+	int ier = _iric_h5cgnsfiles_get(fid, &file);
+	RETURN_IF_ERR;
+
+	auto base = file->base(2);
+
+	std::vector<int> size;
+	size.push_back(isize);
+	size.push_back(jsize);
+	size.push_back(isize - 1);
+	size.push_back(jsize - 1);
+	auto zone = base->createZone(name,  H5CgnsZone::Type::Structured, size);
+
+	auto totalSize = isize * jsize;
+
+	std::vector<double> xVec(totalSize), yVec(totalSize);
+
+	_pointerToVectorT(x_arr, &xVec);
+	_pointerToVectorT(y_arr, &yVec);
+
+	ier = zone->gridCoordinates()->writeCoordinatesX(xVec);
+	RETURN_IF_ERR;
+
+	ier = zone->gridCoordinates()->writeCoordinatesY(yVec);
+	RETURN_IF_ERR;
+
+	_IRIC_LOGGER_TRACE_LEAVE();
+	return file->getGridId(zone, gid);
+}
+
+int cg_iRIC_Write_NamedGrid3d_Coords_WithGridId(int fid, const char* name, int isize, int jsize, int ksize, double* x_arr, double* y_arr, double* z_arr, int* gid)
+{
+	_IRIC_LOGGER_TRACE_ENTER();
+
+	H5CgnsFile* file = nullptr;
+	int ier = _iric_h5cgnsfiles_get(fid, &file);
+	RETURN_IF_ERR;
+
+	auto base = file->base(3);
+
+	std::vector<int> size;
+	size.push_back(isize);
+	size.push_back(jsize);
+	size.push_back(ksize);
+	size.push_back(isize - 1);
+	size.push_back(jsize - 1);
+	size.push_back(ksize - 1);
+	auto zone = base->createZone(name, H5CgnsZone::Type::Structured, size);
+
+	auto totalSize = isize * jsize * ksize;
+
+	std::vector<double> xVec(totalSize), yVec(totalSize), zVec(totalSize);
+	_pointerToVectorT(x_arr, &xVec);
+	_pointerToVectorT(y_arr, &yVec);
+	_pointerToVectorT(z_arr, &zVec);
+
+	ier = zone->gridCoordinates()->writeCoordinatesX(xVec);
+	RETURN_IF_ERR;
+
+	ier = zone->gridCoordinates()->writeCoordinatesY(yVec);
+	RETURN_IF_ERR;
+
+	ier = zone->gridCoordinates()->writeCoordinatesZ(zVec);
+	RETURN_IF_ERR;
+
+	_IRIC_LOGGER_TRACE_LEAVE();
+	return file->getGridId(zone, gid);
+}
+
 int cg_iRIC_Write_Grid_Real_Node_WithGridId(int fid, int gid, const char* name, double* v_arr)
 {
 	_IRIC_LOGGER_TRACE_ENTER();

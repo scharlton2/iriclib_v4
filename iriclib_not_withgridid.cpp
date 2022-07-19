@@ -556,6 +556,27 @@ int cg_iRIC_Write_Grid3d_Coords(int fid, int isize, int jsize, int ksize, double
   return cg_iRIC_Write_Grid3d_Coords_WithGridId(fid, isize, jsize, ksize, x_arr, y_arr, z_arr, &gid);
 }
 
+int cg_iRIC_Write_NamedGrid1d_Coords(int fid, const char* name, int isize, double* x_arr)
+{
+  int gid;
+
+  return cg_iRIC_Write_NamedGrid1d_Coords_WithGridId(fid, name, isize, x_arr, &gid);
+}
+
+int cg_iRIC_Write_NamedGrid2d_Coords(int fid, const char* name, int isize, int jsize, double* x_arr, double* y_arr)
+{
+  int gid;
+
+  return cg_iRIC_Write_NamedGrid2d_Coords_WithGridId(fid, name, isize, jsize, x_arr, y_arr, &gid);
+}
+
+int cg_iRIC_Write_NamedGrid3d_Coords(int fid, const char* name, int isize, int jsize, int ksize, double* x_arr, double* y_arr, double* z_arr)
+{
+  int gid;
+
+  return cg_iRIC_Write_NamedGrid3d_Coords_WithGridId(fid, name, isize, jsize, ksize, x_arr, y_arr, z_arr, &gid);
+}
+
 int cg_iRIC_Write_Grid_Real_Node(int fid, const char* name, double* v_arr)
 {
   int gid;
@@ -854,7 +875,7 @@ int cg_iRIC_Read_Sol_Particle_Count(int fid, int step, int* count)
 int cg_iRIC_Read_Sol_Particle_Pos2d(int fid, int step, double* x_arr, double* y_arr)
 {
   int gid;
-  int ier = getlastGridId(fid, &gid);
+  int ier = getDefault2dGridId(fid, &gid);
   RETURN_IF_ERR;
 
   return cg_iRIC_Read_Sol_Particle_Pos2d_WithGridId(fid, gid, step, x_arr, y_arr);
@@ -890,7 +911,7 @@ int cg_iRIC_Read_Sol_Particle_Integer(int fid, int step, const char* name, int* 
 int cg_iRIC_Write_Sol_Particle_Pos2d(int fid, int count, double* x_arr, double* y_arr)
 {
   int gid;
-  int ier = getlastGridId(fid, &gid);
+  int ier = getDefault2dGridId(fid, &gid);
   RETURN_IF_ERR;
 
   return cg_iRIC_Write_Sol_Particle_Pos2d_WithGridId(fid, gid, count, x_arr, y_arr);
@@ -937,7 +958,7 @@ int cg_iRIC_Read_Sol_ParticleGroup_Count(int fid, int step, const char* groupnam
 int cg_iRIC_Read_Sol_ParticleGroup_Pos2d(int fid, int step, const char* groupname, double* x_arr, double* y_arr)
 {
   int gid;
-  int ier = getlastGridId(fid, &gid);
+  int ier = getDefault2dGridId(fid, &gid);
   RETURN_IF_ERR;
 
   return cg_iRIC_Read_Sol_ParticleGroup_Pos2d_WithGridId(fid, gid, step, groupname, x_arr, y_arr);
@@ -991,7 +1012,7 @@ int cg_iRIC_Write_Sol_ParticleGroup_GroupEnd(int fid)
 int cg_iRIC_Write_Sol_ParticleGroup_Pos2d(int fid, double x, double y)
 {
   int gid;
-  int ier = getlastGridId(fid, &gid);
+  int ier = getDefault2dGridId(fid, &gid);
   RETURN_IF_ERR;
 
   return cg_iRIC_Write_Sol_ParticleGroup_Pos2d_WithGridId(fid, gid, x, y);
@@ -1047,7 +1068,7 @@ int cg_iRIC_Read_Sol_PolyData_CoordinateCount(int fid, int step, const char* gro
 int cg_iRIC_Read_Sol_PolyData_Pos2d(int fid, int step, const char* groupname, double* x_arr, double* y_arr)
 {
   int gid;
-  int ier = getlastGridId(fid, &gid);
+  int ier = getDefault2dGridId(fid, &gid);
   RETURN_IF_ERR;
 
   return cg_iRIC_Read_Sol_PolyData_Pos2d_WithGridId(fid, gid, step, groupname, x_arr, y_arr);

@@ -200,6 +200,16 @@ module iric
     module procedure cg_iric_write_grid3d_coords_withgridid_3d
   end interface
 
+  interface cg_iric_write_namedgrid2d_coords_withgridid
+    module procedure cg_iric_write_namedgrid2d_coords_withgridid_1d
+    module procedure cg_iric_write_namedgrid2d_coords_withgridid_2d
+  end interface
+
+  interface cg_iric_write_namedgrid3d_coords_withgridid
+    module procedure cg_iric_write_namedgrid3d_coords_withgridid_1d
+    module procedure cg_iric_write_namedgrid3d_coords_withgridid_3d
+  end interface
+
   interface cg_iric_write_grid_real_node_withgridid
     module procedure cg_iric_write_grid_real_node_withgridid_1d
     module procedure cg_iric_write_grid_real_node_withgridid_2d
@@ -404,6 +414,16 @@ module iric
   interface cg_iric_write_grid3d_coords
     module procedure cg_iric_write_grid3d_coords_1d
     module procedure cg_iric_write_grid3d_coords_3d
+  end interface
+
+  interface cg_iric_write_namedgrid2d_coords
+    module procedure cg_iric_write_namedgrid2d_coords_1d
+    module procedure cg_iric_write_namedgrid2d_coords_2d
+  end interface
+
+  interface cg_iric_write_namedgrid3d_coords
+    module procedure cg_iric_write_namedgrid3d_coords_1d
+    module procedure cg_iric_write_namedgrid3d_coords_3d
   end interface
 
   interface cg_iric_write_grid_real_node
@@ -2861,6 +2881,83 @@ contains
 
   end subroutine
 
+  subroutine cg_iric_write_namedgrid1d_coords_withgridid(fid, name, isize, x_arr, gid, ier)
+    integer, intent(in):: fid
+    character(*), intent(in):: name
+    integer, intent(in):: isize
+    double precision, dimension(:), intent(in):: x_arr
+    integer, intent(out):: gid
+    integer, intent(out):: ier
+
+    call cg_iric_write_namedgrid1d_coords_withgridid_f2c &
+      (fid, name, isize, x_arr, gid, ier)
+
+  end subroutine
+
+  subroutine cg_iric_write_namedgrid2d_coords_withgridid_1d(fid, name, isize, jsize, x_arr, y_arr, gid, ier)
+    integer, intent(in):: fid
+    character(*), intent(in):: name
+    integer, intent(in):: isize
+    integer, intent(in):: jsize
+    double precision, dimension(:), intent(in):: x_arr
+    double precision, dimension(:), intent(in):: y_arr
+    integer, intent(out):: gid
+    integer, intent(out):: ier
+
+    call cg_iric_write_namedgrid2d_coords_withgridid_f2c &
+      (fid, name, isize, jsize, x_arr, y_arr, gid, ier)
+
+  end subroutine
+
+  subroutine cg_iric_write_namedgrid2d_coords_withgridid_2d(fid, name, isize, jsize, x_arr, y_arr, gid, ier)
+    integer, intent(in):: fid
+    character(*), intent(in):: name
+    integer, intent(in):: isize
+    integer, intent(in):: jsize
+    double precision, dimension(:,:), intent(in):: x_arr
+    double precision, dimension(:,:), intent(in):: y_arr
+    integer, intent(out):: gid
+    integer, intent(out):: ier
+
+    call cg_iric_write_namedgrid2d_coords_withgridid_f2c &
+      (fid, name, isize, jsize, x_arr, y_arr, gid, ier)
+
+  end subroutine
+
+  subroutine cg_iric_write_namedgrid3d_coords_withgridid_1d(fid, name, isize, jsize, ksize, x_arr, y_arr, z_arr, gid, ier)
+    integer, intent(in):: fid
+    character(*), intent(in):: name
+    integer, intent(in):: isize
+    integer, intent(in):: jsize
+    integer, intent(in):: ksize
+    double precision, dimension(:), intent(in):: x_arr
+    double precision, dimension(:), intent(in):: y_arr
+    double precision, dimension(:), intent(in):: z_arr
+    integer, intent(out):: gid
+    integer, intent(out):: ier
+
+    call cg_iric_write_namedgrid3d_coords_withgridid_f2c &
+      (fid, name, isize, jsize, ksize, x_arr, y_arr, z_arr, gid, ier)
+
+  end subroutine
+
+  subroutine cg_iric_write_namedgrid3d_coords_withgridid_3d(fid, name, isize, jsize, ksize, x_arr, y_arr, z_arr, gid, ier)
+    integer, intent(in):: fid
+    character(*), intent(in):: name
+    integer, intent(in):: isize
+    integer, intent(in):: jsize
+    integer, intent(in):: ksize
+    double precision, dimension(:,:,:), intent(in):: x_arr
+    double precision, dimension(:,:,:), intent(in):: y_arr
+    double precision, dimension(:,:,:), intent(in):: z_arr
+    integer, intent(out):: gid
+    integer, intent(out):: ier
+
+    call cg_iric_write_namedgrid3d_coords_withgridid_f2c &
+      (fid, name, isize, jsize, ksize, x_arr, y_arr, z_arr, gid, ier)
+
+  end subroutine
+
   subroutine cg_iric_write_grid_real_node_withgridid_1d(fid, gid, name, v_arr, ier)
     integer, intent(in):: fid
     integer, intent(in):: gid
@@ -5006,6 +5103,78 @@ contains
 
     call cg_iric_write_grid3d_coords_f2c &
       (fid, isize, jsize, ksize, x_arr, y_arr, z_arr, ier)
+
+  end subroutine
+
+  subroutine cg_iric_write_namedgrid1d_coords(fid, name, isize, x_arr, ier)
+    integer, intent(in):: fid
+    character(*), intent(in):: name
+    integer, intent(in):: isize
+    double precision, dimension(:), intent(in):: x_arr
+    integer, intent(out):: ier
+
+    call cg_iric_write_namedgrid1d_coords_f2c &
+      (fid, name, isize, x_arr, ier)
+
+  end subroutine
+
+  subroutine cg_iric_write_namedgrid2d_coords_1d(fid, name, isize, jsize, x_arr, y_arr, ier)
+    integer, intent(in):: fid
+    character(*), intent(in):: name
+    integer, intent(in):: isize
+    integer, intent(in):: jsize
+    double precision, dimension(:), intent(in):: x_arr
+    double precision, dimension(:), intent(in):: y_arr
+    integer, intent(out):: ier
+
+    call cg_iric_write_namedgrid2d_coords_f2c &
+      (fid, name, isize, jsize, x_arr, y_arr, ier)
+
+  end subroutine
+
+  subroutine cg_iric_write_namedgrid2d_coords_2d(fid, name, isize, jsize, x_arr, y_arr, ier)
+    integer, intent(in):: fid
+    character(*), intent(in):: name
+    integer, intent(in):: isize
+    integer, intent(in):: jsize
+    double precision, dimension(:,:), intent(in):: x_arr
+    double precision, dimension(:,:), intent(in):: y_arr
+    integer, intent(out):: ier
+
+    call cg_iric_write_namedgrid2d_coords_f2c &
+      (fid, name, isize, jsize, x_arr, y_arr, ier)
+
+  end subroutine
+
+  subroutine cg_iric_write_namedgrid3d_coords_1d(fid, name, isize, jsize, ksize, x_arr, y_arr, z_arr, ier)
+    integer, intent(in):: fid
+    character(*), intent(in):: name
+    integer, intent(in):: isize
+    integer, intent(in):: jsize
+    integer, intent(in):: ksize
+    double precision, dimension(:), intent(in):: x_arr
+    double precision, dimension(:), intent(in):: y_arr
+    double precision, dimension(:), intent(in):: z_arr
+    integer, intent(out):: ier
+
+    call cg_iric_write_namedgrid3d_coords_f2c &
+      (fid, name, isize, jsize, ksize, x_arr, y_arr, z_arr, ier)
+
+  end subroutine
+
+  subroutine cg_iric_write_namedgrid3d_coords_3d(fid, name, isize, jsize, ksize, x_arr, y_arr, z_arr, ier)
+    integer, intent(in):: fid
+    character(*), intent(in):: name
+    integer, intent(in):: isize
+    integer, intent(in):: jsize
+    integer, intent(in):: ksize
+    double precision, dimension(:,:,:), intent(in):: x_arr
+    double precision, dimension(:,:,:), intent(in):: y_arr
+    double precision, dimension(:,:,:), intent(in):: z_arr
+    integer, intent(out):: ier
+
+    call cg_iric_write_namedgrid3d_coords_f2c &
+      (fid, name, isize, jsize, ksize, x_arr, y_arr, z_arr, ier)
 
   end subroutine
 

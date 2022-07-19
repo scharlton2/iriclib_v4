@@ -3102,6 +3102,17 @@ contains
 
   end subroutine
 
+  subroutine cg_iric_copy_grid_withgridid(fid_from, fid_to, gid, ier)
+    integer, intent(in):: fid_from
+    integer, intent(in):: fid_to
+    integer, intent(in):: gid
+    integer, intent(out):: ier
+
+    call cg_iric_copy_grid_withgridid_f2c &
+      (fid_from, fid_to, gid, ier)
+
+  end subroutine
+
 
 
   ! from iriclib_grid_solverlib.h
@@ -5307,6 +5318,16 @@ contains
 
     call cg_iric_write_grid_integer_cell_f2c &
       (fid, name, v_arr, ier)
+
+  end subroutine
+
+  subroutine cg_iric_copy_grid(fid_from, fid_to, ier)
+    integer, intent(in):: fid_from
+    integer, intent(in):: fid_to
+    integer, intent(out):: ier
+
+    call cg_iric_copy_grid_f2c &
+      (fid_from, fid_to, ier)
 
   end subroutine
 

@@ -116,6 +116,7 @@ int cg_iRIC_Read_Grid_JFaceCount_WithGridId(int fid, int gid, int* OUTPUT);
 int cg_iRIC_Read_Grid_KFaceCount_WithGridId(int fid, int gid, int* OUTPUT);
 int cg_iRIC_Read_Grid_FunctionalDimensionSize_WithGridId(int fid, int gid, const char* name, const char* dimname, int* OUTPUT);
 int cg_iRIC_Read_Grid_FunctionalTimeSize_WithGridId(int fid, int gid, const char* name, int* OUTPUT);
+int cg_iRIC_Copy_Grid_WithGridId(int fid_from, int fid_to, int gid);
 
 // from iriclib_grid_solverlib.h
 int cg_iRIC_Read_Grid2d_Open_WithGridId(int fid, int gid, int* OUTPUT);
@@ -172,6 +173,7 @@ int cg_iRIC_Read_Grid_JFaceCount(int fid, int* OUTPUT);
 int cg_iRIC_Read_Grid_KFaceCount(int fid, int* OUTPUT);
 int cg_iRIC_Read_Grid_FunctionalDimensionSize(int fid, const char* name, const char* dimname, int* OUTPUT);
 int cg_iRIC_Read_Grid_FunctionalTimeSize(int fid, const char* name, int* OUTPUT);
+int cg_iRIC_Copy_Grid(int fid_from, int fid_to);
 int cg_iRIC_Read_Grid2d_Open(int fid, int* OUTPUT);
 int cg_iRIC_Read_Sol_Grid2d_Open(int fid, int solid, int* OUTPUT);
 int cg_iRIC_Read_Sol_Particle_Count(int fid, int step, int* OUTPUT);

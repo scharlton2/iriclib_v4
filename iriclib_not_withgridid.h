@@ -76,6 +76,7 @@ int IRICLIBDLL cg_iRIC_Write_Grid_Real_Node(int fid, const char* name, double* v
 int IRICLIBDLL cg_iRIC_Write_Grid_Integer_Node(int fid, const char* name, int* v_arr);
 int IRICLIBDLL cg_iRIC_Write_Grid_Real_Cell(int fid, const char* name, double* v_arr);
 int IRICLIBDLL cg_iRIC_Write_Grid_Integer_Cell(int fid, const char* name, int* v_arr);
+int IRICLIBDLL cg_iRIC_Copy_Grid(int fid_from, int fid_to);
 
 // from iriclib_grid_solverlib.h
 int IRICLIBDLL cg_iRIC_Read_Grid2d_Open(int fid, int* grid_handle);

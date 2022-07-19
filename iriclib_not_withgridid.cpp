@@ -613,6 +613,15 @@ int cg_iRIC_Write_Grid_Integer_Cell(int fid, const char* name, int* v_arr)
   return cg_iRIC_Write_Grid_Integer_Cell_WithGridId(fid, gid, name, v_arr);
 }
 
+int cg_iRIC_Copy_Grid(int fid_from, int fid_to)
+{
+  int gid;
+  int ier = getlastGridId(fid_from, &gid);
+  RETURN_IF_ERR;
+
+  return cg_iRIC_Copy_Grid_WithGridId(fid_from, fid_to, gid);
+}
+
 
 // from iriclib_grid_solverlib.h
 int cg_iRIC_Read_Grid2d_Open(int fid, int* grid_handle)

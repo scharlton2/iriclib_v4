@@ -62,15 +62,19 @@ def gen_not_withgridid_source_content(withgridid_def):
   content += "{\n"
   content += "  int gid;\n"
 
+  fid = 'fid'
+  if 'cg_iRIC_Copy_Grid' in withgridid_def:
+    fid = 'fid_from'
+
   getgrid_func = 'getlastGridId'
   if '2d' in withgridid_def:
     getgrid_func = 'getDefault2dGridId'
 
   if not ret_is_void:
-    content += "  int ier = " + getgrid_func + "(fid, &gid);\n"
+    content += "  int ier = " + getgrid_func + "(" + fid + ", &gid);\n"
     content += "  RETURN_IF_ERR;\n"
   else:
-    content += "  " + getgrid_func + "(fid, &gid);\n"
+    content += "  " + getgrid_func + "(" + fid + ", &gid);\n"
 
   content += "\n"
   if ret_is_void:

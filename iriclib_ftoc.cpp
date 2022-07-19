@@ -1137,6 +1137,10 @@ void IRICLIBDLL FMNAME(cg_iric_write_grid_integer_cell_withgridid_f2c, CG_IRIC_W
 	*ier = cg_iRIC_Write_Grid_Integer_Cell_WithGridId(*fid, *gid, c_name, v_arr);
 }
 
+void IRICLIBDLL FMNAME(cg_iric_copy_grid_withgridid_f2c, CG_IRIC_COPY_GRID_WITHGRIDID_F2C) (int* fid_from, int* fid_to, int* gid, int *ier) {
+	*ier = cg_iRIC_Copy_Grid_WithGridId(*fid_from, *fid_to, *gid);
+}
+
 
 // from iriclib_grid_solverlib.h
 void IRICLIBDLL FMNAME(cg_iric_read_grid2d_open_withgridid_f2c, CG_IRIC_READ_GRID2D_OPEN_WITHGRIDID_F2C) (int* fid, int* gid, int* grid_handle, int *ier) {
@@ -1976,6 +1980,10 @@ void IRICLIBDLL FMNAME(cg_iric_write_grid_integer_cell_f2c, CG_IRIC_WRITE_GRID_I
 	if (*ier != 0) return;
 
 	*ier = cg_iRIC_Write_Grid_Integer_Cell(*fid, c_name, v_arr);
+}
+
+void IRICLIBDLL FMNAME(cg_iric_copy_grid_f2c, CG_IRIC_COPY_GRID_F2C) (int* fid_from, int* fid_to, int *ier) {
+	*ier = cg_iRIC_Copy_Grid(*fid_from, *fid_to);
 }
 
 void IRICLIBDLL FMNAME(cg_iric_read_grid2d_open_f2c, CG_IRIC_READ_GRID2D_OPEN_F2C) (int* fid, int* grid_handle, int *ier) {

@@ -719,3 +719,22 @@ int cg_iRIC_Write_Grid_Integer_Cell_WithGridId(int fid, int gid, const char* nam
 	_IRIC_LOGGER_TRACE_LEAVE();
 	return IRIC_NO_ERROR;
 }
+
+int cg_iRIC_Copy_Grid_WithGridId(int fid_from, int fid_to, int gid)
+{
+	_IRIC_LOGGER_TRACE_ENTER();
+
+	H5CgnsZone* zone;
+	int ier = _iric_get_zone(fid_from, gid, &zone, __func__);
+	RETURN_IF_ERR;
+
+	H5CgnsFile* toFile;
+	ier = _iric_h5cgnsfiles_get(fid_to, &toFile);
+
+	H5CgnsBase* toBase = toFile->base(zone->base()->dimension());
+	ier = zone->copyGridTo(toBase);
+	RETURN_IF_ERR;
+
+	_IRIC_LOGGER_TRACE_LEAVE();
+	return IRIC_NO_ERROR;
+}

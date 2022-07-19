@@ -44,6 +44,8 @@ int IRICLIBDLL cg_iRIC_Write_Grid_Integer_Node_WithGridId(int fid, int gid, cons
 int IRICLIBDLL cg_iRIC_Write_Grid_Real_Cell_WithGridId(int fid, int gid, const char* name, double* v_arr);
 int IRICLIBDLL cg_iRIC_Write_Grid_Integer_Cell_WithGridId(int fid, int gid, const char* name, int* v_arr);
 
+int IRICLIBDLL cg_iRIC_Copy_Grid_WithGridId(int fid_from, int fid_to, int gid);
+
 #ifdef __cplusplus
 }
 #endif

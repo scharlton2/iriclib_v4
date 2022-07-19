@@ -463,6 +463,10 @@ def cg_iRIC_Read_Grid_FunctionalTimeSize_WithGridId(fid, gid, name):
 	_checkErrorCode(ier)
 	return count
 
+def cg_iRIC_Copy_Grid_WithGridId(fid_from, fid_to, gid):
+	ier = _iric.cg_iRIC_Copy_Grid_WithGridId(fid_from, fid_to, gid)
+	_checkErrorCode(ier)
+
 
 # from iriclib_grid_solverlib.h
 def cg_iRIC_Read_Grid2d_Open_WithGridId(fid, gid):
@@ -686,6 +690,10 @@ def cg_iRIC_Read_Grid_FunctionalTimeSize(fid, name):
 	ier, count = _iric.cg_iRIC_Read_Grid_FunctionalTimeSize(fid, name)
 	_checkErrorCode(ier)
 	return count
+
+def cg_iRIC_Copy_Grid(fid_from, fid_to):
+	ier = _iric.cg_iRIC_Copy_Grid(fid_from, fid_to)
+	_checkErrorCode(ier)
 
 def cg_iRIC_Read_Grid2d_Open(fid):
 	ier, grid_handle = _iric.cg_iRIC_Read_Grid2d_Open(fid)

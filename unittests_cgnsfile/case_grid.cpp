@@ -332,6 +332,9 @@ void case_GridWrite()
 	ier = cg_iRIC_Write_Grid1d_Coords(fid, isize, x.data());
 	VERIFY_LOG("cg_iRIC_Write_Grid1d_Coords() ier == 0", ier == 0);
 
+	ier = cg_iRIC_Write_NamedGrid1d_Coords(fid, "testgrid", isize, x.data());
+	VERIFY_LOG("cg_iRIC_Write_NamedGrid1d_Coords() ier == 0", ier == 0);
+
 	cg_iRIC_Close(fid);
 
 	ier = cg_iRIC_Open("case_gridwrite1d.cgn", IRIC_MODE_READ, &fid);
@@ -418,6 +421,9 @@ void case_GridWrite()
 
 	ier = cg_iRIC_Write_Grid_Integer_Cell(fid, "intcell_test", int_cell_write.data());
 	VERIFY_LOG("cg_iRIC_Write_Grid_Integer_Cell() ier == 0", ier == 0);
+
+	ier = cg_iRIC_Write_NamedGrid2d_Coords(fid, "testgrid", isize, jsize, x.data(), y.data());
+	VERIFY_LOG("cg_iRIC_Write_NamedGrid2d_Coords() ier == 0", ier == 0);
 
 	cg_iRIC_Close(fid);
 
@@ -520,6 +526,9 @@ void case_GridWrite()
 	ier = cg_iRIC_Write_Grid3d_Coords(fid, isize, jsize, ksize, x.data(), y.data(), z.data());
 	VERIFY_LOG("cg_iRIC_Write_Grid3d_Coords() ier == 0", ier == 0);
 
+	ier = cg_iRIC_Write_NamedGrid3d_Coords(fid, "testgrid", isize, jsize, ksize, x.data(), y.data(), z.data());
+	VERIFY_LOG("cg_iRIC_Write_NamedGrid3d_Coords() ier == 0", ier == 0);
+
 	cg_iRIC_Close(fid);
 
 	ier = cg_iRIC_Open("case_gridwrite3d.cgn", IRIC_MODE_READ, &fid);
@@ -567,6 +576,31 @@ void case_GridWrite()
 	cg_iRIC_Close(fid);
 
 	remove("case_gridwrite3d.cgn");
+}
+
+void case_GridCopy()
+{
+	fs::copy("case_init_hdf5.cgn", "case_grid.cgn");
+	fs::copy("case_nogrid_hdf5.cgn", "case_gridwrite2d.cgn");
+
+	int fid_from, fid_to;
+	int ier;
+	
+	ier = cg_iRIC_Open("case_grid.cgn", IRIC_MODE_READ, &fid_from);
+	VERIFY_LOG("cg_iRIC_Open() ier == 0", ier == 0);
+	ier = cg_iRIC_Open("case_gridwrite2d.cgn", IRIC_MODE_MODIFY, &fid_to);
+	VERIFY_LOG("cg_iRIC_Open() ier == 0", ier == 0);
+
+	ier = cg_iRIC_Copy_Grid(fid_from, fid_to);
+	VERIFY_LOG("cg_iRIC_Copy_Grid() ier == 0", ier == 0);
+
+	ier = cg_iRIC_Close(fid_from);
+	VERIFY_LOG("cg_iRIC_Close() ier == 0", ier == 0);
+	ier = cg_iRIC_Close(fid_to);
+	VERIFY_LOG("cg_iRIC_Close() ier == 0", ier == 0);
+
+	remove("case_grid.cgn");
+	remove("case_gridwrite2d.cgn");
 }
 
 } // extern "C"

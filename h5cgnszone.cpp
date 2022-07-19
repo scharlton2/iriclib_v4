@@ -582,6 +582,20 @@ H5CgnsPolyDataSolution* H5CgnsZone::polyDataSolution()
 	}
 }
 
+int H5CgnsZone::copyGridTo(H5CgnsBase* target)
+{
+	_IRIC_LOGGER_TRACE_CALL_START("H5CgnsBase::createZone");
+	auto newZone = target->createZone(name(), type(), size());
+	_IRIC_LOGGER_TRACE_CALL_END("H5CgnsBase::createZone");
+
+	_IRIC_LOGGER_TRACE_CALL_START("H5CgnsZone::copyGridTo");
+	int ier = copyGridTo(newZone);
+	_IRIC_LOGGER_TRACE_CALL_END_WITHVAL("H5CgnsZone::copyGridTo", ier);
+	RETURN_IF_ERR;
+
+	return IRIC_NO_ERROR;
+}
+
 int H5CgnsZone::copyGridTo(H5CgnsZone* target)
 {
 	_IRIC_LOGGER_TRACE_CALL_START("H5CgnsGridCoordinates::copyTo");

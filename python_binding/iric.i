@@ -116,6 +116,7 @@ int cg_iRIC_Read_Grid_JFaceCount_WithGridId(int fid, int gid, int* OUTPUT);
 int cg_iRIC_Read_Grid_KFaceCount_WithGridId(int fid, int gid, int* OUTPUT);
 int cg_iRIC_Read_Grid_FunctionalDimensionSize_WithGridId(int fid, int gid, const char* name, const char* dimname, int* OUTPUT);
 int cg_iRIC_Read_Grid_FunctionalTimeSize_WithGridId(int fid, int gid, const char* name, int* OUTPUT);
+int cg_iRIC_Copy_Grid_WithGridId(int fid_from, int fid_to, int gid);
 
 // from iriclib_grid_solverlib.h
 int cg_iRIC_Read_Grid2d_Open_WithGridId(int fid, int gid, int* OUTPUT);
@@ -172,6 +173,7 @@ int cg_iRIC_Read_Grid_JFaceCount(int fid, int* OUTPUT);
 int cg_iRIC_Read_Grid_KFaceCount(int fid, int* OUTPUT);
 int cg_iRIC_Read_Grid_FunctionalDimensionSize(int fid, const char* name, const char* dimname, int* OUTPUT);
 int cg_iRIC_Read_Grid_FunctionalTimeSize(int fid, const char* name, int* OUTPUT);
+int cg_iRIC_Copy_Grid(int fid_from, int fid_to);
 int cg_iRIC_Read_Grid2d_Open(int fid, int* OUTPUT);
 int cg_iRIC_Read_Sol_Grid2d_Open(int fid, int solid, int* OUTPUT);
 int cg_iRIC_Read_Sol_Particle_Count(int fid, int step, int* OUTPUT);
@@ -265,6 +267,9 @@ int cg_iRIC_Read_Grid_Functional_Real_Cell_WithGridId(int fid, int gid, const ch
 int cg_iRIC_Write_Grid1d_Coords_WithGridId(int fid, int isize, RealArrayContainer& x_arr, int* OUTPUT);
 int cg_iRIC_Write_Grid2d_Coords_WithGridId(int fid, int isize, int jsize, RealArrayContainer& x_arr, RealArrayContainer& y_arr, int* OUTPUT);
 int cg_iRIC_Write_Grid3d_Coords_WithGridId(int fid, int isize, int jsize, int ksize, RealArrayContainer& x_arr, RealArrayContainer& y_arr, RealArrayContainer& z_arr, int* OUTPUT);
+int cg_iRIC_Write_NamedGrid1d_Coords_WithGridId(int fid, const char* name, int isize, RealArrayContainer& x_arr, int* OUTPUT);
+int cg_iRIC_Write_NamedGrid2d_Coords_WithGridId(int fid, const char* name, int isize, int jsize, RealArrayContainer& x_arr, RealArrayContainer& y_arr, int* OUTPUT);
+int cg_iRIC_Write_NamedGrid3d_Coords_WithGridId(int fid, const char* name, int isize, int jsize, int ksize, RealArrayContainer& x_arr, RealArrayContainer& y_arr, RealArrayContainer& z_arr, int* OUTPUT);
 int cg_iRIC_Write_Grid_Real_Node_WithGridId(int fid, int gid, const char* name, RealArrayContainer& v_arr);
 int cg_iRIC_Write_Grid_Integer_Node_WithGridId(int fid, int gid, const char* name, IntArrayContainer& v_arr);
 int cg_iRIC_Write_Grid_Real_Cell_WithGridId(int fid, int gid, const char* name, RealArrayContainer& v_arr);
@@ -302,6 +307,9 @@ int cg_iRIC_Read_Grid_Functional_Real_Cell(int fid, const char* name, int dimid,
 int cg_iRIC_Write_Grid1d_Coords(int fid, int isize, RealArrayContainer& x_arr);
 int cg_iRIC_Write_Grid2d_Coords(int fid, int isize, int jsize, RealArrayContainer& x_arr, RealArrayContainer& y_arr);
 int cg_iRIC_Write_Grid3d_Coords(int fid, int isize, int jsize, int ksize, RealArrayContainer& x_arr, RealArrayContainer& y_arr, RealArrayContainer& z_arr);
+int cg_iRIC_Write_NamedGrid1d_Coords(int fid, const char* name, int isize, RealArrayContainer& x_arr);
+int cg_iRIC_Write_NamedGrid2d_Coords(int fid, const char* name, int isize, int jsize, RealArrayContainer& x_arr, RealArrayContainer& y_arr);
+int cg_iRIC_Write_NamedGrid3d_Coords(int fid, const char* name, int isize, int jsize, int ksize, RealArrayContainer& x_arr, RealArrayContainer& y_arr, RealArrayContainer& z_arr);
 int cg_iRIC_Write_Grid_Real_Node(int fid, const char* name, RealArrayContainer& v_arr);
 int cg_iRIC_Write_Grid_Integer_Node(int fid, const char* name, IntArrayContainer& v_arr);
 int cg_iRIC_Write_Grid_Real_Cell(int fid, const char* name, RealArrayContainer& v_arr);

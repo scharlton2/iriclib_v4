@@ -44,6 +44,8 @@ def main():
     case_grid.case_GridReadFunc()
     print('case_grid.case_GridWrite()')
     case_grid.case_GridWrite()
+    print('case_grid.case_GridCopy()')
+    case_grid.case_GridCopy()
 
     # print('case_sol_readwrite.case_SolWriteStd_adf()')
     # case_sol_readwrite.case_SolWriteStd_adf()

@@ -1,4 +1,5 @@
 #include "error_macros.h"
+#include "h5cgnsbase.h"
 #include "h5cgnsfile.h"
 #include "iriclib.h"
 #include "iriclib_errorcodes.h"
@@ -18,6 +19,28 @@ int getlastGridId(int fid, int *gid)
 	RETURN_IF_ERR;
 
 	return IRIC_NO_ERROR;
+}
+
+int getDefault2dGridId(int fid, int *gid)
+{
+  H5CgnsFile* file = nullptr;
+  int ier = _iric_h5cgnsfiles_get(fid, &file);
+  RETURN_IF_ERR;
+
+  auto base = file->base(2);
+  if (base == nullptr) {
+    return IRIC_NO_DATA;
+  }
+
+  auto zone = base->defaultZone();
+  if (zone == nullptr) {
+    return IRIC_GRID_NOT_FOUND;
+  }
+
+  ier = file->getGridId(zone, gid);
+  RETURN_IF_ERR;
+
+  return IRIC_NO_ERROR;
 }
 
 } // namespace

@@ -177,6 +177,7 @@ def case_GridWrite():
         x[i] = i * 2
 
     iric.cg_iRIC_Write_Grid1d_Coords(fid, isize, x)
+    iric.cg_iRIC_Write_NamedGrid1d_Coords(fid, "testgrid", isize, x)
 
     iric.cg_iRIC_Close(fid)
 
@@ -251,6 +252,8 @@ def case_GridWrite():
     iric.cg_iRIC_Write_Grid_Real_Cell(fid, "realcell_test", real_cell_write)
 
     iric.cg_iRIC_Write_Grid_Integer_Cell(fid, "intcell_test", int_cell_write)
+
+    iric.cg_iRIC_Write_NamedGrid2d_Coords(fid, "testgrid", isize, jsize, x, y)
 
     iric.cg_iRIC_Close(fid)
 
@@ -352,6 +355,7 @@ def case_GridWrite():
                 z[idx] = k
 
     iric.cg_iRIC_Write_Grid3d_Coords(fid, isize, jsize, ksize, x, y, z)
+    iric.cg_iRIC_Write_NamedGrid3d_Coords(fid, "testgrid", isize, jsize, ksize, x, y, z)
 
     iric.cg_iRIC_Close(fid)
 
@@ -400,3 +404,20 @@ def case_GridWrite():
     """
 
     util.remove("data/case_gridwrite3d.cgn")
+
+def case_GridCopy():
+    shutil.copy("data/case_init_hdf5.cgn", "data/case_grid.cgn")
+    shutil.copy("data/case_nogrid_hdf5.cgn", "data/case_gridwrite2d.cgn")
+
+    fid_from = iric.cg_iRIC_Open("data/case_grid.cgn", iric.IRIC_MODE_READ)
+    util.verify_log("cg_iRIC_Open() fid_from != 0", fid_from != 0)
+    fid_to = iric.cg_iRIC_Open("data/case_gridwrite2d.cgn", iric.iRIC_MODE_MODIFY)
+    util.verify_log("cg_iRIC_Open() fid_to != 0", fid_to != 0)
+    
+    iric.cg_iRIC_Copy_Grid(fid_from, fid_to)
+
+    iric.cg_iRIC_Close(fid_from)
+    iric.cg_iRIC_Close(fid_to)
+
+    util.remove("data/case_grid.cgn")
+    util.remove("data/case_gridwrite2d.cgn")

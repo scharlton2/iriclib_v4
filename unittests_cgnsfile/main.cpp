@@ -25,6 +25,7 @@ int main(int argc, char* argv[])
 	case_GridReadUnstructured();
 	case_GridReadFunc();
 	case_GridWrite();
+	case_GridCopy();
 
 	// case_SolWriteStd_adf();
 	// case_SolWriteDivide_adf();

@@ -51,10 +51,10 @@ def gen_f90_interface_content(fdef):
   if ('node' in fname_lower or 'cell' in fname_lower or 'iface' in fname_lower or 'jface' in fname_lower or 'kface' in fname_lower) and not ('count' in fname_lower):
     return _gen_f90_interface_content(fname_lower, range(1, 4))
 
-  if '_grid2d_coords' in fname_lower:
+  if '_grid2d_coords' in fname_lower or '_namedgrid2d_coords' in fname_lower:
     return _gen_f90_interface_content(fname_lower, [1, 2])
 
-  if '_grid3d_coords' in fname_lower:
+  if '_grid3d_coords' in fname_lower or '_namedgrid3d_coords' in fname_lower:
     return _gen_f90_interface_content(fname_lower, [1, 3])
 
   if '_bc_indices' in fname_lower and not '_bc_indicessize' in fname_lower:
@@ -200,13 +200,13 @@ def gen_f90_source_content(fdef):
       cont += _gen_f90_source_content(fdef, dim)
     return cont
 
-  if '_grid2d_coords' in fname_lower:
+  if '_grid2d_coords' in fname_lower or '_namedgrid2d_coords' in fname_lower:
     cont = ''
     for dim in [1, 2]:
       cont += _gen_f90_source_content(fdef, dim)
     return cont
 
-  if '_grid3d_coords' in fname_lower:
+  if '_grid3d_coords' in fname_lower or '_namedgrid3d_coords' in fname_lower:
     cont = ''
     for dim in [1, 3]:
       cont += _gen_f90_source_content(fdef, dim)

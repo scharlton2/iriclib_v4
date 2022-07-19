@@ -210,6 +210,21 @@ int cg_iRIC_Write_Grid3d_Coords_WithGridId(int fid, int isize, int jsize, int ks
 	return cg_iRIC_Write_Grid3d_Coords_WithGridId(fid, isize, jsize, ksize, x_arr.pointer(), y_arr.pointer(), z_arr.pointer(), gid);
 }
 
+int cg_iRIC_Write_NamedGrid1d_Coords_WithGridId(int fid, const char* name, int isize, RealArrayContainer& x_arr, int* gid)
+{
+	return cg_iRIC_Write_NamedGrid1d_Coords_WithGridId(fid, name, isize, x_arr.pointer(), gid);
+}
+
+int cg_iRIC_Write_NamedGrid2d_Coords_WithGridId(int fid, const char* name, int isize, int jsize, RealArrayContainer& x_arr, RealArrayContainer& y_arr, int* gid)
+{
+	return cg_iRIC_Write_NamedGrid2d_Coords_WithGridId(fid, name, isize, jsize, x_arr.pointer(), y_arr.pointer(), gid);
+}
+
+int cg_iRIC_Write_NamedGrid3d_Coords_WithGridId(int fid, const char* name, int isize, int jsize, int ksize, RealArrayContainer& x_arr, RealArrayContainer& y_arr, RealArrayContainer& z_arr, int* gid)
+{
+	return cg_iRIC_Write_NamedGrid3d_Coords_WithGridId(fid, name, isize, jsize, ksize, x_arr.pointer(), y_arr.pointer(), z_arr.pointer(), gid);
+}
+
 int cg_iRIC_Write_Grid_Real_Node_WithGridId(int fid, int gid, const char* name, RealArrayContainer& v_arr)
 {
 	return cg_iRIC_Write_Grid_Real_Node_WithGridId(fid, gid, name, v_arr.pointer());
@@ -404,6 +419,21 @@ int cg_iRIC_Write_Grid2d_Coords(int fid, int isize, int jsize, RealArrayContaine
 int cg_iRIC_Write_Grid3d_Coords(int fid, int isize, int jsize, int ksize, RealArrayContainer& x_arr, RealArrayContainer& y_arr, RealArrayContainer& z_arr)
 {
 	return cg_iRIC_Write_Grid3d_Coords(fid, isize, jsize, ksize, x_arr.pointer(), y_arr.pointer(), z_arr.pointer());
+}
+
+int cg_iRIC_Write_NamedGrid1d_Coords(int fid, const char* name, int isize, RealArrayContainer& x_arr)
+{
+	return cg_iRIC_Write_NamedGrid1d_Coords(fid, name, isize, x_arr.pointer());
+}
+
+int cg_iRIC_Write_NamedGrid2d_Coords(int fid, const char* name, int isize, int jsize, RealArrayContainer& x_arr, RealArrayContainer& y_arr)
+{
+	return cg_iRIC_Write_NamedGrid2d_Coords(fid, name, isize, jsize, x_arr.pointer(), y_arr.pointer());
+}
+
+int cg_iRIC_Write_NamedGrid3d_Coords(int fid, const char* name, int isize, int jsize, int ksize, RealArrayContainer& x_arr, RealArrayContainer& y_arr, RealArrayContainer& z_arr)
+{
+	return cg_iRIC_Write_NamedGrid3d_Coords(fid, name, isize, jsize, ksize, x_arr.pointer(), y_arr.pointer(), z_arr.pointer());
 }
 
 int cg_iRIC_Write_Grid_Real_Node(int fid, const char* name, RealArrayContainer& v_arr)

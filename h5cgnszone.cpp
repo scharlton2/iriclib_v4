@@ -2,11 +2,13 @@
 #include "h5cgnsbase.h"
 #include "h5cgnsfile.h"
 #include "h5cgnsflowsolution.h"
+#include "h5cgnsgridattributes.h"
 #include "h5cgnsgridcoordinates.h"
 #include "h5cgnsparticlegroupsolution.h"
 #include "h5cgnsparticlesolution.h"
 #include "h5cgnspolydatasolution.h"
 #include "h5cgnszone.h"
+#include "h5cgnszonebc.h"
 #include "h5groupcloser.h"
 #include "h5util.h"
 #include "iriclib_errorcodes.h"
@@ -368,6 +370,31 @@ int H5CgnsZone::writeTriangleElements(const std::vector<int>& indices) const
 	return IRIC_NO_ERROR;
 }
 
+int H5CgnsZone::copyExceptSolution(H5CgnsZone* target)
+{
+	int ier;
+
+	// copy grid
+	_IRIC_LOGGER_TRACE_CALL_START("H5CgnsZone::copyGridTo");
+	ier = copyGridTo(target);
+	_IRIC_LOGGER_TRACE_CALL_END_WITHVAL("H5CgnsZone::copyGridTo", ier);
+	RETURN_IF_ERR;
+
+	// copy grid attributes
+	_IRIC_LOGGER_TRACE_CALL_START("H5CgnsGridAttributes::copy");
+	ier = gridAttributes()->copyTo(target->gridAttributes());
+	_IRIC_LOGGER_TRACE_CALL_END_WITHVAL("H5CgnsGridAttributes::copy", ier);
+	RETURN_IF_ERR;
+
+	// copy boundary condition
+	_IRIC_LOGGER_TRACE_CALL_START("H5CgnsZoneBc::copy");
+	ier = zoneBc()->copyTo(target->zoneBc());
+	_IRIC_LOGGER_TRACE_CALL_END_WITHVAL("H5CgnsZoneBc::copy", ier);
+	RETURN_IF_ERR;
+
+	return IRIC_NO_ERROR;
+}
+
 bool H5CgnsZone::gridCoordinatesForSolutionExists() const
 {
 	return (impl->m_flowSolutionPointerNames.find("GridCoordinatesPointers") != impl->m_flowSolutionPointerNames.end());
@@ -622,9 +649,13 @@ int H5CgnsZone::copyGridTo(H5CgnsZone* target)
 
 	H5GroupCloser tgtElemCloser(tgtElem);
 
-	_IRIC_LOGGER_TRACE_CALL_START("H5Util::copyGroup");
-	ier = H5Util::copyGroup(srcElem, tgtElem, true);
-	_IRIC_LOGGER_TRACE_CALL_END_WITHVAL("H5Util::copyGroup", ier);
+	_IRIC_LOGGER_TRACE_CALL_START("H5Util::copyAttributes");
+	ier = H5Util::copyAttributes(srcElem, tgtElem);
+	_IRIC_LOGGER_TRACE_CALL_END_WITHVAL("H5Util::copyAttributes", ier);
+
+	_IRIC_LOGGER_TRACE_CALL_START("H5Util::copyGroupRecursively");
+	ier = H5Util::copyGroupRecursively(srcElem, tgtElem);
+	_IRIC_LOGGER_TRACE_CALL_END_WITHVAL("H5Util::copyGroupRecursively", ier);
 
 	return IRIC_NO_ERROR;
 }

@@ -2491,6 +2491,10 @@ void IRICLIBDLL FMNAME(cg_iric_write_errorcode_f2c, CG_IRIC_WRITE_ERRORCODE_F2C)
 	*ier = cg_iRIC_Write_ErrorCode(*fid, *errorcode);
 }
 
+void IRICLIBDLL FMNAME(cg_iric_clear_sol_f2c, CG_IRIC_CLEAR_SOL_F2C) (int* fid, int *ier) {
+	*ier = cg_iRIC_Clear_Sol(*fid);
+}
+
 
 // from iriclib_sol_cell.h
 void IRICLIBDLL FMNAME(cg_iric_read_sol_cell_integer_withgridid_f2c, CG_IRIC_READ_SOL_CELL_INTEGER_WITHGRIDID_F2C) (int* fid, int* gid, int* step, STR_PSTR(name), int* v_arr, int *ier STR_PLEN(name)) {

@@ -244,3 +244,17 @@ int cg_iRIC_Write_ErrorCode(int fid, int errorcode)
 	_IRIC_LOGGER_TRACE_LEAVE();
 	return IRIC_NO_ERROR;
 }
+
+int cg_iRIC_Clear_Sol(int fid)
+{
+	_IRIC_LOGGER_TRACE_ENTER();
+
+	GET_F;
+
+	ier = file->deleteResult();
+	RETURN_IF_ERR;
+
+	_IRIC_LOGGER_TRACE_LEAVE();
+	return IRIC_NO_ERROR;
+
+}

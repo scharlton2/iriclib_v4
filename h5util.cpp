@@ -444,12 +444,14 @@ int setupBuffer(hid_t dataType, hid_t dataSpace, std::vector<char>* buffer)
 		dsSize *= dims.at(i);
 	}
 	hsize_t totalSize = dtSize * dsSize;
+	/*
 	std::ostringstream ss;
 	ss << "In setupBuffer(), totalSize = " << totalSize;
 	_iric_logger_debug(ss.str());
+	*/
 
 	buffer->assign(totalSize, 0);
-	return true;
+	return IRIC_NO_ERROR;
 }
 
 int copyAttribute(hid_t srcId, hid_t tgtId, const std::string& name)
@@ -544,31 +546,6 @@ int copyAttribute(hid_t srcId, hid_t tgtId, const std::string& name)
 	return IRIC_NO_ERROR;
 }
 
-int copyAttributes(hid_t srcId, hid_t tgtId)
-{
-	_IRIC_LOGGER_TRACE_CALL_START("H5Aget_num_attrs");
-	int num = H5Aget_num_attrs(srcId);
-	_IRIC_LOGGER_TRACE_CALL_END("H5Aget_num_attrs");
-
-	for (int i = 0; i < num; ++i) {
-		_IRIC_LOGGER_TRACE_CALL_START("H5Aget_name_by_idx");
-		size_t size = H5Aget_name_by_idx(srcId, ".", H5_INDEX_NAME, H5_ITER_INC, i, nullptr, 0, H5P_DEFAULT);
-		_IRIC_LOGGER_TRACE_CALL_END("H5Aget_name_by_idx");
-
-		std::vector<char> buffer(size);
-		_IRIC_LOGGER_TRACE_CALL_START("H5Aget_name_by_idx");
-		H5Aget_name_by_idx(srcId, ".", H5_INDEX_NAME, H5_ITER_INC, i, buffer.data(), buffer.size(), H5P_DEFAULT);
-		_IRIC_LOGGER_TRACE_CALL_END("H5Aget_name_by_idx");
-
-		_IRIC_LOGGER_TRACE_CALL_START("copyAttribute");
-		int ier = copyAttribute(srcId, tgtId, buffer.data());
-		_IRIC_LOGGER_TRACE_CALL_END_WITHVAL("copyAttribute", ier);
-		RETURN_IF_ERR;
-	}
-
-	return IRIC_NO_ERROR;
-}
-
 int copyDataset(hid_t srcId, hid_t tgtId, const std::string& name)
 {
 	_IRIC_LOGGER_TRACE_CALL_START("H5Dopen");
@@ -604,12 +581,12 @@ int copyDataset(hid_t srcId, hid_t tgtId, const std::string& name)
 	H5DataTypeCloser tgtDataTypeCloser(tgtDataTypeId);
 
 	// copying dataspace
-	_IRIC_LOGGER_TRACE_CALL_START("srcDatasetId");
-	hid_t srcDataSpaceId = H5Aget_space(srcDatasetId);
-	_IRIC_LOGGER_TRACE_CALL_END("srcDatasetId");
+	_IRIC_LOGGER_TRACE_CALL_START("H5Dget_space");
+	hid_t srcDataSpaceId = H5Dget_space(srcDatasetId);
+	_IRIC_LOGGER_TRACE_CALL_END("H5Dget_space");
 
 	if (srcDataSpaceId < 0) {
-		_iric_logger_error("copyDataset", "H5Aget_space", srcDataSpaceId);
+		_iric_logger_error("copyDataset", "H5Dget_space", srcDataSpaceId);
 		return IRIC_H5_CALL_ERROR;
 	}
 
@@ -713,35 +690,22 @@ int copyChildren(hid_t srcGroupId, hid_t tgtGroupId)
 
 			H5GroupCloser srcChildGroupCloser(srcChildGroupId);
 
-			_IRIC_LOGGER_TRACE_CALL_START("H5Pcreate");
-			hid_t groupCreationProperty = H5Pcreate(H5P_GROUP_CREATE);
-			_IRIC_LOGGER_TRACE_CALL_END("H5Pcreate");
+			hid_t tgtChildGroupId;
 
-			if (groupCreationProperty < 0) {
-				_iric_logger_error("copyChildren", "H5Pcreate", groupCreationProperty);
-				return IRIC_H5_CALL_ERROR;
-			}
-
-			H5PropertyListCloser groupCreationPropertyCloser(groupCreationProperty);
-
-			_IRIC_LOGGER_TRACE_CALL_START("H5Pset_link_creation_order");
-			H5Pset_link_creation_order(groupCreationProperty, H5P_CRT_ORDER_TRACKED | H5P_CRT_ORDER_INDEXED);
-			_IRIC_LOGGER_TRACE_CALL_END("H5Pset_link_creation_order");
-
-			_IRIC_LOGGER_TRACE_CALL_START("H5Gcreate2");
-			hid_t tgtChildGroupId = H5Gcreate2(tgtGroupId, name.c_str(), H5P_DEFAULT, H5P_DEFAULT, H5P_DEFAULT);
-			_IRIC_LOGGER_TRACE_CALL_END("H5Gcreate2");
-
-			if (tgtChildGroupId < 0) {
-				_iric_logger_error("copyChildren", "H5Gcreate2", tgtChildGroupId);
-				return IRIC_H5_CALL_ERROR;
-			}
+			int ier = H5Util::createGroup(tgtGroupId, name, &tgtChildGroupId);
+			RETURN_IF_ERR;
 
 			H5GroupCloser tgtChildGroupCloser(tgtChildGroupId);
 
-			_IRIC_LOGGER_TRACE_CALL_START("H5Util::copyGroup");
-			int ier = H5Util::copyGroup(srcChildGroupId, tgtChildGroupId);
-			_IRIC_LOGGER_TRACE_CALL_END_WITHVAL("H5Util::copyGroup", ier);
+			_IRIC_LOGGER_TRACE_CALL_START("H5Util::copyAttributes");
+			ier = H5Util::copyAttributes(srcChildGroupId, tgtChildGroupId);
+			_IRIC_LOGGER_TRACE_CALL_END_WITHVAL("H5Util::copyAttributes", ier);
+			RETURN_IF_ERR;
+
+
+			_IRIC_LOGGER_TRACE_CALL_START("H5Util::copyGroupRecursively");
+			ier = H5Util::copyGroupRecursively(srcChildGroupId, tgtChildGroupId);
+			_IRIC_LOGGER_TRACE_CALL_END_WITHVAL("H5Util::copyGroupRecursively", ier);
 			RETURN_IF_ERR;
 		} else if (info.type == H5O_TYPE_DATASET) {
 			_IRIC_LOGGER_TRACE_CALL_START("copyDataset");
@@ -2040,15 +2004,34 @@ int H5Util::deleteAllChildren(hid_t groupId)
 	return IRIC_NO_ERROR;
 }
 
-int H5Util::copyGroup(hid_t srcGroupId, hid_t tgtGroupId, bool recursive)
+int H5Util::copyAttributes(hid_t srcGroupId, hid_t tgtGroupId)
 {
-	_IRIC_LOGGER_TRACE_CALL_START("copyAttributes");
-	int ier = copyAttributes(srcGroupId, tgtGroupId);
-	_IRIC_LOGGER_TRACE_CALL_END_WITHVAL("copyAttributes", ier);
-	RETURN_IF_ERR;
+	_IRIC_LOGGER_TRACE_CALL_START("H5Aget_num_attrs");
+	int num = H5Aget_num_attrs(srcGroupId);
+	_IRIC_LOGGER_TRACE_CALL_END("H5Aget_num_attrs");
 
-	if (recursive) {return true;}
+	for (int i = 0; i < num; ++i) {
+		_IRIC_LOGGER_TRACE_CALL_START("H5Aget_name_by_idx");
+		size_t size = H5Aget_name_by_idx(srcGroupId, ".", H5_INDEX_NAME, H5_ITER_INC, i, nullptr, 0, H5P_DEFAULT);
+		_IRIC_LOGGER_TRACE_CALL_END("H5Aget_name_by_idx");
 
+		std::vector<char> buffer(size + 1);
+		_IRIC_LOGGER_TRACE_CALL_START("H5Aget_name_by_idx");
+		H5Aget_name_by_idx(srcGroupId, ".", H5_INDEX_NAME, H5_ITER_INC, i, buffer.data(), buffer.size(), H5P_DEFAULT);
+		_IRIC_LOGGER_TRACE_CALL_END("H5Aget_name_by_idx");
+
+		_IRIC_LOGGER_TRACE_CALL_START("copyAttribute");
+		int ier = copyAttribute(srcGroupId, tgtGroupId, buffer.data());
+		_IRIC_LOGGER_TRACE_CALL_END_WITHVAL("copyAttribute", ier);
+		RETURN_IF_ERR;
+	}
+
+	return IRIC_NO_ERROR;
+}
+
+int H5Util::copyGroupRecursively(hid_t srcGroupId, hid_t tgtGroupId)
+{
+	int ier;
 	_IRIC_LOGGER_TRACE_CALL_START("copyChildren");
 	ier = copyChildren(srcGroupId, tgtGroupId);
 	_IRIC_LOGGER_TRACE_CALL_END_WITHVAL("copyChildren", ier);

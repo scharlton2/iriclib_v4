@@ -226,6 +226,7 @@ int cg_iRIC_Write_Sol_BaseIterative_Integer(int fid, const char* name, int value
 int cg_iRIC_Write_Sol_BaseIterative_Real(int fid, const char* name, double value);
 int cg_iRIC_Write_Sol_BaseIterative_String(int fid, const char* name, const char* value);
 int cg_iRIC_Write_ErrorCode(int fid, int errorcode);
+int cg_iRIC_Clear_Sol(int fid);
 
 // from iriclib_wrapper.h
 int cg_iRIC_Read_BC_Indices_WithGridId(int fid, int gid, const char* type, int num, IntArrayContainer& idx_arr);

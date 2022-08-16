@@ -81,6 +81,17 @@ int H5CgnsZoneBc::clear()
 	return IRIC_NO_ERROR;
 }
 
+int H5CgnsZoneBc::copyTo(H5CgnsZoneBc* target)
+{
+	int ier;
+	_IRIC_LOGGER_TRACE_CALL_START("H5Util::copyGroupRecursively");
+	ier = H5Util::copyGroupRecursively(impl->m_groupId, target->impl->m_groupId);
+	_IRIC_LOGGER_TRACE_CALL_END_WITHVAL("H5CgnsZoneBc::Impl::loadBcs", ier);
+	RETURN_IF_ERR;
+
+	return IRIC_NO_ERROR;
+}
+
 H5CgnsZone* H5CgnsZoneBc::zone() const
 {
 	return impl->m_zone;

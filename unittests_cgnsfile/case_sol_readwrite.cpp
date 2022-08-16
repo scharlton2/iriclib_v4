@@ -488,6 +488,12 @@ void readSolution(int fid)
 	}
 }
 
+void delSolution(int fid)
+{
+	int ier = cg_iRIC_Clear_Sol(fid);
+	VERIFY_LOG("cg_iRIC_Clear_Sol ier == 0", ier == 0);
+}
+
 void case_SolWriteStd(const std::string& origCgnsName)
 {
 	iRIC_InitOption(IRIC_OPTION_STDSOLUTION);
@@ -570,6 +576,15 @@ void case_SolWriteStd(const std::string& origCgnsName)
 	VERIFY_LOG("cg_iRIC_Open() fid != 0", fid != 0);
 
 	readSolution(fid);
+	ier = cg_iRIC_Close(fid);
+	VERIFY_LOG("cg_iRIC_Close() ier == 0", ier == 0);
+
+	ier = cg_iRIC_Open("case_solstditer.cgn", IRIC_MODE_MODIFY, &fid);
+	VERIFY_LOG("cg_iRIC_Open() ier == 0", ier == 0);
+	VERIFY_LOG("cg_iRIC_Open() fid != 0", fid != 0);
+
+	delSolution(fid);
+
 	ier = cg_iRIC_Close(fid);
 	VERIFY_LOG("cg_iRIC_Close() ier == 0", ier == 0);
 

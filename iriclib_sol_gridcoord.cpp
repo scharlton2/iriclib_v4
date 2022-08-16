@@ -18,6 +18,10 @@ int cg_iRIC_Read_Sol_Grid2d_Coords_WithGridId(int fid, int gid, int step, double
 	int ier = _iric_get_zone_for_solread(fid, gid, step, &zone, "cg_iRIC_Read_Sol_Grid2d_Coords_WithGridId");
 	RETURN_IF_ERR;
 
+	if (! zone->gridCoordinatesForSolutionExists()) {
+		return IRIC_DATA_NOT_FOUND;
+	}
+
 	std::vector<double> xvec, yvec;
 
 	ier = zone->gridCoordinatesForSolution()->readCoordinatesX(&xvec);
@@ -39,6 +43,10 @@ int cg_iRIC_Read_Sol_Grid3d_Coords_WithGridId(int fid, int gid, int step, double
 	H5CgnsZone* zone = nullptr;
 	int ier = _iric_get_zone_for_solread(fid, gid, step, &zone, "cg_iRIC_Read_Sol_Grid3d_Coords_WithGridId");
 	RETURN_IF_ERR;
+
+	if (! zone->gridCoordinatesForSolutionExists()) {
+		return IRIC_DATA_NOT_FOUND;
+	}
 
 	std::vector<double> xvec, yvec, zvec;
 

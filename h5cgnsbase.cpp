@@ -277,6 +277,38 @@ int H5CgnsBase::copyGridsTo(H5CgnsBase* target)
 	return IRIC_NO_ERROR;
 }
 
+int H5CgnsBase::copyExceptSolution(H5CgnsBase* target)
+{
+	// copy UserDefinedData
+	std::vector<std::string> names;
+	int ier;
+	ier = H5Util::getGroupNamesWithLabel(impl->m_groupId, H5Util::userDefinedDataLabel(), &names);
+	RETURN_IF_ERR;
+
+	for (auto name : names) {
+		hid_t srcGroup;
+		ier = H5Util::openGroup(impl->m_groupId, name, H5Util::userDefinedDataLabel(), &srcGroup);
+		RETURN_IF_ERR;
+		H5GroupCloser srcCloser(srcGroup);
+
+		hid_t tgtGroup;
+		ier = H5Util::openGroup(target->impl->m_groupId, name, H5Util::userDefinedDataLabel(), &tgtGroup);
+		RETURN_IF_ERR;
+		H5GroupCloser tgtCloser(tgtGroup);
+
+		ier = H5Util::copyGroupRecursively(srcGroup, tgtGroup);
+		RETURN_IF_ERR;
+	}
+	// copy Zones
+	for (int i = 0; i < zoneNum(); ++i) {
+		auto srcZone = zoneById(i + 1);
+		auto tgtZone = target->createZone(srcZone->name(), srcZone->type(), srcZone->size());
+
+		ier = srcZone->copyExceptSolution(tgtZone);
+	}
+	return IRIC_NO_ERROR;
+}
+
 int H5CgnsBase::flush()
 {
 	if (impl->m_biterData != nullptr) {

@@ -42,6 +42,10 @@ int H5CgnsFile::Impl::open()
 
 int H5CgnsFile::Impl::close()
 {
+	if (m_fileId == 0) {
+		return IRIC_NO_ERROR;
+	}
+
 	for (auto base : m_bases) {
 		delete base;
 	}

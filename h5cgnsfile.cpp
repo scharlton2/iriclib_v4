@@ -13,6 +13,7 @@
 #include "private/h5cgnsbase_impl.h"
 #include "private/h5cgnsfile_impl.h"
 
+#include <Poco/File.h>
 #include <Poco/Path.h>
 
 #include <sstream>
@@ -110,7 +111,11 @@ int H5CgnsFile::open()
 
 int H5CgnsFile::close()
 {
-	return impl->close();
+	int ier = impl->close();
+	RETURN_IF_ERR;
+
+	impl->m_fileId = 0;
+	return IRIC_NO_ERROR;
 }
 
 H5CgnsFile::Mode H5CgnsFile::mode() const
@@ -175,6 +180,47 @@ bool H5CgnsFile::baseExists(int dim) const
 {
 	auto it = impl->m_baseMap.find(dim);
 	return it != impl->m_baseMap.end();
+}
+
+int H5CgnsFile::deleteResult()
+{
+	if (impl->m_mode == Mode::OpenReadOnly) {
+		return IRIC_WRONG_FILEMODE;
+	}
+
+	std::ostringstream ss;
+	ss << impl->m_fileName << ".tmp";
+
+	auto tmpFName = ss.str();
+
+	H5CgnsFile tmpFile(tmpFName, Mode::Create);
+
+	copyExceptSolution(&tmpFile);
+
+	tmpFile.close();
+	close();
+
+	{
+		Poco::File origFile(impl->m_fileName);
+		origFile.remove();
+	}
+	{
+		Poco::File newFile(tmpFName);
+		newFile.renameTo(impl->m_fileName);
+	}
+	return open();
+}
+
+int H5CgnsFile::copyExceptSolution(H5CgnsFile* copyTarget)
+{
+	// copy 2-dimensional base information
+	auto srcBase = base(2);
+	auto tgtBase = copyTarget->base(2);
+
+	int ier = srcBase->copyExceptSolution(tgtBase);
+	RETURN_IF_ERR;
+
+	return IRIC_NO_ERROR;
 }
 
 int H5CgnsFile::zoneNum() const

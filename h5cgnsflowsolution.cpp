@@ -13,6 +13,24 @@ using namespace iRICLib;
 
 #define LABEL "FlowSolution_t"
 
+int H5CgnsFlowSolution::Impl::loadNames()
+{
+	_IRIC_LOGGER_TRACE_CALL_START("H5Util::getGroupNamesWithLabel");
+	int ier = H5Util::getGroupNamesWithLabel(m_groupId, H5Util::dataArrayLabel(), &m_names);
+	_IRIC_LOGGER_TRACE_CALL_END_WITHVAL("H5Util::getGroupNamesWithLabel", ier);
+	RETURN_IF_ERR;
+
+	return IRIC_NO_ERROR;
+}
+
+int H5CgnsFlowSolution::Impl::checkNameExists(const std::string& name)
+{
+	if (m_names.find(name) == m_names.end()) {
+		return IRIC_DATA_NOT_FOUND;
+	}
+	return IRIC_NO_ERROR;
+}
+
 std::string H5CgnsFlowSolution::label()
 {
 	return LABEL;
@@ -24,6 +42,8 @@ H5CgnsFlowSolution::H5CgnsFlowSolution(const std::string& name, hid_t groupId, H
 	impl->m_name = name;
 	impl->m_groupId = groupId;
 	impl->m_zone = zone;
+
+	impl->loadNames();
 }
 
 H5CgnsFlowSolution::~H5CgnsFlowSolution()
@@ -49,18 +69,17 @@ int H5CgnsFlowSolution::readValueNames(std::vector<std::string>* names) const
 
 int H5CgnsFlowSolution::readValueNames(std::set<std::string>* names) const
 {
-	_IRIC_LOGGER_TRACE_CALL_START("H5Util::getGroupNamesWithLabel");
-	int ier = H5Util::getGroupNamesWithLabel(impl->m_groupId, H5Util::dataArrayLabel(), names);
-	_IRIC_LOGGER_TRACE_CALL_END_WITHVAL("H5Util::getGroupNamesWithLabel", ier);
-	RETURN_IF_ERR;
-
+	*names = impl->m_names;
 	return IRIC_NO_ERROR;
 }
 
 int H5CgnsFlowSolution::readValueType(const std::string& name, H5Util::DataArrayValueType *type) const
 {
+	int ier = impl->checkNameExists(name);
+	RETURN_IF_ERR;
+
 	_IRIC_LOGGER_TRACE_CALL_START("H5Util::readDataArrayValueType");
-	int ier = H5Util::readDataArrayValueType(impl->m_groupId, name, type);
+	ier = H5Util::readDataArrayValueType(impl->m_groupId, name, type);
 	_IRIC_LOGGER_TRACE_CALL_END_WITHVAL("H5Util::readDataArrayValueType", ier);
 	RETURN_IF_ERR;
 
@@ -69,8 +88,11 @@ int H5CgnsFlowSolution::readValueType(const std::string& name, H5Util::DataArray
 
 int H5CgnsFlowSolution::readValue(const std::string& name, std::vector<int>* values) const
 {
+	int ier = impl->checkNameExists(name);
+	RETURN_IF_ERR;
+
 	_IRIC_LOGGER_TRACE_CALL_START("H5Util::readDataArrayValue");
-	int ier = H5Util::readDataArrayValue(impl->m_groupId, name, values);
+	ier = H5Util::readDataArrayValue(impl->m_groupId, name, values);
 	_IRIC_LOGGER_TRACE_CALL_END_WITHVAL("H5Util::readDataArrayValue", ier);
 	RETURN_IF_ERR;
 
@@ -79,8 +101,11 @@ int H5CgnsFlowSolution::readValue(const std::string& name, std::vector<int>* val
 
 int H5CgnsFlowSolution::readValue(const std::string& name, std::vector<double>* values) const
 {
+	int ier = impl->checkNameExists(name);
+	RETURN_IF_ERR;
+
 	_IRIC_LOGGER_TRACE_CALL_START("H5Util::readDataArrayValue");
-	int ier = H5Util::readDataArrayValue(impl->m_groupId, name, values);
+	ier = H5Util::readDataArrayValue(impl->m_groupId, name, values);
 	_IRIC_LOGGER_TRACE_CALL_END_WITHVAL("H5Util::readDataArrayValue", ier);
 	RETURN_IF_ERR;
 
@@ -89,8 +114,11 @@ int H5CgnsFlowSolution::readValue(const std::string& name, std::vector<double>* 
 
 int H5CgnsFlowSolution::readValueAsDouble(const std::string& name, std::vector<double>* values) const
 {
+	int ier = impl->checkNameExists(name);
+	RETURN_IF_ERR;
+
 	H5Util::DataArrayValueType type;
-	int ier = readValueType(name, &type);
+	ier = readValueType(name, &type);
 	RETURN_IF_ERR;
 
 	if (type == H5Util::DataArrayValueType::RealDouble) {
@@ -121,6 +149,8 @@ int H5CgnsFlowSolution::writeValue(const std::string& name, const std::vector<in
 	_IRIC_LOGGER_TRACE_CALL_END_WITHVAL("H5Util::createDataArray", ier);
 	RETURN_IF_ERR;
 
+	impl->m_names.insert(name);
+
 	return IRIC_NO_ERROR;
 }
 
@@ -136,6 +166,8 @@ int H5CgnsFlowSolution::writeValue(const std::string& name, const std::vector<do
 	ier = H5Util::createDataArray(impl->m_groupId, name, values, dims);
 	_IRIC_LOGGER_TRACE_CALL_END_WITHVAL("H5Util::createDataArray", ier);
 	RETURN_IF_ERR;
+
+	impl->m_names.insert(name);
 
 	return IRIC_NO_ERROR;
 }

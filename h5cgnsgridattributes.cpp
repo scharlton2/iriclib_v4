@@ -9,6 +9,14 @@
 
 #include <sstream>
 
+#define CHECK_NAME_EXISTS \
+	if (impl->m_names.find(name) == impl->m_names.end()) {\
+		std::ostringstream ss;\
+		ss << "In H5CgnsGridAttributes::" << __func__ << "(), data with name " << name << " does not exist";\
+		_iric_logger_error(ss.str());\
+		return IRIC_DATA_NOT_FOUND;\
+	}
+
 using namespace iRICLib;
 
 namespace {
@@ -142,6 +150,8 @@ int H5CgnsGridAttributes::getValueNames(std::set<std::string>* names) const
 
 int H5CgnsGridAttributes::getValueType(const std::string& name, H5Util::DataArrayValueType *type) const
 {
+	CHECK_NAME_EXISTS;
+
 	hid_t gId;
 	_IRIC_LOGGER_TRACE_CALL_START("H5Util::openGroup");
 	int ier = H5Util::openGroup(impl->m_groupId, name, H5Util::userDefinedDataLabel(), &gId);
@@ -160,16 +170,22 @@ int H5CgnsGridAttributes::getValueType(const std::string& name, H5Util::DataArra
 
 int H5CgnsGridAttributes::readValue(const std::string& name, std::vector<int>* values) const
 {
+	CHECK_NAME_EXISTS;
+
 	return readDataArray(impl->m_groupId, name, "Value", values);
 }
 
 int H5CgnsGridAttributes::readValue(const std::string& name, std::vector<double>* values) const
 {
+	CHECK_NAME_EXISTS;
+
 	return readDataArray(impl->m_groupId, name, "Value", values);
 }
 
 int H5CgnsGridAttributes::readFunctionalDimensionSize(const std::string& name, const std::string& dimname, int* size) const
 {
+	CHECK_NAME_EXISTS;
+
 	hid_t gId;
 	_IRIC_LOGGER_TRACE_CALL_START("H5Util::openGroup");
 	int ier = H5Util::openGroup(impl->m_groupId, name, H5Util::userDefinedDataLabel(), &gId);
@@ -188,21 +204,29 @@ int H5CgnsGridAttributes::readFunctionalDimensionSize(const std::string& name, c
 
 int H5CgnsGridAttributes::readFunctionalDimension(const std::string& name, const std::string& dimname, std::vector<int>* values) const
 {
+	CHECK_NAME_EXISTS;
+
 	return readDataArray(impl->m_groupId, name, dimensionDataName(dimname), values);
 }
 
 int H5CgnsGridAttributes::readFunctionalDimension(const std::string& name, const std::string& dimname, std::vector<double>* values) const
 {
+	CHECK_NAME_EXISTS;
+
 	return readDataArray(impl->m_groupId, name, dimensionDataName(dimname), values);
 }
 
 int H5CgnsGridAttributes::readFunctional(const std::string& name, int dimid, std::vector<int>* values) const
 {
+	CHECK_NAME_EXISTS;
+
 	return readDataArray(impl->m_groupId, name, dimensionValueName(dimid), values);
 }
 
 int H5CgnsGridAttributes::readFunctional(const std::string& name, int dimid, std::vector<double>* values) const
 {
+	CHECK_NAME_EXISTS;
+
 	return readDataArray(impl->m_groupId, name, dimensionValueName(dimid), values);
 }
 
@@ -273,4 +297,3 @@ H5CgnsZone* H5CgnsGridAttributes::zone() const
 {
 	return impl->m_zone;
 }
-

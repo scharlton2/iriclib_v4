@@ -16,7 +16,7 @@
 #define CHECK_NAME_EXISTS \
 	if (impl->m_names.find(name) == impl->m_names.end()) {\
 		std::ostringstream ss;\
-		ss << "In H5CgnsConditionGroup::readStringLen(), data with name " << name << " does not exist";\
+		ss << "In H5CgnsConditionGroup::" << __func__ << "(), data with name " << name << " does not exist";\
 		_iric_logger_error(ss.str());\
 		return IRIC_DATA_NOT_FOUND;\
 	}

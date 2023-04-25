@@ -186,16 +186,7 @@ int Grid2D::load(int fid, int gid)
 	int ier = _iric_get_zone(fid, gid, &zone, "Grid2D::load");
 	RETURN_IF_ERR;
 
-	auto coords = zone->gridCoordinates();
-	ier = impl->loadNodes(coords);
-	RETURN_IF_ERR;
-
-	ier = impl->loadCells(*zone);
-	RETURN_IF_ERR;
-
-	impl->setupBackGrid();
-
-	return IRIC_NO_ERROR;
+	return load(zone);
 }
 
 int Grid2D::load(int fid, int gid, int solid)
@@ -208,6 +199,20 @@ int Grid2D::load(int fid, int gid, int solid)
 	auto coords = zone->gridCoordinatesForSolution();
 	impl->loadNodes(coords);
 	ier = impl->loadNodes(coords);
+	RETURN_IF_ERR;
+
+	ier = impl->loadCells(*zone);
+	RETURN_IF_ERR;
+
+	impl->setupBackGrid();
+
+	return IRIC_NO_ERROR;
+}
+
+int Grid2D::load(iRICLib::H5CgnsZone* zone)
+{
+	auto coords = zone->gridCoordinates();
+	int ier = impl->loadNodes(coords);
 	RETURN_IF_ERR;
 
 	ier = impl->loadCells(*zone);

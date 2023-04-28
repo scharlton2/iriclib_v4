@@ -170,7 +170,7 @@ jobs:
           key: '${{ runner.os }}-cache-python-v${{ env.PYTHON_VERSION }}-amd64'
 
       - name: Download Python
-        uses: carlosperate/download-file-action@v1.0.3
+        uses: carlosperate/download-file-action@v2
         id: download-python
         with:
          file-url: 'https://www.python.org/ftp/python/${{ env.PYTHON_VERSION }}/python-${{ env.PYTHON_VERSION }}-amd64.exe'

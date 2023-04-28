@@ -21,7 +21,7 @@ env:
 
   # oneAPI
   # Based on https://github.com/oneapi-src/oneapi-ci/blob/master/.github/workflows/build_all.yml
-  WINDOWS_HPCKIT_URL: https://registrationcenter-download.intel.com/akdlm/irc_nas/17762/w_HPCKit_p_2021.2.0.2901.exe
+  WINDOWS_HPCKIT_URL: https:/registrationcenter-download.intel.com/akdlm/IRC_NAS/2a13d966-fcc5-4a66-9fcc-50603820e0c9/w_HPCKit_p_2023.1.0.46357_offline.exe
   WINDOWS_HPCKIT_FILE: hpckit.exe
   WINDOWS_HPCKIT_COMPONENTS: intel.oneapi.win.ifort-compiler
 
@@ -33,7 +33,7 @@ jobs:
 
     steps:
       - name: Checkout iricdev
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           repository: i-RIC/iricdev-2019
 
@@ -41,13 +41,13 @@ jobs:
         run: .\init.github_env.ps1 | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
       - name: Setup path for msbuild
-        uses: microsoft/setup-msbuild@v1.0.2
+        uses: microsoft/setup-msbuild@v1.1
         with:
           vs-version: '[16.9,17)'
 
       - name: Cache hdf5
         id: cache-hdf5
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ${{github.workspace}}/lib/install/hdf5-${{env.HDF5_VER}}
           key: ${{runner.os}}-hdf5-${{hashFiles('./hdf5.*')}}
@@ -58,7 +58,7 @@ jobs:
         run: |
           curl -fSLo ${{env.WINDOWS_HPCKIT_FILE}} ${{env.WINDOWS_HPCKIT_URL}}
           start /b /wait ${{env.WINDOWS_HPCKIT_FILE}} -s -x -f hpckit_extracted --log hpckit_extracted.log
-          hpckit_extracted\bootstrapper.exe -s --action install --components=${{env.WINDOWS_HPCKIT_COMPONENTS}} --eula=accept --continue-with-optional-error=yes -p=NEED_VS2017_INTEGRATION=0 -p=NEED_VS2019_INTEGRATION=1 --log-dir=.
+          hpckit_extracted\bootstrapper.exe -s --action install --components=${{env.WINDOWS_HPCKIT_COMPONENTS}} --eula=accept -p=NEED_VS2017_INTEGRATION=0 -p=NEED_VS2019_INTEGRATION=1 -p=NEED_VS2022_INTEGRATION=0 --log-dir=.
 
       - name: Build hdf5
         if: steps.cache-hdf5.outputs.cache-hit != 'true'
@@ -74,7 +74,7 @@ jobs:
 
     steps:
       - name: Checkout iricdev
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           repository: i-RIC/iricdev-2019
 
@@ -82,13 +82,13 @@ jobs:
         run: .\init.github_env.ps1 | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
       - name: Setup path for msbuild
-        uses: microsoft/setup-msbuild@v1.0.2
+        uses: microsoft/setup-msbuild@v1.1
         with:
           vs-version: '[16.9,17)'
 
       - name: Cache poco
         id: cache-poco
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ${{github.workspace}}/lib/install/poco-${{env.POCO_VER}}
           key: ${{runner.os}}-poco-${{hashFiles('./poco.*')}}
@@ -106,14 +106,14 @@ jobs:
 
     steps:
       - name: Checkout iricdev
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           repository: i-RIC/iricdev-2019
           persist-credentials: false               # required to commit with a Personal access token
           ref: 2019                                # @todo change to master_v4 or develop_v4
 
       - name: Checkout iriclib
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
         with:
           path: lib/src/iriclib-git
 
@@ -121,20 +121,20 @@ jobs:
         run: .\init.github_env.ps1 | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
       - name: Setup path for msbuild
-        uses: microsoft/setup-msbuild@v1.0.2
+        uses: microsoft/setup-msbuild@v1.1
         with:
           vs-version: '[16.9,17)'
 
       - name: Cache hdf5
         id: cache-hdf5
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ${{github.workspace}}/lib/install/hdf5-${{env.HDF5_VER}}
           key: ${{runner.os}}-hdf5-${{hashFiles('./hdf5.*')}}
 
       - name: Cache poco
         id: cache-poco
-        uses: actions/cache@v2
+        uses: actions/cache@v3
         with:
           path: ${{github.workspace}}/lib/install/poco-${{env.POCO_VER}}
           key: ${{runner.os}}-poco-${{hashFiles('./poco.*')}}
@@ -160,7 +160,7 @@ jobs:
 
       # Debug Python based on https://github.com/actions/virtual-environments/issues/786#issuecomment-620524456
       - name: Cache python
-        uses: actions/cache@v1.1.2
+        uses: actions/cache@v3
         id: cache-python
         with:
           path: '${{ env.PYTHON_INSTALL_DIR }}\'

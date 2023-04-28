@@ -1,6 +1,9 @@
 name: cmake-build
 
 on:
+  pull_request:
+    branches:
+      - develop_v4
   push:
     branches:
       - develop_v4

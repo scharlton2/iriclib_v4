@@ -41,6 +41,11 @@ int H5CgnsGridCoordinates::readCoordinatesX(std::vector<double>* values) const
 	_IRIC_LOGGER_TRACE_CALL_START("H5Util::readDataArrayValue");
 	int ier = H5Util::readDataArrayValue(impl->m_groupId, "CoordinateX", values);
 	_IRIC_LOGGER_TRACE_CALL_END_WITHVAL("H5Util::readDataArrayValue", ier);
+	if (ier == IRIC_NO_ERROR) {return ier;}
+
+	_IRIC_LOGGER_TRACE_CALL_START("H5Util::readDataArrayValue");
+	ier = H5Util::readDataArrayValue(impl->m_groupId, "coordinateX", values);
+	_IRIC_LOGGER_TRACE_CALL_END_WITHVAL("H5Util::readDataArrayValue", ier);
 	RETURN_IF_ERR;
 
 	return IRIC_NO_ERROR;
@@ -51,6 +56,11 @@ int H5CgnsGridCoordinates::readCoordinatesY(std::vector<double>* values) const
 	_IRIC_LOGGER_TRACE_CALL_START("H5Util::readDataArrayValue");
 	int ier = H5Util::readDataArrayValue(impl->m_groupId, "CoordinateY", values);
 	_IRIC_LOGGER_TRACE_CALL_END_WITHVAL("H5Util::readDataArrayValue", ier);
+	if (ier == IRIC_NO_ERROR) {return ier;}
+
+	_IRIC_LOGGER_TRACE_CALL_START("H5Util::readDataArrayValue");
+	ier = H5Util::readDataArrayValue(impl->m_groupId, "coordinateY", values);
+	_IRIC_LOGGER_TRACE_CALL_END_WITHVAL("H5Util::readDataArrayValue", ier);
 	RETURN_IF_ERR;
 
 	return IRIC_NO_ERROR;
@@ -60,6 +70,11 @@ int H5CgnsGridCoordinates::readCoordinatesZ(std::vector<double>* values) const
 {
 	_IRIC_LOGGER_TRACE_CALL_START("H5Util::readDataArrayValue");
 	int ier = H5Util::readDataArrayValue(impl->m_groupId, "CoordinateZ", values);
+	_IRIC_LOGGER_TRACE_CALL_END_WITHVAL("H5Util::readDataArrayValue", ier);
+	if (ier == IRIC_NO_ERROR) {return ier;}
+
+	_IRIC_LOGGER_TRACE_CALL_START("H5Util::readDataArrayValue");
+	ier = H5Util::readDataArrayValue(impl->m_groupId, "coordinateZ", values);
 	_IRIC_LOGGER_TRACE_CALL_END_WITHVAL("H5Util::readDataArrayValue", ier);
 	RETURN_IF_ERR;
 

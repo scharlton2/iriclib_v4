@@ -243,7 +243,7 @@ jobs:
           Rename-Item .\lib\iricsdk install
 
       - name: Commit and push
-        if: ${{ github.repository == 'i-RIC/iriclib_v4' }}
+        if: ${{ github.repository == 'i-RIC/iriclib_v4' && github.event_name != 'pull_request'}}
         uses: actions-js/push@master
         with:
           github_token: ${{secrets.GITHUB_TOKEN}}
@@ -260,7 +260,7 @@ jobs:
           branch: __${{ github.event.repository.name }}_${{ github.run_number }}_${{ github.run_attempt }}
 
       - name: Create release
-        if: ${{ github.repository == 'i-RIC/iriclib_v4' }}
+        if: ${{ github.repository == 'i-RIC/iriclib_v4' && github.event_name != 'pull_request'}}
         env:
           releases_url: ${{github.api_url}}/repos/${{github.repository}}/releases
         run: |
@@ -327,7 +327,7 @@ jobs:
           Remove-Item iricsdk.7z
 
       - name: Update iriclib version
-        if: ${{ github.repository == 'i-RIC/iriclib_v4' }}
+        if: ${{ github.repository == 'i-RIC/iriclib_v4' && github.event_name != 'pull_request'}}
         run: |
           # versions.cmd
           (Get-Content .\versions.cmd) | Foreach-Object {
@@ -340,7 +340,7 @@ jobs:
           git diff
 
       - name: Commit and push iricdev
-        if: ${{ github.repository == 'i-RIC/iriclib_v4' }}
+        if: ${{ github.repository == 'i-RIC/iriclib_v4' && github.event_name != 'pull_request'}}
         uses: actions-js/push@master
         with:
           github_token: ${{secrets.IRICLIB_V4_ACTION_GHP_TOKEN}}

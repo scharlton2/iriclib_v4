@@ -95,7 +95,7 @@ int H5CgnsParticleGroupSolution::readValueNames(const std::string& groupName, st
 	return IRIC_NO_ERROR;
 }
 
-int H5CgnsParticleGroupSolution::readValueNames(const std::string& groupName, std::set<std::string>* names) const
+int H5CgnsParticleGroupSolution::readValueNames(const std::string& groupName, std::unordered_set<std::string>* names) const
 {
 	std::vector<std::string> namesVec;
 	int ier = readValueNames(groupName, &namesVec);

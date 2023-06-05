@@ -12,7 +12,7 @@ int H5CgnsParticleGroupSolution::GroupReader::readValueNames(std::vector<std::st
 	return m_solution->readValueNames(m_groupName, names);
 }
 
-int H5CgnsParticleGroupSolution::GroupReader::readValueNames(std::set<std::string>* names) const
+int H5CgnsParticleGroupSolution::GroupReader::readValueNames(std::unordered_set<std::string>* names) const
 {
 	return m_solution->readValueNames(m_groupName, names);
 }

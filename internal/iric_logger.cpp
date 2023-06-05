@@ -55,7 +55,7 @@ void _iric_logger_init()
 	auto channels = new Poco::SplitterChannel();
 	logger.setChannel(channels);
 
-	auto fmt = new Poco::PatternFormatter("%p: %t");
+	auto fmt = new Poco::PatternFormatter("%H:%M:%S.%i %p: %t");
 
 	auto stdoutChannel = new Poco::StreamChannel(std::cout);
 	channels->addChannel(new Poco::FormattingChannel(fmt, stdoutChannel));

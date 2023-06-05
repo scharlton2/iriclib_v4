@@ -26,7 +26,7 @@ H5CgnsGridComplexConditionGroup::Impl::~Impl()
 
 void H5CgnsGridComplexConditionGroup::Impl::loadItems()
 {
-	std::set<std::string> names;
+	std::unordered_set<std::string> names;
 	H5Util::getGroupNames(m_groupId, &names);
 
 	int i = 1;

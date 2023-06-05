@@ -94,7 +94,7 @@ H5CgnsBaseIterativeData* H5CgnsBase::biterData()
 {
 	if (impl->m_biterData != nullptr) {return impl->m_biterData;}
 
-	std::set<std::string> names;
+	std::unordered_set<std::string> names;
 	H5Util::getGroupNames(impl->m_groupId, &names);
 
 	if (impl->m_file->mode() == H5CgnsFile::Mode::Create) {

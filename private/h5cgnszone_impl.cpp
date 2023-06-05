@@ -42,7 +42,7 @@ namespace {
 #define ZONEITERATIVEDATA_NAME "ZoneIterativeData"
 #define ZONEITERATIVEDATA_LABEL "ZoneIterativeData_t"
 
-int writeSolutionPointers(hid_t groupId, int maxSolutionId, const std::string& name, const std::string& prefix, std::set<std::string>* names)
+int writeSolutionPointers(hid_t groupId, int maxSolutionId, const std::string& name, const std::string& prefix, std::unordered_set<std::string>* names)
 {
 	int MAXLEN = 32;
 	std::vector<char> buffer;
@@ -631,7 +631,7 @@ int H5CgnsZone::Impl::writeZoneIterativeData()
 
 	H5GroupCloser closer(gId);
 
-	std::set<std::string> names;
+	std::unordered_set<std::string> names;
 	_IRIC_LOGGER_TRACE_CALL_START("H5Util::getGroupNames");
 	ier = H5Util::getGroupNames(gId, &names);
 	_IRIC_LOGGER_TRACE_CALL_END_WITHVAL("H5Util::getGroupNames", ier);

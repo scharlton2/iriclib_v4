@@ -69,7 +69,7 @@ int H5CgnsParticleSolution::readValueNames(std::vector<std::string>* names) cons
 	return IRIC_NO_ERROR;
 }
 
-int H5CgnsParticleSolution::readValueNames(std::set<std::string>* names) const
+int H5CgnsParticleSolution::readValueNames(std::unordered_set<std::string>* names) const
 {
 	std::vector<std::string> namesVec;
 	int ier = readValueNames(&namesVec);

@@ -245,9 +245,9 @@ int H5CgnsBaseIterativeData::getResultNames(std::vector<std::string>* names)
 	return IRIC_NO_ERROR;
 }
 
-int H5CgnsBaseIterativeData::getResultNames(std::set<std::string>* names)
+int H5CgnsBaseIterativeData::getResultNames(std::unordered_set<std::string>* names)
 {
-	std::set<std::string> tmpNames;
+	std::unordered_set<std::string> tmpNames;
 	_IRIC_LOGGER_TRACE_CALL_START("H5Util::getGroupNames");
 	int ier = H5Util::getGroupNames(impl->m_groupId, names);
 	_IRIC_LOGGER_TRACE_CALL_END_WITHVAL("H5Util::getGroupNames", ier);

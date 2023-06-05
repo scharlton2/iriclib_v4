@@ -30,7 +30,7 @@ int H5CgnsPolyDataSolution::GroupReader::readValueNames(std::vector<std::string>
 	return m_solution->readValueNames(m_groupName, names);
 }
 
-int H5CgnsPolyDataSolution::GroupReader::readValueNames(std::set<std::string>* names) const
+int H5CgnsPolyDataSolution::GroupReader::readValueNames(std::unordered_set<std::string>* names) const
 {
 	return m_solution->readValueNames(m_groupName, names);
 }

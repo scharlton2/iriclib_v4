@@ -293,9 +293,9 @@ int updateGroupValueT(hid_t groupId, const V& value, hid_t dataTypeNative)
 }
 
 template <typename V>
-int updateOrCreateDataArrayT(hid_t groupId, const std::string& name, const std::vector<V>& values, const std::vector<hsize_t>& dims, const std::string& typeAtt, hid_t dataTypeInFile, hid_t dataTypeNative, std::set<std::string>* names = nullptr)
+int updateOrCreateDataArrayT(hid_t groupId, const std::string& name, const std::vector<V>& values, const std::vector<hsize_t>& dims, const std::string& typeAtt, hid_t dataTypeInFile, hid_t dataTypeNative, std::unordered_set<std::string>* names = nullptr)
 {
-	std::set<std::string> tmpNames;
+	std::unordered_set<std::string> tmpNames;
 	if (names != nullptr) {
 		tmpNames = *names;
 	} else {
@@ -334,7 +334,7 @@ int updateOrCreateDataArrayT(hid_t groupId, const std::string& name, const std::
 }
 
 template <typename V>
-int updateOrCreateDataArrayT(hid_t groupId, const std::string& name, const std::vector<V>& values, const std::string& typeAtt, hid_t dataTypeInFile, hid_t dataTypeNative, std::set<std::string>* names = nullptr)
+int updateOrCreateDataArrayT(hid_t groupId, const std::string& name, const std::vector<V>& values, const std::string& typeAtt, hid_t dataTypeInFile, hid_t dataTypeNative, std::unordered_set<std::string>* names = nullptr)
 {
 	std::vector<hsize_t> dims;
 	dims.push_back(values.size());
@@ -805,7 +805,7 @@ int H5Util::getGroupNames(hid_t groupId, std::vector<std::string>* names)
 	return getObjectNames(groupId, H5O_TYPE_GROUP, names);
 }
 
-int H5Util::getGroupNames(hid_t groupId, std::set<std::string>* names)
+int H5Util::getGroupNames(hid_t groupId, std::unordered_set<std::string>* names)
 {
 	std::vector<std::string> namesVec;
 
@@ -837,7 +837,7 @@ int H5Util::getGroupNamesWithLabel(hid_t groupId, const std::string& label, std:
 	return IRIC_NO_ERROR;
 }
 
-int H5Util::getGroupNamesWithLabel(hid_t groupId, const std::string& label, std::set<std::string>* names)
+int H5Util::getGroupNamesWithLabel(hid_t groupId, const std::string& label, std::unordered_set<std::string>* names)
 {
 	std::vector<std::string> namesVec;
 
@@ -855,7 +855,7 @@ int H5Util::getDatasetNames(hid_t groupId, std::vector<std::string>* names)
 	return getObjectNames(groupId, H5O_TYPE_DATASET, names);
 }
 
-int H5Util::getDatasetNames(hid_t groupId, std::set<std::string>* names)
+int H5Util::getDatasetNames(hid_t groupId, std::unordered_set<std::string>* names)
 {
 	std::vector<std::string> namesVec;
 
@@ -1054,7 +1054,7 @@ int H5Util::openGroup(hid_t groupId, const std::string& name, const std::string&
 	return IRIC_NO_ERROR;
 }
 
-int H5Util::openOrCreateGroup(hid_t groupId, const std::string& name, const std::string& label, const std::string& type, hid_t* childGroup, const std::set<std::string>& names)
+int H5Util::openOrCreateGroup(hid_t groupId, const std::string& name, const std::string& label, const std::string& type, hid_t* childGroup, const std::unordered_set<std::string>& names)
 {
 	if (names.find(name) != names.end()) {
 		_IRIC_LOGGER_TRACE_CALL_START("H5Util::openGroup");
@@ -1071,7 +1071,7 @@ int H5Util::openOrCreateGroup(hid_t groupId, const std::string& name, const std:
 	return IRIC_NO_ERROR;
 }
 
-int H5Util::openOrCreateUserDefinedDataGroup(hid_t groupId, const std::string& name, hid_t* childGroup, const std::set<std::string>& names)
+int H5Util::openOrCreateUserDefinedDataGroup(hid_t groupId, const std::string& name, hid_t* childGroup, const std::unordered_set<std::string>& names)
 {
 	_IRIC_LOGGER_TRACE_CALL_START("H5Util::openOrCreateGroup");
 	int ier = openOrCreateGroup(groupId, name, USERDEFINEDDATA_LABEL, USERDEFINEDDATA_TYPE, childGroup, names);
@@ -1296,7 +1296,7 @@ int H5Util::createDataArray(hid_t groupId, const std::string& name, const std::v
 	return IRIC_NO_ERROR;
 }
 
-int H5Util::updateOrCreateDataArray(hid_t groupId, const std::string& name, const std::string& value, std::set<std::string>* names)
+int H5Util::updateOrCreateDataArray(hid_t groupId, const std::string& name, const std::string& value, std::unordered_set<std::string>* names)
 {
 	std::vector<char> buffer(value.length(), 0);
 	for (size_t i = 0; i < value.length(); ++i) {
@@ -1305,7 +1305,7 @@ int H5Util::updateOrCreateDataArray(hid_t groupId, const std::string& name, cons
 	return updateOrCreateDataArray(groupId, name, buffer, names);
 }
 
-int H5Util::updateOrCreateDataArray(hid_t groupId, const std::string& name, const std::vector<char>& value, std::set<std::string>* names)
+int H5Util::updateOrCreateDataArray(hid_t groupId, const std::string& name, const std::vector<char>& value, std::unordered_set<std::string>* names)
 {
 	_IRIC_LOGGER_TRACE_CALL_START("updateOrCreateDataArrayT");
 	int ier = updateOrCreateDataArrayT(groupId, name, value, "C1", H5T_STD_I8LE, H5T_NATIVE_INT8, names);
@@ -1315,7 +1315,7 @@ int H5Util::updateOrCreateDataArray(hid_t groupId, const std::string& name, cons
 	return IRIC_NO_ERROR;
 }
 
-int H5Util::updateOrCreateDataArray(hid_t groupId, const std::string& name, const std::vector<int>& value, std::set<std::string>* names)
+int H5Util::updateOrCreateDataArray(hid_t groupId, const std::string& name, const std::vector<int>& value, std::unordered_set<std::string>* names)
 {
 	_IRIC_LOGGER_TRACE_CALL_START("updateOrCreateDataArrayT");
 	int ier = updateOrCreateDataArrayT(groupId, name, value, "I4", H5T_STD_I32LE, H5T_NATIVE_INT32, names);
@@ -1325,7 +1325,7 @@ int H5Util::updateOrCreateDataArray(hid_t groupId, const std::string& name, cons
 	return IRIC_NO_ERROR;
 }
 
-int H5Util::updateOrCreateDataArray(hid_t groupId, const std::string& name, const std::vector<float>& value, std::set<std::string>* names)
+int H5Util::updateOrCreateDataArray(hid_t groupId, const std::string& name, const std::vector<float>& value, std::unordered_set<std::string>* names)
 {
 	_IRIC_LOGGER_TRACE_CALL_START("updateOrCreateDataArrayT");
 	int ier = updateOrCreateDataArrayT(groupId, name, value, "R4", H5T_IEEE_F32LE, H5T_NATIVE_FLOAT, names);
@@ -1335,7 +1335,7 @@ int H5Util::updateOrCreateDataArray(hid_t groupId, const std::string& name, cons
 	return IRIC_NO_ERROR;
 }
 
-int H5Util::updateOrCreateDataArray(hid_t groupId, const std::string& name, const std::vector<double>& value, std::set<std::string>* names)
+int H5Util::updateOrCreateDataArray(hid_t groupId, const std::string& name, const std::vector<double>& value, std::unordered_set<std::string>* names)
 {
 	_IRIC_LOGGER_TRACE_CALL_START("updateOrCreateDataArrayT");
 	int ier = updateOrCreateDataArrayT(groupId, name, value, "R8", H5T_IEEE_F64LE, H5T_NATIVE_DOUBLE, names);
@@ -1345,7 +1345,7 @@ int H5Util::updateOrCreateDataArray(hid_t groupId, const std::string& name, cons
 	return IRIC_NO_ERROR;
 }
 
-int H5Util::updateOrCreateDataArray(hid_t groupId, const std::string& name, const std::vector<std::string>& value, std::set<std::string>* names)
+int H5Util::updateOrCreateDataArray(hid_t groupId, const std::string& name, const std::vector<std::string>& value, std::unordered_set<std::string>* names)
 {
 	size_t maxLen = 0;
 	for (const auto& v : value) {
@@ -1373,7 +1373,7 @@ int H5Util::updateOrCreateDataArray(hid_t groupId, const std::string& name, cons
 	return IRIC_NO_ERROR;
 }
 
-int H5Util::updateOrCreateDataArray(hid_t groupId, const std::string& name, const std::vector<char>& value, const std::vector<hsize_t>& dims, std::set<std::string>* names)
+int H5Util::updateOrCreateDataArray(hid_t groupId, const std::string& name, const std::vector<char>& value, const std::vector<hsize_t>& dims, std::unordered_set<std::string>* names)
 {
 	_IRIC_LOGGER_TRACE_CALL_START("updateOrCreateDataArrayT");
 	int ier = updateOrCreateDataArrayT(groupId, name, value, dims, "C1", H5T_STD_I8LE, H5T_NATIVE_INT8, names);
@@ -1383,7 +1383,7 @@ int H5Util::updateOrCreateDataArray(hid_t groupId, const std::string& name, cons
 	return IRIC_NO_ERROR;
 }
 
-int H5Util::updateOrCreateDataArray(hid_t groupId, const std::string& name, const std::vector<int>& value, const std::vector<hsize_t>& dims, std::set<std::string>* names)
+int H5Util::updateOrCreateDataArray(hid_t groupId, const std::string& name, const std::vector<int>& value, const std::vector<hsize_t>& dims, std::unordered_set<std::string>* names)
 {
 	_IRIC_LOGGER_TRACE_CALL_START("updateOrCreateDataArrayT");
 	int ier = updateOrCreateDataArrayT(groupId, name, value, dims, "I4", H5T_STD_I32LE, H5T_NATIVE_INT32, names);
@@ -1393,7 +1393,7 @@ int H5Util::updateOrCreateDataArray(hid_t groupId, const std::string& name, cons
 	return IRIC_NO_ERROR;
 }
 
-int H5Util::updateOrCreateDataArray(hid_t groupId, const std::string& name, const std::vector<float>& value, const std::vector<hsize_t>& dims, std::set<std::string>* names)
+int H5Util::updateOrCreateDataArray(hid_t groupId, const std::string& name, const std::vector<float>& value, const std::vector<hsize_t>& dims, std::unordered_set<std::string>* names)
 {
 	_IRIC_LOGGER_TRACE_CALL_START("updateOrCreateDataArrayT");
 	int ier = updateOrCreateDataArrayT(groupId, name, value, dims, "R4", H5T_IEEE_F32LE, H5T_NATIVE_FLOAT, names);
@@ -1403,7 +1403,7 @@ int H5Util::updateOrCreateDataArray(hid_t groupId, const std::string& name, cons
 	return IRIC_NO_ERROR;
 }
 
-int H5Util::updateOrCreateDataArray(hid_t groupId, const std::string& name, const std::vector<double>& value, const std::vector<hsize_t>& dims, std::set<std::string>* names)
+int H5Util::updateOrCreateDataArray(hid_t groupId, const std::string& name, const std::vector<double>& value, const std::vector<hsize_t>& dims, std::unordered_set<std::string>* names)
 {
 	_IRIC_LOGGER_TRACE_CALL_START("updateOrCreateDataArrayT");
 	int ier = updateOrCreateDataArrayT(groupId, name, value, dims, "R8", H5T_IEEE_F64LE, H5T_NATIVE_DOUBLE, names);
@@ -1946,7 +1946,7 @@ int H5Util::deleteData(hid_t groupId, const std::string& name)
 
 int H5Util::deleteDataIfExists(hid_t groupId, const std::string& name)
 {
-	std::set<std::string> names;
+	std::unordered_set<std::string> names;
 	_IRIC_LOGGER_TRACE_CALL_START("H5Util::getDatasetNames");
 	int ier = getDatasetNames(groupId, &names);
 	_IRIC_LOGGER_TRACE_CALL_END_WITHVAL("H5Util::getDatasetNames", ier);

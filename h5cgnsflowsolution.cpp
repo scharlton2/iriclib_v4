@@ -67,7 +67,7 @@ int H5CgnsFlowSolution::readValueNames(std::vector<std::string>* names) const
 	return IRIC_NO_ERROR;
 }
 
-int H5CgnsFlowSolution::readValueNames(std::set<std::string>* names) const
+int H5CgnsFlowSolution::readValueNames(std::unordered_set<std::string>* names) const
 {
 	*names = impl->m_names;
 	return IRIC_NO_ERROR;

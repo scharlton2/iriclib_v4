@@ -99,7 +99,7 @@ int updateDataArray(hid_t groupId, const std::string& name, const std::string& v
 }
 
 template <typename V>
-int updateOrCreateDataArray(hid_t groupId, const std::string& name, const std::string& valName, const std::vector<V>& values, std::set<std::string>* names)
+int updateOrCreateDataArray(hid_t groupId, const std::string& name, const std::string& valName, const std::vector<V>& values, std::unordered_set<std::string>* names)
 {
 	if (names->find(name) == names->end()) {
 		int ier = createDataArray(groupId, name, valName, values);
@@ -138,7 +138,7 @@ int H5CgnsGridAttributes::getValueNames(std::vector<std::string>* names) const
 	return IRIC_NO_ERROR;
 }
 
-int H5CgnsGridAttributes::getValueNames(std::set<std::string>* names) const
+int H5CgnsGridAttributes::getValueNames(std::unordered_set<std::string>* names) const
 {
 	_IRIC_LOGGER_TRACE_CALL_START("H5Util::getGroupNames");
 	int ier = H5Util::getGroupNames(impl->m_groupId, names);

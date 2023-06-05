@@ -24,7 +24,7 @@ int H5CgnsConditionGroup::Impl::openOrCreateGroups(const std::string& name, cons
 
 	H5GroupCloser groupCloser(gId);
 
-	std::set<std::string> tmpNames;
+	std::unordered_set<std::string> tmpNames;
 	H5Util::getGroupNames(gId, &tmpNames);
 
 	if (tmpNames.find(paramName) == tmpNames.end()) {

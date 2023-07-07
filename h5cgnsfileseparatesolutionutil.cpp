@@ -67,7 +67,7 @@ int H5CgnsFileSeparateSolutionUtil::checkFileStatus(const std::string& fileName,
 	return IRIC_NO_ERROR;
 }
 
-int H5CgnsFileSeparateSolutionUtil::rebuildBaseIterativeData(const std::string& fileName)
+int H5CgnsFileSeparateSolutionUtil::rebuildBaseIterativeData(const std::string& fileName, int stepCount)
 {
 	H5CgnsFile file(fileName.c_str(), H5CgnsFile::Mode::OpenModify);
 
@@ -77,12 +77,9 @@ int H5CgnsFileSeparateSolutionUtil::rebuildBaseIterativeData(const std::string& 
 		RETURN_IF_ERR;
 	}
 
-	int maxSolutionId;
-	getMaxSeparateResultSolutionId(fileName, &maxSolutionId);
-
 	int id = 1;
-	while (id <= maxSolutionId) {
-		auto fName = fileNameForSolution(fileName, id);
+	while (id <= stepCount) {
+		auto fName = fileNameForSolution(resultFolder(fileName), id);
 		H5CgnsFile resultFile(fName.c_str(), H5CgnsFile::Mode::OpenReadOnly);
 
 		for (int i = 0; i < resultFile.baseNum(); ++i) {
@@ -111,6 +108,21 @@ int H5CgnsFileSeparateSolutionUtil::rebuildBaseIterativeData(const std::string& 
 						toBIter->writeData(name, v);
 					}
 				}
+			}
+
+			// time
+			int count;
+
+			std::vector<double> times;
+			fromBIter->readTime(&times);
+			for (auto t : times) {
+				toBIter->writeTime(t, &count);
+			}
+			// iteration
+			std::vector<int> iters;
+			fromBIter->readIteration(&iters);
+			for (auto i : iters) {
+				toBIter->writeIteration(i, &count);
 			}
 		}
 

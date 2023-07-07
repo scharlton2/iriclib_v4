@@ -22,6 +22,11 @@ H5CgnsFileSolutionReader::Mode H5CgnsFileSolutionReader::mode() const
 	return impl->m_mode;
 }
 
+void H5CgnsFileSolutionReader::setMode(Mode mode)
+{
+	impl->m_mode = mode;
+}
+
 int H5CgnsFileSolutionReader::setSolutionId(int id)
 {
 	return impl->setSolutionId(id);

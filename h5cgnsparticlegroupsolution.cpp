@@ -48,7 +48,7 @@ int H5CgnsParticleGroupSolution::readGroupNames(std::vector<std::string>* names)
 	RETURN_IF_ERR;
 
 	for (const auto& name : tmpNames) {
-		auto offset = name.length() - coordXSuffix.length();
+		auto offset = static_cast<int> (name.length()) - static_cast<int> (coordXSuffix.length());
 		if (offset < 0) {continue;}
 
 		auto suffix = name.substr(offset, coordXSuffix.length());

@@ -409,8 +409,13 @@ SET(iriclib_public_Headers
   ${PROJECT_SOURCE_DIR}/public/h5cgnspolydatasolution_groupreader.h
 )
 
+# setup for configure_package_config_file
+set(exportPackageDependencies "")
+string(APPEND exportPackageDependencies "find_dependency(HDF5)\n")
+string(APPEND exportPackageDependencies "find_dependency(PocoFoundation)\n")
+
 include(CMakePackageConfigHelpers)
-  
+
 configure_package_config_file(iriclibConfig.cmake.in
   ${CMAKE_CURRENT_BINARY_DIR}/iriclibConfig.cmake
   INSTALL_DESTINATION cmake/iriclib

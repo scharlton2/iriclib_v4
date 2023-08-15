@@ -52,16 +52,16 @@ jobs:
         id: cache-hdf5
         uses: actions/cache@v3
         with:
-          path: ${{github.workspace}}/lib/install/hdf5-${{env.HDF5_VER}}
-          key: ${{runner.os}}-hdf5-${{hashFiles('./hdf5.*')}}
+          path: ${{ github.workspace }}/lib/install/hdf5-${{ env.HDF5_VER }}
+          key: ${{ runner.os }}-hdf5-${{ hashFiles('./hdf5.*') }}
 
       - name: Install oneAPI Fortran
         if: steps.cache-hdf5.outputs.cache-hit != 'true'
         shell: cmd
         run: |
-          curl -fSLo ${{env.WINDOWS_HPCKIT_FILE}} ${{env.WINDOWS_HPCKIT_URL}}
-          start /b /wait ${{env.WINDOWS_HPCKIT_FILE}} -s -x -f hpckit_extracted --log hpckit_extracted.log
-          hpckit_extracted\bootstrapper.exe -s --action install --components=${{env.WINDOWS_HPCKIT_COMPONENTS}} --eula=accept -p=NEED_VS2017_INTEGRATION=0 -p=NEED_VS2019_INTEGRATION=1 -p=NEED_VS2022_INTEGRATION=0 --log-dir=.
+          curl -fSLo ${{ env.WINDOWS_HPCKIT_FILE }} ${{ env.WINDOWS_HPCKIT_URL }}
+          start /b /wait ${{ env.WINDOWS_HPCKIT_FILE }} -s -x -f hpckit_extracted --log hpckit_extracted.log
+          hpckit_extracted\bootstrapper.exe -s --action install --components=${{ env.WINDOWS_HPCKIT_COMPONENTS }} --eula=accept -p=NEED_VS2017_INTEGRATION=0 -p=NEED_VS2019_INTEGRATION=1 -p=NEED_VS2022_INTEGRATION=0 --log-dir=.
 
       - name: Build hdf5
         if: steps.cache-hdf5.outputs.cache-hit != 'true'
@@ -93,8 +93,8 @@ jobs:
         id: cache-poco
         uses: actions/cache@v3
         with:
-          path: ${{github.workspace}}/lib/install/poco-${{env.POCO_VER}}
-          key: ${{runner.os}}-poco-${{hashFiles('./poco.*')}}
+          path: ${{ github.workspace }}/lib/install/poco-${{ env.POCO_VER }}
+          key: ${{ runner.os }}-poco-${{ hashFiles('./poco.*') }}
 
       - name: Build poco
         if: steps.cache-poco.outputs.cache-hit != 'true'
@@ -132,15 +132,15 @@ jobs:
         id: cache-hdf5
         uses: actions/cache@v3
         with:
-          path: ${{github.workspace}}/lib/install/hdf5-${{env.HDF5_VER}}
-          key: ${{runner.os}}-hdf5-${{hashFiles('./hdf5.*')}}
+          path: ${{ github.workspace }}/lib/install/hdf5-${{ env.HDF5_VER }}
+          key: ${{ runner.os }}-hdf5-${{ hashFiles('./hdf5.*') }}
 
       - name: Cache poco
         id: cache-poco
         uses: actions/cache@v3
         with:
-          path: ${{github.workspace}}/lib/install/poco-${{env.POCO_VER}}
-          key: ${{runner.os}}-poco-${{hashFiles('./poco.*')}}
+          path: ${{ github.workspace }}/lib/install/poco-${{ env.POCO_VER }}
+          key: ${{ runner.os }}-poco-${{ hashFiles('./poco.*') }}
 
       - name: Export iriclib version
         run: |
@@ -229,8 +229,8 @@ jobs:
           Set-Location lib/src/iriclib-git/_vs2019_no_fortran
           cmake --install . --config release --prefix ..\..\..\install\iriclib-$env:IRICLIB_VER\
 
-      - name: Upload artifact (user forks)
-        if: ${{ github.repository != 'i-RIC/iriclib_v4' }}
+      - name: Upload artifact (user forks and pull requests)
+        if: ${{ github.repository != 'i-RIC/iriclib_v4' || github.event_name == 'pull_request' }}
         uses: actions/upload-artifact@v3
         with:
           name: iricsdk
@@ -243,12 +243,12 @@ jobs:
           Rename-Item .\lib\iricsdk install
 
       - name: Commit and push
-        if: ${{ github.repository == 'i-RIC/iriclib_v4' && github.event_name != 'pull_request'}}
+        if: ${{ github.repository == 'i-RIC/iriclib_v4' && github.event_name != 'pull_request' }}
         uses: actions-js/push@master
         with:
-          github_token: ${{secrets.GITHUB_TOKEN}}
+          github_token: ${{ secrets.GITHUB_TOKEN }}
           directory: lib/src/iriclib-git
-          # branch: ${{github.ref}}
+          # branch: ${{ github.ref }}
           branch: develop_v4
 
       - name: Commit and push branch
@@ -260,9 +260,9 @@ jobs:
           branch: __${{ github.event.repository.name }}_${{ github.run_number }}_${{ github.run_attempt }}
 
       - name: Create release
-        if: ${{ github.repository == 'i-RIC/iriclib_v4' && github.event_name != 'pull_request'}}
+        if: ${{ github.repository == 'i-RIC/iriclib_v4' && github.event_name != 'pull_request' }}
         env:
-          releases_url: ${{github.api_url}}/repos/${{github.repository}}/releases
+          releases_url: ${{ github.api_url }}/repos/${{ github.repository }}/releases
         run: |
           Push-Location lib/src/iriclib-git
 
@@ -276,9 +276,9 @@ jobs:
           }
 
           # create headers dictionary
-          $h = @{"Authorization" = "token ${{secrets.GITHUB_TOKEN}}"}
+          $h = @{"Authorization" = "token ${{ secrets.GITHUB_TOKEN }}"}
 
-          $releases_url = "${{env.releases_url}}"
+          $releases_url = "${{ env.releases_url }}"
 
           # create release
           # POST /repos/{owner}/{repo}/releases
@@ -327,7 +327,7 @@ jobs:
           Remove-Item iricsdk.7z
 
       - name: Update iriclib version
-        if: ${{ github.repository == 'i-RIC/iriclib_v4' && github.event_name != 'pull_request'}}
+        if: ${{ github.repository == 'i-RIC/iriclib_v4' && github.event_name != 'pull_request' }}
         run: |
           # versions.cmd
           (Get-Content .\versions.cmd) | Foreach-Object {
@@ -340,9 +340,9 @@ jobs:
           git diff
 
       - name: Commit and push iricdev
-        if: ${{ github.repository == 'i-RIC/iriclib_v4' && github.event_name != 'pull_request'}}
+        if: ${{ github.repository == 'i-RIC/iriclib_v4' && github.event_name != 'pull_request' }}
         uses: actions-js/push@master
         with:
-          github_token: ${{secrets.IRICLIB_V4_ACTION_GHP_TOKEN}}
+          github_token: ${{ secrets.IRICLIB_V4_ACTION_GHP_TOKEN }}
           repository: i-RIC/iricdev-2019
           branch: 2019

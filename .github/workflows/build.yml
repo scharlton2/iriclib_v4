@@ -5,9 +5,6 @@ on:
     branches:
       - develop_v4
   push:
-    branches:
-      - develop_v4
-
   workflow_dispatch:
 
 env:
@@ -31,8 +28,13 @@ env:
 jobs:
 
   cache-hdf5:
-  # 32m 44s
-    runs-on: windows-2019
+    name: cache-hdf5
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-2019]
+
+    runs-on: ${{ matrix.os }}
 
     steps:
       - name: Checkout iricdev
@@ -41,9 +43,11 @@ jobs:
           repository: i-RIC/iricdev-2019
 
       - name: Init github env
-        run: .\init.github_env.ps1 | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+        shell: bash
+        run: ./init.github_env.sh >> $env:GITHUB_ENV
 
       - name: Setup path for msbuild
+        if: ${{ runner.os == 'Windows' }}
         uses: microsoft/setup-msbuild@v1.1
         with:
           vs-version: '[16.9,17)'
@@ -56,7 +60,7 @@ jobs:
           key: ${{ runner.os }}-hdf5-${{ hashFiles('./hdf5.*') }}
 
       - name: Install oneAPI Fortran
-        if: steps.cache-hdf5.outputs.cache-hit != 'true'
+        if: ${{ steps.cache-hdf5.outputs.cache-hit != 'true' && runner.os == 'Windows' }}
         shell: cmd
         run: |
           curl -fSLo ${{ env.WINDOWS_HPCKIT_FILE }} ${{ env.WINDOWS_HPCKIT_URL }}
@@ -64,7 +68,7 @@ jobs:
           hpckit_extracted\bootstrapper.exe -s --action install --components=${{ env.WINDOWS_HPCKIT_COMPONENTS }} --eula=accept -p=NEED_VS2017_INTEGRATION=0 -p=NEED_VS2019_INTEGRATION=1 -p=NEED_VS2022_INTEGRATION=0 --log-dir=.
 
       - name: Build hdf5
-        if: steps.cache-hdf5.outputs.cache-hit != 'true'
+        if: ${{ steps.cache-hdf5.outputs.cache-hit != 'true' && runner.os == 'Windows' }}
         shell: cmd
         run: |
           call "C:\Program Files (x86)\Intel\oneAPI\setvars.bat" intel64 vs2019

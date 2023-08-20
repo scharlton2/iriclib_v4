@@ -85,7 +85,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [windows-2019]
+        os: [windows-2019,ubuntu-22.04]
 
     runs-on: ${{ matrix.os }}
 
@@ -117,12 +117,18 @@ jobs:
           path: ${{ github.workspace }}/lib/install/poco-${{ env.POCO_VER }}
           key: ${{ matrix.os }}-poco-${{ hashFiles('./poco.*') }}
 
-      - name: Build poco
+      - name: Build poco (windows)
         if: ${{ steps.cache-poco.outputs.cache-hit != 'true' && matrix.os == 'windows-2019' }}
         shell: cmd
         run: |
           call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
           msbuild /noLogo /maxCpuCount /target:poco-build iricdev.proj
+
+      - name: Build poco (non-windows)
+        if: ${{ steps.cache-poco.outputs.cache-hit != 'true' && runner.os != 'Windows' }}
+        run: |
+          make -f iricdev.mk poco-build-debug
+          make -f iricdev.mk poco-build-release
 
   build-iriclib:
     runs-on: windows-2019

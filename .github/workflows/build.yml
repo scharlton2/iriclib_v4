@@ -68,9 +68,10 @@ jobs:
           hpckit_extracted\bootstrapper.exe -s --action install --components=${{ env.WINDOWS_HPCKIT_COMPONENTS }} --eula=accept -p=NEED_VS2017_INTEGRATION=0 -p=NEED_VS2019_INTEGRATION=1 -p=NEED_VS2022_INTEGRATION=0 --log-dir=.
 
       - name: Build hdf5 (windows)
-        if: ${{ steps.cache-hdf5.outputs.cache-hit != 'true' && runner.os == 'Windows' }}
+        if: ${{ steps.cache-hdf5.outputs.cache-hit != 'true' && matrix.os == 'windows-2019' }}
         shell: cmd
         run: |
+          copy programs_std.prop programs.prop
           call "C:\Program Files (x86)\Intel\oneAPI\setvars.bat" intel64 vs2019
           REM call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
           msbuild /noLogo /maxCpuCount /target:hdf5-build iricdev.proj
@@ -120,6 +121,7 @@ jobs:
         if: ${{ steps.cache-poco.outputs.cache-hit != 'true' && matrix.os == 'windows-2019' }}
         shell: cmd
         run: |
+          copy programs_std.prop programs.prop
           call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
           msbuild /noLogo /maxCpuCount /target:poco-build iricdev.proj
 

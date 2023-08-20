@@ -32,7 +32,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [windows-2019]
+        os: [windows-2019,ubuntu-22.04]
 
     runs-on: ${{ matrix.os }}
 
@@ -76,13 +76,18 @@ jobs:
           start /b /wait ${{ env.WINDOWS_HPCKIT_FILE }} -s -x -f hpckit_extracted --log hpckit_extracted.log
           hpckit_extracted\bootstrapper.exe -s --action install --components=${{ env.WINDOWS_HPCKIT_COMPONENTS }} --eula=accept -p=NEED_VS2017_INTEGRATION=0 -p=NEED_VS2019_INTEGRATION=1 -p=NEED_VS2022_INTEGRATION=0 --log-dir=.
 
-      - name: Build hdf5
+      - name: Build hdf5 (windows)
         if: ${{ steps.cache-hdf5.outputs.cache-hit != 'true' && runner.os == 'Windows' }}
         shell: cmd
         run: |
           call "C:\Program Files (x86)\Intel\oneAPI\setvars.bat" intel64 vs2019
           REM call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
           msbuild /noLogo /maxCpuCount /target:hdf5-build iricdev.proj
+
+      - name: Build hdf5 (non-windows)
+        if: ${{ steps.cache-hdf5.outputs.cache-hit != 'true' && runner.os != 'Windows' }}
+        run: |
+          make -f iricdev.mk hdf5-build
 
   cache-poco:
     name: cache-poco

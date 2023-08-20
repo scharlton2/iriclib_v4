@@ -81,8 +81,13 @@ jobs:
           msbuild /noLogo /maxCpuCount /target:hdf5-build iricdev.proj
 
   cache-poco:
-  # 12m 2s
-    runs-on: windows-2019
+    name: cache-poco
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-2019]
+
+    runs-on: ${{ matrix.os }}
 
     steps:
       - name: Checkout iricdev
@@ -90,10 +95,17 @@ jobs:
         with:
           repository: i-RIC/iricdev-2019
 
-      - name: Init github env
+      - name: Init github env (windows)
+        if: ${{ runner.os == 'Windows' }}
         run: .\init.github_env.ps1 | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
+      - name: Init github env (non-windows)
+        if: ${{ runner.os != 'Windows' }}
+        shell: bash
+        run: ./init.github_env.sh >> $env:GITHUB_ENV
+
       - name: Setup path for msbuild
+        if: ${{ runner.os == 'Windows' }}
         uses: microsoft/setup-msbuild@v1.1
         with:
           vs-version: '[16.9,17)'
@@ -103,13 +115,13 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ${{ github.workspace }}/lib/install/poco-${{ env.POCO_VER }}
-          key: ${{ runner.os }}-poco-${{ hashFiles('./poco.*') }}
+          key: ${{ matrix.os }}-poco-${{ hashFiles('./poco.*') }}
 
       - name: Build poco
-        if: steps.cache-poco.outputs.cache-hit != 'true'
+        if: ${{ steps.cache-poco.outputs.cache-hit != 'true' && matrix.os == 'windows-2019' }}
         shell: cmd
         run: |
-          call "C:\Program Files (x86)\Microsoft Visual Studio\2019\Enterprise\VC\Auxiliary\Build\vcvars64.bat"
+          call "%VS2019INSTALLDIR%\VC\Auxiliary\Build\vcvars64.bat"
           msbuild /noLogo /maxCpuCount /target:poco-build iricdev.proj
 
   build-iriclib:

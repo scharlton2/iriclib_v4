@@ -131,7 +131,13 @@ jobs:
           make -f iricdev.mk poco-build
 
   build-iriclib:
-    runs-on: windows-2019
+    name: build-iriclib
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [windows-2019]
+
+    runs-on: ${{ matrix.os }}
     needs: [cache-hdf5, cache-poco]
 
     steps:
@@ -161,14 +167,14 @@ jobs:
         uses: actions/cache@v3
         with:
           path: ${{ github.workspace }}/lib/install/hdf5-${{ env.HDF5_VER }}
-          key: ${{ runner.os }}-hdf5-${{ hashFiles('./hdf5.*') }}
+          key: ${{ matrix.os }}-hdf5-${{ hashFiles('./hdf5.*') }}
 
       - name: Cache poco
         id: cache-poco
         uses: actions/cache@v3
         with:
           path: ${{ github.workspace }}/lib/install/poco-${{ env.POCO_VER }}
-          key: ${{ runner.os }}-poco-${{ hashFiles('./poco.*') }}
+          key: ${{ matrix.os }}-poco-${{ hashFiles('./poco.*') }}
 
       - name: Export iriclib version
         run: |

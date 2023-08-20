@@ -42,15 +42,6 @@ jobs:
         with:
           repository: i-RIC/iricdev-2019
 
-      # - name: Init github env (windows)
-      #   if: ${{ runner.os == 'Windows' }}
-      #   run: .\init.github_env.ps1 | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-
-      # - name: Init github env (non-windows)
-      #   if: ${{ runner.os != 'Windows' }}
-      #   shell: bash
-      #   run: ./init.github_env.sh >> "$GITHUB_ENV"
-
       - name: Init github env
         shell: bash
         run: ./init.github_env.sh >> "$GITHUB_ENV"
@@ -104,15 +95,10 @@ jobs:
         with:
           repository: i-RIC/iricdev-2019
 
-      - name: Init github env (windows)
-        if: ${{ runner.os == 'Windows' }}
-        run: .\init.github_env.ps1 | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-
-      - name: Init github env (non-windows)
-        if: ${{ runner.os != 'Windows' }}
+      - name: Init github env
         shell: bash
         run: ./init.github_env.sh >> "$GITHUB_ENV"
-
+  
       - name: Setup path for msbuild
         if: ${{ runner.os == 'Windows' }}
         uses: microsoft/setup-msbuild@v1.1
@@ -126,6 +112,10 @@ jobs:
           path: ${{ github.workspace }}/lib/install/poco-${{ env.POCO_VER }}
           key: ${{ matrix.os }}-poco-${{ hashFiles('./poco.*') }}
 
+      - name: Install ninja (linux)
+        if: ${{ runner.os == 'Linux' }}
+        run: sudo apt -y install ninja-build
+
       - name: Build poco (windows)
         if: ${{ steps.cache-poco.outputs.cache-hit != 'true' && matrix.os == 'windows-2019' }}
         shell: cmd
@@ -136,8 +126,7 @@ jobs:
       - name: Build poco (non-windows)
         if: ${{ steps.cache-poco.outputs.cache-hit != 'true' && runner.os != 'Windows' }}
         run: |
-          make -f iricdev.mk poco-build-debug
-          make -f iricdev.mk poco-build-release
+          make -f iricdev.mk poco-build
 
   build-iriclib:
     runs-on: windows-2019
@@ -157,7 +146,8 @@ jobs:
           path: lib/src/iriclib-git
 
       - name: Init github env
-        run: .\init.github_env.ps1 | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+        shell: bash
+        run: ./init.github_env.sh >> "$GITHUB_ENV"
 
       - name: Setup path for msbuild
         uses: microsoft/setup-msbuild@v1.1
@@ -209,9 +199,9 @@ jobs:
         uses: carlosperate/download-file-action@v2
         id: download-python
         with:
-         file-url: 'https://www.python.org/ftp/python/${{ env.PYTHON_VERSION }}/python-${{ env.PYTHON_VERSION }}-amd64.exe'
-         file-name: 'python-${{ env.PYTHON_VERSION }}-amd64.exe'
-         location: '${{ runner.workspace }}\dl\'
+          file-url: 'https://www.python.org/ftp/python/${{ env.PYTHON_VERSION }}/python-${{ env.PYTHON_VERSION }}-amd64.exe'
+          file-name: 'python-${{ env.PYTHON_VERSION }}-amd64.exe'
+          location: '${{ runner.workspace }}\dl\'
         if: steps.cache-python.outputs.cache-hit != 'true'
 
       # if this step fails see https://github.com/actions/setup-python#windows

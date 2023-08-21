@@ -177,26 +177,6 @@ jobs:
           path: ${{ github.workspace }}/lib/install/poco-${{ env.POCO_VER }}
           key: ${{ matrix.os }}-poco-${{ hashFiles('./poco.*') }}
 
-      # - name: Export iriclib version
-      #   if: ${{ runner.os == 'Windows' }}
-      #   run: |
-      #     # update CMakeLists.txt version number for iriclib
-      #     Set-Location .\lib\src\iriclib-git
-      #     (Get-Content .\CMakeLists.txt) | Foreach-Object {
-      #       if ($_ -match '^  VERSION (?<major>0|[1-9]\d*)\.(?<minor>0|[1-9]\d*)(?:\.(?<patch>0|[1-9]\d*))?$') {
-      #         if ($Matches.ContainsKey('patch')) {
-      #           $patch = 1 + $Matches['patch']
-      #         }
-      #         else {
-      #           $patch = 0
-      #         }
-      #         $env:IRICLIB_VER = $Matches['major'] + "." + $Matches['minor'] + "." + $patch
-      #         return "  VERSION " + $env:IRICLIB_VER
-      #       }
-      #       return $_
-      #     } | Set-Content .\CMakeLists.txt
-      #     Write-Output "IRICLIB_VER=$env:IRICLIB_VER" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
-
       - name: Export iriclib version
         shell: bash
         run: |
@@ -354,24 +334,6 @@ jobs:
           cd lib/src/iriclib-git/_ninja_no_fortran
           cmake --install . --config Release --prefix ../../../install/iriclib-$IRICLIB_VER/ 
 
-      # - name: Upload artifact (user forks and pull requests) (windows)
-      #   if: ${{ (github.repository != 'i-RIC/iriclib_v4' || github.event_name == 'pull_request') && matrix.os == 'windows-2019' }}
-      #   uses: actions/upload-artifact@v3
-      #   with:
-      #     name: iricsdk
-      #     path: .\lib\install
-
-      - name: Debug -- Upload artifact
-        shell: bash
-        run: ls -laR
-
-      # - name: Upload artifact (user forks and pull requests) (non-windows)
-      #   if: ${{ (github.repository != 'i-RIC/iriclib_v4' || github.event_name == 'pull_request') && matrix.os != 'windows-2019' }}
-      #   uses: actions/upload-artifact@v3
-      #   with:
-      #     name: iricsdk-${{ matrix.os }}
-      #     path: ./lib/install
-  
       - name: 7z sdk (windows-2019)
         if: ${{ matrix.os == 'windows-2019' }}
         run: |
@@ -387,47 +349,78 @@ jobs:
           mv ./lib/iricsdk ./lib/install
 
       - name: Upload artifact (user forks and pull requests) (windows)
-        if: ${{ (github.repository != 'i-RIC/iriclib_v4' || github.event_name == 'pull_request') && matrix.os == 'windows-2019' }}
+        if: ${{ matrix.os == 'windows-2019' }}
         uses: actions/upload-artifact@v3
         with:
-          name: iricsdk.7z
+          name: iricsdk
           path: iricsdk.7z  
 
       - name: Upload artifact (user forks and pull requests) (non-windows)
-        if: ${{ (github.repository != 'i-RIC/iriclib_v4' || github.event_name == 'pull_request') && matrix.os != 'windows-2019' }}
+        if: ${{ matrix.os != 'windows-2019' }}
         uses: actions/upload-artifact@v3
         with:
-          name: iricsdk-${{ matrix.os }}.7z
+          name: iricsdk-${{ matrix.os }}
           path: iricsdk-${{ matrix.os }}.7z  
 
-      - name: Commit and push
-        if: ${{ github.repository == 'i-RIC/iriclib_v4' && github.event_name != 'pull_request' && matrix.os == 'windows-2019' }}
-        uses: actions-js/push@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          directory: lib/src/iriclib-git
-          # branch: ${{ github.ref }}
-          branch: develop_v4
+  release:
+    name: release
+    runs-on: windows-2019
+    needs: [build-iriclib]
 
-      - name: Commit and push branch
-        if: ${{ github.repository != 'i-RIC/iriclib_v4' && matrix.os == 'windows-2019' }}
-        uses: actions-js/push@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          directory: lib/src/iriclib-git
-          branch: __${{ github.event.repository.name }}_${{ github.run_number }}_${{ github.run_attempt }}
+    steps:
+      - name: Checkout iriclib
+        uses: actions/checkout@v3
 
+      - name: Export iriclib version
+        shell: bash
+        run: |
+          while IFS= read -r line; do
+          if [[ $line =~ ^[[:space:]][[:space:]]VERSION\ ([0-9]+)\.([0-9]+)(\.([0-9]+))? ]]; then
+            major="${BASH_REMATCH[1]}"
+            minor="${BASH_REMATCH[2]}"
+            patch="${BASH_REMATCH[4]}"
+            if [[ -n "$patch" ]]; then
+              ((patch++))
+            else
+              patch=0
+            fi
+            export IRICLIB_VER="$major.$minor.$patch"
+            echo "  VERSION $IRICLIB_VER"
+          else
+            echo "$line"
+          fi
+          done < CMakeLists.txt > CMakeLists.txt.tmp
+          mv CMakeLists.txt.tmp CMakeLists.txt
+          echo "IRICLIB_VER=$IRICLIB_VER" >> "$GITHUB_ENV"
+
+      - name: Download iricsdk.7z artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: iricsdk
+
+      - name: Download iricsdk-ubuntu-22.04.7z artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: iricsdk-ubuntu-22.04
+
+      - name: List iricsdk-ubuntu-22.04.7z
+        run: Get-ChildItem -Recurse
+
+      # - name: Commit and push
+      #   if: ${{ github.repository == 'i-RIC/iriclib_v4' && github.event_name != 'pull_request' }}
+      #   uses: actions-js/push@master
+      #   with:
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      #     branch: develop_v4
+
+  
       - name: Create release
-        if: ${{ github.repository == 'i-RIC/iriclib_v4' && github.event_name != 'pull_request' }}
+        ###if: ${{ github.repository == 'i-RIC/iriclib_v4' && github.event_name != 'pull_request' }}
         env:
           releases_url: ${{ github.api_url }}/repos/${{ github.repository }}/releases
         run: |
-          Push-Location lib/src/iriclib-git
-
           # store new commit
           $target_commitish = (git log -n1 --format=format:"%H")
-
-          Pop-Location
 
           if (! ($env:IRICLIB_VER -match "^(?<major>0|[1-9]\d*)\.(?<minor>[0|1-9]\d*)\.(?<patch>[0|1-9]\d*)$") ) {
             throw "Bad version"
@@ -452,7 +445,7 @@ jobs:
           $create_json = $create | ConvertTo-Json
           $release = Invoke-WebRequest -Uri $releases_url -Headers $h -Method POST -Body $create_json
 
-          # upload artifact (asset)
+          # upload artifact (asset) iricsdk-IRICLIB_VER.7z
           # POST /repos/{owner}/{repo}/releases/{release_id}/assets
           # see https://docs.github.com/en/rest/reference/repos#upload-a-release-asset
           # see https://docs.github.com/ja/rest/reference/repos#upload-a-release-asset
@@ -465,7 +458,19 @@ jobs:
           }
           $upload_uri = $Matches[1] + "?name=iricsdk-$env:IRICLIB_VER.7z"
           $h["Content-type"] = "application/x-7z-compressed"
-          $bytes = [System.IO.File]::ReadAllBytes("iricsdk.7z")
+          $bytes = [System.IO.File]::ReadAllBytes("iricsdk/iricsdk.7z")
+          $upload = Invoke-WebRequest -Uri $upload_uri -Headers $h -Method POST -Body $bytes
+
+          # upload artifact (asset) iricsdk-IRICLIB_VER-ubuntu-22.04.7z
+          $upload_uri = ($release.Content | ConvertFrom-Json).upload_url
+          if (! ($upload_uri -match  "(.*)\{\?name,label\}") ) {
+            # expecting URI{?name,label}
+            # ie https://uploads.github.com/repos/scharlton2/iriclib_v4/releases/24058628/assets{?name,label}
+            throw "Bad upload_url"
+          }
+          $upload_uri = $Matches[1] + "?name=iricsdk-$env:IRICLIB_VER-ubuntu-22.04.7z"
+          $h["Content-type"] = "application/x-7z-compressed"
+          $bytes = [System.IO.File]::ReadAllBytes("iricsdk-ubuntu-22.04/iricsdk-ubuntu-22.04.7z")
           $upload = Invoke-WebRequest -Uri $upload_uri -Headers $h -Method POST -Body $bytes
 
           # update release
@@ -480,9 +485,10 @@ jobs:
           $release = Invoke-WebRequest -Uri "$releases_url/$release_id" -Headers $h -Method PATCH -Body $update_json
 
           # display download url
-          Write-Output "$((($release.Content | ConvertFrom-Json).assets).browser_download_url)"
-          Get-FileHash "iricsdk.7z"
-          Remove-Item iricsdk.7z
+          ###Write-Output "$((($release.Content | ConvertFrom-Json).assets).browser_download_url)"
+          ###Get-FileHash "iricsdk.7z"
+          ###Remove-Item iricsdk.7z
+
 
       - name: Update iriclib version
         if: ${{ github.repository == 'i-RIC/iriclib_v4' && github.event_name != 'pull_request' }}
@@ -504,30 +510,4 @@ jobs:
           github_token: ${{ secrets.IRICLIB_V4_ACTION_GHP_TOKEN }}
           repository: i-RIC/iricdev-2019
           branch: 2019
-  
-  release:
-    name: release
-    runs-on: windows-2019
-    needs: [build-iriclib]
-
-    steps:
-      - name: Download iricsdk.7z artifact
-        if: ${{ (github.repository != 'i-RIC/iriclib_v4' || github.event_name == 'pull_request') }}
-        uses: actions/download-artifact@v3
-        with:
-          name: iricsdk.7z
-          path: iricsdk.7z
-
-      - name: List iricsdk.7z
-        run: Get-ChildItem -Recurse
-
-      - name: Download iricsdk-ubuntu-22.04.7z artifact
-        if: ${{ (github.repository != 'i-RIC/iriclib_v4' || github.event_name == 'pull_request') }}
-        uses: actions/download-artifact@v3
-        with:
-          name: iricsdk-ubuntu-22.04.7z
-          path: iricsdk-ubuntu-22.04.7z  
-
-      - name: List iricsdk-ubuntu-22.04.7z
-        run: Get-ChildItem -Recurse
   

@@ -266,6 +266,10 @@ jobs:
         if: runner.os == 'Windows'
         run: ${{ env.PYTHON_INSTALL_DIR }}\python -c "import sysconfig;import os; print(os.listdir(sysconfig.get_config_vars('prefix')[0] + '/libs'))"
 
+      - name: Install ninja (linux)
+        if: ${{ runner.os == 'Linux' }}
+        run: sudo apt -y install ninja-build
+
       - name: Configure iriclib (windows)
         if: ${{ matrix.os == 'windows-2019' }}
         run: |

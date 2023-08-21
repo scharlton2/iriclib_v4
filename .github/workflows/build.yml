@@ -334,25 +334,25 @@ jobs:
         if: ${{ matrix.os == 'windows-2019' }}
         run: |
           Set-Location lib/src/iriclib-git/_vs2019_no_fortran
-          cmake --install . --config debug --prefix ..\..\..\install\iriclib-$env:IRICLIB_VER\
+          cmake --install . --config Debug --prefix ..\..\..\install\iriclib-$env:IRICLIB_VER\
 
       - name: Install iriclib debug (non-windows)
         if: ${{ matrix.os != 'windows-2019' }}
         run: |
-          cd lib/src/iriclib-git/_vs2019_no_fortran
-          cmake --install . --config debug --prefix ../../../install/iriclib-$env:IRICLIB_VER/
+          cd lib/src/iriclib-git/_ninja_no_fortran
+          cmake --install . --config Debug --prefix ../../../install/iriclib-$IRICLIB_VER/
   
       - name: Install iriclib release (windows)
         if: ${{ matrix.os == 'windows-2019' }}
         run: |
           Set-Location lib/src/iriclib-git/_vs2019_no_fortran
-          cmake --install . --config release --prefix ..\..\..\install\iriclib-$env:IRICLIB_VER\
+          cmake --install . --config Release --prefix ..\..\..\install\iriclib-$env:IRICLIB_VER\
 
       - name: Install iriclib release (non-windows)
         if: ${{ matrix.os != 'windows-2019' }}
         run: |
-          cd lib/src/iriclib-git/_vs2019_no_fortran
-          cmake --install . --config release --prefix ../../../install/iriclib-$env:IRICLIB_VER/ 
+          cd lib/src/iriclib-git/_ninja_no_fortran
+          cmake --install . --config Release --prefix ../../../install/iriclib-$IRICLIB_VER/ 
 
       - name: Upload artifact (user forks and pull requests) (windows)
         if: ${{ (github.repository != 'i-RIC/iriclib_v4' || github.event_name == 'pull_request') && matrix.os == 'windows-2019' }}

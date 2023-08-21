@@ -323,7 +323,7 @@ jobs:
           mv ./lib/iricsdk ./lib/install
 
       - name: Commit and push
-        if: ${{ github.repository == 'i-RIC/iriclib_v4' && github.event_name != 'pull_request' }}
+        if: ${{ github.repository == 'i-RIC/iriclib_v4' && github.event_name != 'pull_request' && matrix.os == 'windows-2019' }}
         uses: actions-js/push@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
@@ -332,7 +332,7 @@ jobs:
           branch: develop_v4
 
       - name: Commit and push branch
-        if: ${{ github.repository != 'i-RIC/iriclib_v4' }}
+        if: ${{ github.repository != 'i-RIC/iriclib_v4' && matrix.os == 'windows-2019' }}
         uses: actions-js/push@master
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}

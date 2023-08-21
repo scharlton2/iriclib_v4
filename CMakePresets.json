@@ -73,6 +73,39 @@
           "PS_to_set_versions": "run <iricdev-2019-repo>/init.github_env.ps1 (in a powershell or pwsh prompt)"
         }
       }
+    },
+    {
+      "name": "ninja_no_fortran",
+      "displayName": "Ninja",
+      "description": "Ninja WITHOUT Fortran testing",
+      "generator": "Ninja Multi-Config",
+      "binaryDir": "${sourceDir}/_${presetName}",
+      "cacheVariables": {
+        "HDF5_DIR": {
+          "type": "PATH",
+          "value": "${sourceDir}/../../install/hdf5-$env{HDF5_VER}/cmake/hdf5"
+        },
+        "PocoFoundation_DIR": {
+          "type": "PATH",
+          "value": "${sourceDir}/../../install/poco-$env{POCO_VER}/lib/cmake/Poco"
+        },
+        "IRICLIB_FORTRAN_TESTING": {
+          "type": "BOOL",
+          "value": "OFF"
+        }
+      },
+      "environment": {},
+      "vendor": {
+        "notes": {
+          "HOWTO_SPECIFY_PYTHON": "cmake --build --preset ninja_no_fortran -DPython_ROOT_DIR=C:/Python38-x64",
+          "HOWTO_CONFIGURE": "cmake --preset ninja_no_fortran",
+          "HOWTO_BUILD": "cmake --build --preset ninja_no_fortran --config <release|debug>",
+          "HOWTO_TEST": "ctest --preset ninja_no_fortran --build-config <release|debug>",
+          "iriclib_git_sourceDir": "<iricdev-2019-repo>/lib/src/iriclib-git",
+          "CMD_to_set_versions": "run <iricdev-2019-repo>/versions.cmd  (in a command prompt)",
+          "PS_to_set_versions": "run <iricdev-2019-repo>/init.github_env.ps1 (in a powershell or pwsh prompt)"
+        }
+      }
     }
   ],
   "buildPresets": [
@@ -83,6 +116,10 @@
     {
       "name": "vs2019_no_fortran",
       "configurePreset": "vs2019_no_fortran"
+    },
+    {
+      "name": "ninja_no_fortran",
+      "configurePreset": "ninja_no_fortran"
     }
   ],
   "testPresets": [
@@ -100,6 +137,17 @@
     {
       "name": "vs2019_no_fortran",
       "configurePreset": "vs2019_no_fortran",
+      "output": {
+        "outputOnFailure": true
+      },
+      "execution": {
+        "noTestsAction": "error",
+        "stopOnFailure": true
+      }
+    },
+    {
+      "name": "ninja_no_fortran",
+      "configurePreset": "ninja_no_fortran",
       "output": {
         "outputOnFailure": true
       },

@@ -260,54 +260,97 @@ jobs:
         run: |
           python --version
           python -c "import sys; print(sys.version)"
+          which python
 
       - name: List linker libs
         if: runner.os == 'Windows'
         run: ${{ env.PYTHON_INSTALL_DIR }}\python -c "import sysconfig;import os; print(os.listdir(sysconfig.get_config_vars('prefix')[0] + '/libs'))"
 
-      - name: Configure iriclib
+      - name: Configure iriclib (windows)
         if: ${{ matrix.os == 'windows-2019' }}
         run: |
           Set-Location lib/src/iriclib-git
           cmake --preset vs2019_no_fortran -DPython_ROOT_DIR=${{ env.PYTHON_INSTALL_DIR }}
 
-      - name: Build iriclib debug
+      - name: Configure iriclib (non-windows)
+        if: ${{ matrix.os != 'windows-2019' }}
+        run: |
+          cd lib/src/iriclib-git
+          cmake --preset ninja_no_fortran
+
+      - name: Build iriclib debug (windows)
         if: ${{ matrix.os == 'windows-2019' }}
         run: |
           Set-Location lib/src/iriclib-git
           cmake --build --preset vs2019_no_fortran --config debug
 
-      - name: Build iriclib release
+      - name: Build iriclib debug (non-windows)
+        if: ${{ matrix.os != 'windows-2019' }}
+        run: |
+          cd lib/src/iriclib-git
+          cmake --build --preset ninja_no_fortran --config debug
+
+      - name: Build iriclib release (windows)
         if: ${{ matrix.os == 'windows-2019' }}
         run: |
           Set-Location lib/src/iriclib-git
           cmake --build --preset vs2019_no_fortran --config release
 
-      - name: Test iriclib debug
+      - name: Build iriclib release (non-windows)
+        if: ${{ matrix.os != 'windows-2019' }}
+        run: |
+          cd lib/src/iriclib-git
+          cmake --build --preset ninja_no_fortran --config release  
+
+      - name: Test iriclib debug (windows)
         if: ${{ matrix.os == 'windows-2019' }}
         run: |
           Set-Location lib/src/iriclib-git
           ctest --build --preset vs2019_no_fortran --build-config debug
 
-      - name: Test iriclib release
+      - name: Test iriclib debug (non-windows)
+        if: ${{ matrix.os != 'windows-2019' }}
+        run: |
+          cd lib/src/iriclib-git
+          ctest --build --preset ninja_no_fortran --build-config debug  
+
+      - name: Test iriclib release (windows)
         if: ${{ matrix.os == 'windows-2019' }}
         run: |
           Set-Location lib/src/iriclib-git
           ctest --build --preset vs2019_no_fortran --build-config release
 
-      - name: Install iriclib debug
+      - name: Test iriclib release (non-windows)
+        if: ${{ matrix.os != 'windows-2019' }}
+        run: |
+          cd lib/src/iriclib-git
+          ctest --build --preset ninja_no_fortran --build-config release
+
+      - name: Install iriclib debug (windows)
         if: ${{ matrix.os == 'windows-2019' }}
         run: |
           Set-Location lib/src/iriclib-git/_vs2019_no_fortran
           cmake --install . --config debug --prefix ..\..\..\install\iriclib-$env:IRICLIB_VER\
 
-      - name: Install iriclib release
+      - name: Install iriclib debug (non-windows)
+        if: ${{ matrix.os != 'windows-2019' }}
+        run: |
+          cd lib/src/iriclib-git/_vs2019_no_fortran
+          cmake --install . --config debug --prefix ../../../install/iriclib-$env:IRICLIB_VER/
+  
+      - name: Install iriclib release (windows)
         if: ${{ matrix.os == 'windows-2019' }}
         run: |
           Set-Location lib/src/iriclib-git/_vs2019_no_fortran
           cmake --install . --config release --prefix ..\..\..\install\iriclib-$env:IRICLIB_VER\
 
-      - name: Upload artifact (user forks and pull requests)
+      - name: Install iriclib release (non-windows)
+        if: ${{ matrix.os != 'windows-2019' }}
+        run: |
+          cd lib/src/iriclib-git/_vs2019_no_fortran
+          cmake --install . --config release --prefix ../../../install/iriclib-$env:IRICLIB_VER/ 
+
+      - name: Upload artifact (user forks and pull requests) (windows)
         if: ${{ (github.repository != 'i-RIC/iriclib_v4' || github.event_name == 'pull_request') && matrix.os == 'windows-2019' }}
         uses: actions/upload-artifact@v3
         with:
@@ -318,7 +361,7 @@ jobs:
         shell: bash
         run: ls -laR
 
-      - name: Upload artifact (user forks and pull requests)
+      - name: Upload artifact (user forks and pull requests) (non-windows)
         if: ${{ (github.repository != 'i-RIC/iriclib_v4' || github.event_name == 'pull_request') && matrix.os != 'windows-2019' }}
         uses: actions/upload-artifact@v3
         with:

@@ -135,7 +135,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        os: [windows-2019]
+        os: [windows-2019,ubuntu-22.04]
 
     runs-on: ${{ matrix.os }}
     needs: [cache-hdf5, cache-poco]
@@ -158,6 +158,7 @@ jobs:
         run: ./init.github_env.sh >> "$GITHUB_ENV"
 
       - name: Setup path for msbuild
+        if: runner.os == 'Windows'
         uses: microsoft/setup-msbuild@v1.1
         with:
           vs-version: '[16.9,17)'
@@ -176,24 +177,47 @@ jobs:
           path: ${{ github.workspace }}/lib/install/poco-${{ env.POCO_VER }}
           key: ${{ matrix.os }}-poco-${{ hashFiles('./poco.*') }}
 
+      # - name: Export iriclib version
+      #   if: ${{ runner.os == 'Windows' }}
+      #   run: |
+      #     # update CMakeLists.txt version number for iriclib
+      #     Set-Location .\lib\src\iriclib-git
+      #     (Get-Content .\CMakeLists.txt) | Foreach-Object {
+      #       if ($_ -match '^  VERSION (?<major>0|[1-9]\d*)\.(?<minor>0|[1-9]\d*)(?:\.(?<patch>0|[1-9]\d*))?$') {
+      #         if ($Matches.ContainsKey('patch')) {
+      #           $patch = 1 + $Matches['patch']
+      #         }
+      #         else {
+      #           $patch = 0
+      #         }
+      #         $env:IRICLIB_VER = $Matches['major'] + "." + $Matches['minor'] + "." + $patch
+      #         return "  VERSION " + $env:IRICLIB_VER
+      #       }
+      #       return $_
+      #     } | Set-Content .\CMakeLists.txt
+      #     Write-Output "IRICLIB_VER=$env:IRICLIB_VER" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+
       - name: Export iriclib version
+        shell: bash
         run: |
-          # update CMakeLists.txt version number for iriclib
-          Set-Location .\lib\src\iriclib-git
-          (Get-Content .\CMakeLists.txt) | Foreach-Object {
-            if ($_ -match '^  VERSION (?<major>0|[1-9]\d*)\.(?<minor>0|[1-9]\d*)(?:\.(?<patch>0|[1-9]\d*))?$') {
-              if ($Matches.ContainsKey('patch')) {
-                $patch = 1 + $Matches['patch']
-              }
-              else {
-                $patch = 0
-              }
-              $env:IRICLIB_VER = $Matches['major'] + "." + $Matches['minor'] + "." + $patch
-              return "  VERSION " + $env:IRICLIB_VER
-            }
-            return $_
-          } | Set-Content .\CMakeLists.txt
-          Write-Output "IRICLIB_VER=$env:IRICLIB_VER" | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
+          while IFS= read -r line; do
+          if [[ $line =~ ^[[:space:]][[:space:]]VERSION\ ([0-9]+)\.([0-9]+)(\.([0-9]+))? ]]; then
+            major="${BASH_REMATCH[1]}"
+            minor="${BASH_REMATCH[2]}"
+            patch="${BASH_REMATCH[4]}"
+            if [[ -n "$patch" ]]; then
+              ((patch++))
+            else
+              patch=0
+            fi
+            export IRICLIB_VER="$major.$minor.$patch"
+            echo "  VERSION $IRICLIB_VER"
+          else
+            echo "$line"
+          fi
+          done < CMakeLists.txt > CMakeLists.txt.tmp
+          mv CMakeLists.txt.tmp CMakeLists.txt
+          echo "IRICLIB_VER=$IRICLIB_VER" >> "$GITHUB_ENV"
 
       # Debug Python based on https://github.com/actions/virtual-environments/issues/786#issuecomment-620524456
       - name: Cache python
@@ -214,10 +238,9 @@ jobs:
 
       # if this step fails see https://github.com/actions/setup-python#windows
       - name: Install Python debug (x64) # we need debug binaries and precompiled standard libraries
+        if: ${{ runner.os == 'Windows' && steps.cache-python.outputs.cache-hit != 'true' }}
         run: |
           Start-Process -FilePath "${{ runner.workspace }}\dl\python-${{ env.PYTHON_VERSION }}-amd64.exe" -ArgumentList "/quiet Include_debug=1 Include_dev=1 Include_lib=1 Include_pip=1 PrependPath=1 CompileAll=1 InstallAllUsers=0 TargetDir=${{ env.PYTHON_INSTALL_DIR }}\" -Verb runas -Wait
-        if: runner.os == 'Windows' && steps.cache-python.outputs.cache-hit != 'true'
-        shell: pwsh
 
       - name: Display Python version
         if: runner.os == 'Windows'
@@ -229,52 +252,74 @@ jobs:
         run: ${{ env.PYTHON_INSTALL_DIR }}\python -c "import sysconfig;import os; print(os.listdir(sysconfig.get_config_vars('prefix')[0] + '/libs'))"
 
       - name: Configure iriclib
+        if: ${{ matrix.os == 'windows-2019' }}
         run: |
           Set-Location lib/src/iriclib-git
           cmake --preset vs2019_no_fortran -DPython_ROOT_DIR=${{ env.PYTHON_INSTALL_DIR }}
 
       - name: Build iriclib debug
+        if: ${{ matrix.os == 'windows-2019' }}
         run: |
           Set-Location lib/src/iriclib-git
           cmake --build --preset vs2019_no_fortran --config debug
 
       - name: Build iriclib release
+        if: ${{ matrix.os == 'windows-2019' }}
         run: |
           Set-Location lib/src/iriclib-git
           cmake --build --preset vs2019_no_fortran --config release
 
       - name: Test iriclib debug
+        if: ${{ matrix.os == 'windows-2019' }}
         run: |
           Set-Location lib/src/iriclib-git
           ctest --build --preset vs2019_no_fortran --build-config debug
 
       - name: Test iriclib release
+        if: ${{ matrix.os == 'windows-2019' }}
         run: |
           Set-Location lib/src/iriclib-git
           ctest --build --preset vs2019_no_fortran --build-config release
 
       - name: Install iriclib debug
+        if: ${{ matrix.os == 'windows-2019' }}
         run: |
           Set-Location lib/src/iriclib-git/_vs2019_no_fortran
           cmake --install . --config debug --prefix ..\..\..\install\iriclib-$env:IRICLIB_VER\
 
       - name: Install iriclib release
+        if: ${{ matrix.os == 'windows-2019' }}
         run: |
           Set-Location lib/src/iriclib-git/_vs2019_no_fortran
           cmake --install . --config release --prefix ..\..\..\install\iriclib-$env:IRICLIB_VER\
 
       - name: Upload artifact (user forks and pull requests)
-        if: ${{ github.repository != 'i-RIC/iriclib_v4' || github.event_name == 'pull_request' }}
+        if: ${{ (github.repository != 'i-RIC/iriclib_v4' || github.event_name == 'pull_request') && matrix.os == 'windows-2019' }}
         uses: actions/upload-artifact@v3
         with:
           name: iricsdk
           path: .\lib\install
 
-      - name: 7z sdk
+      - name: Upload artifact (user forks and pull requests)
+        if: ${{ (github.repository != 'i-RIC/iriclib_v4' || github.event_name == 'pull_request') && matrix.os != 'windows-2019' }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: iricsdk-${{ matrix.os }}
+          path: .\lib\install
+  
+      - name: 7z sdk (windows-2019)
+        if: ${{ matrix.os == 'windows-2019' }}
         run: |
           Rename-Item .\lib\install iricsdk
           7z a iricsdk.7z .\lib\iricsdk
           Rename-Item .\lib\iricsdk install
+
+      - name: 7z sdk (not windows-2019)
+        if: ${{ matrix.os != 'windows-2019' }}
+        run: |
+          mv ./lib/install ./lib/iricsdk
+          7z a iricsdk-${{ matrix.os }}.7z ./lib/iricsdk
+          mv ./lib/iricsdk ./lib/install
 
       - name: Commit and push
         if: ${{ github.repository == 'i-RIC/iriclib_v4' && github.event_name != 'pull_request' }}

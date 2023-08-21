@@ -286,49 +286,49 @@ jobs:
         if: ${{ matrix.os == 'windows-2019' }}
         run: |
           Set-Location lib/src/iriclib-git
-          cmake --build --preset vs2019_no_fortran --config debug
+          cmake --build --preset vs2019_no_fortran --config Debug
 
       - name: Build iriclib debug (non-windows)
         if: ${{ matrix.os != 'windows-2019' }}
         run: |
           cd lib/src/iriclib-git
-          cmake --build --preset ninja_no_fortran --config debug
+          cmake --build --preset ninja_no_fortran --config Debug
 
       - name: Build iriclib release (windows)
         if: ${{ matrix.os == 'windows-2019' }}
         run: |
           Set-Location lib/src/iriclib-git
-          cmake --build --preset vs2019_no_fortran --config release
+          cmake --build --preset vs2019_no_fortran --config Release
 
       - name: Build iriclib release (non-windows)
         if: ${{ matrix.os != 'windows-2019' }}
         run: |
           cd lib/src/iriclib-git
-          cmake --build --preset ninja_no_fortran --config release  
+          cmake --build --preset ninja_no_fortran --config Release  
 
       - name: Test iriclib debug (windows)
         if: ${{ matrix.os == 'windows-2019' }}
         run: |
           Set-Location lib/src/iriclib-git
-          ctest --build --preset vs2019_no_fortran --build-config debug
+          ctest --build --preset vs2019_no_fortran --build-config Debug
 
       - name: Test iriclib debug (non-windows)
         if: ${{ matrix.os != 'windows-2019' }}
         run: |
           cd lib/src/iriclib-git
-          ctest --build --preset ninja_no_fortran --build-config debug  
+          ctest --build --preset ninja_no_fortran --build-config Debug  
 
       - name: Test iriclib release (windows)
         if: ${{ matrix.os == 'windows-2019' }}
         run: |
           Set-Location lib/src/iriclib-git
-          ctest --build --preset vs2019_no_fortran --build-config release
+          ctest --build --preset vs2019_no_fortran --build-config Release
 
       - name: Test iriclib release (non-windows)
         if: ${{ matrix.os != 'windows-2019' }}
         run: |
           cd lib/src/iriclib-git
-          ctest --build --preset ninja_no_fortran --build-config release
+          ctest --build --preset ninja_no_fortran --build-config Release
 
       - name: Install iriclib debug (windows)
         if: ${{ matrix.os == 'windows-2019' }}

@@ -314,12 +314,16 @@ jobs:
           name: iricsdk
           path: .\lib\install
 
+      - name: Debug -- Upload artifact
+        shell: bash
+        run: ls -laR
+
       - name: Upload artifact (user forks and pull requests)
         if: ${{ (github.repository != 'i-RIC/iriclib_v4' || github.event_name == 'pull_request') && matrix.os != 'windows-2019' }}
         uses: actions/upload-artifact@v3
         with:
           name: iricsdk-${{ matrix.os }}
-          path: .\lib\install
+          path: ./lib/install
   
       - name: 7z sdk (windows-2019)
         if: ${{ matrix.os == 'windows-2019' }}

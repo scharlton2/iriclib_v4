@@ -427,14 +427,18 @@ jobs:
           }
 
           # create headers dictionary
-          $h = @{"Authorization" = "token ${{ secrets.GITHUB_TOKEN }}"}
+          $h = @{
+            "Accept"               = "application/vnd.github+json"
+            "Authorization"        = "token ${{ secrets.GITHUB_TOKEN }}"
+            "X-GitHub-Api-Version" = "2022-11-28"
+          }
 
           $releases_url = "${{ env.releases_url }}"
 
           # create release
           # POST /repos/{owner}/{repo}/releases
-          # see https://docs.github.com/en/rest/reference/repos#create-a-release
-          # see https://docs.github.com/ja/rest/reference/repos#create-a-release
+          # see https://docs.github.com/en/rest/releases/releases?apiVersion=2022-11-28#create-a-release
+          # see https://docs.github.com/ja/rest/releases/releases?apiVersion=2022-11-28#create-a-release
           #
           $create = @{
             "tag_name"         = "v" + $Matches[0]
@@ -447,8 +451,8 @@ jobs:
 
           # upload artifact (asset) iricsdk-IRICLIB_VER.7z
           # POST /repos/{owner}/{repo}/releases/{release_id}/assets
-          # see https://docs.github.com/en/rest/reference/repos#upload-a-release-asset
-          # see https://docs.github.com/ja/rest/reference/repos#upload-a-release-asset
+          # see https://docs.github.com/en/rest/releases/assets?apiVersion=2022-11-28#upload-a-release-asset
+          # see https://docs.github.com/ja/rest/releases/assets?apiVersion=2022-11-28#upload-a-release-asset
           #
           $upload_uri = ($release.Content | ConvertFrom-Json).upload_url
           if (! ($upload_uri -match  "(.*)\{\?name,label\}") ) {
@@ -458,7 +462,7 @@ jobs:
           }
           $upload_uri = $Matches[1] + "?name=iricsdk-$env:IRICLIB_VER.7z"
           $h["Content-type"] = "application/x-7z-compressed"
-          $bytes = [System.IO.File]::ReadAllBytes("iricsdk/iricsdk.7z")
+          $bytes = [System.IO.File]::ReadAllBytes("iricsdk.7z")
           $upload = Invoke-WebRequest -Uri $upload_uri -Headers $h -Method POST -Body $bytes
 
           # upload artifact (asset) iricsdk-IRICLIB_VER-ubuntu-22.04.7z
@@ -470,13 +474,13 @@ jobs:
           }
           $upload_uri = $Matches[1] + "?name=iricsdk-$env:IRICLIB_VER-ubuntu-22.04.7z"
           $h["Content-type"] = "application/x-7z-compressed"
-          $bytes = [System.IO.File]::ReadAllBytes("iricsdk-ubuntu-22.04/iricsdk-ubuntu-22.04.7z")
+          $bytes = [System.IO.File]::ReadAllBytes("iricsdk-ubuntu-22.04.7z")
           $upload = Invoke-WebRequest -Uri $upload_uri -Headers $h -Method POST -Body $bytes
 
           # update release
           # PATCH /repos/{owner}/{repo}/releases/{release_id}
-          # see https://docs.github.com/en/rest/reference/repos#update-a-release
-          # see https://docs.github.com/ja/rest/reference/repos#update-a-release
+          # see https://docs.github.com/en/rest/releases/releases?apiVersion=2022-11-28#update-a-release
+          # see https://docs.github.com/ja/rest/releases/releases?apiVersion=2022-11-28#update-a-release
           #
           $release_id = ($release.Content | ConvertFrom-Json).id
           $h.Remove("Content-type")

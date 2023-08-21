@@ -221,32 +221,45 @@ jobs:
           echo "IRICLIB_VER=$IRICLIB_VER" >> "$GITHUB_ENV"
 
       # Debug Python based on https://github.com/actions/virtual-environments/issues/786#issuecomment-620524456
-      - name: Cache python
+      - name: Cache python (windows)
+        if: ${{ runner.os == 'Windows' }}
         uses: actions/cache@v3
         id: cache-python
         with:
           path: '${{ env.PYTHON_INSTALL_DIR }}\'
           key: '${{ runner.os }}-cache-python-v${{ env.PYTHON_VERSION }}-amd64'
 
-      - name: Download Python
+      - name: Download Python (windows)
+        if: ${{ runner.os == 'Windows' && steps.cache-python.outputs.cache-hit != 'true' }}
         uses: carlosperate/download-file-action@v2
         id: download-python
         with:
           file-url: 'https://www.python.org/ftp/python/${{ env.PYTHON_VERSION }}/python-${{ env.PYTHON_VERSION }}-amd64.exe'
           file-name: 'python-${{ env.PYTHON_VERSION }}-amd64.exe'
           location: '${{ runner.workspace }}\dl\'
-        if: steps.cache-python.outputs.cache-hit != 'true'
 
       # if this step fails see https://github.com/actions/setup-python#windows
-      - name: Install Python debug (x64) # we need debug binaries and precompiled standard libraries
+      - name: Install Python debug (x64) (windows) # we need debug binaries and precompiled standard libraries
         if: ${{ runner.os == 'Windows' && steps.cache-python.outputs.cache-hit != 'true' }}
         run: |
           Start-Process -FilePath "${{ runner.workspace }}\dl\python-${{ env.PYTHON_VERSION }}-amd64.exe" -ArgumentList "/quiet Include_debug=1 Include_dev=1 Include_lib=1 Include_pip=1 PrependPath=1 CompileAll=1 InstallAllUsers=0 TargetDir=${{ env.PYTHON_INSTALL_DIR }}\" -Verb runas -Wait
 
-      - name: Display Python version
+      - name: Install Python 3.8 (non-windows)
+        if: ${{ runner.os != 'Windows' }}
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.8
+
+      - name: Display Python version (windows)
         if: runner.os == 'Windows'
         run: ${{ env.PYTHON_INSTALL_DIR }}\python -c "import sys; print(sys.version)"
         shell: cmd
+
+      - name: Display Python version (non-windows)
+        if: runner.os != 'Windows'
+        run: |
+          python --version
+          python -c "import sys; print(sys.version)"
 
       - name: List linker libs
         if: runner.os == 'Windows'

@@ -10,6 +10,13 @@ set_property(SOURCE iric.i PROPERTY SWIG_MODULE_NAME iric)
 set_property(SOURCE iric.i PROPERTY CPLUSPLUS ON)
 swig_add_library(iric LANGUAGE python SOURCES ${CMAKE_CURRENT_LIST_DIR}/iric.i)
 
+if(WIN32)
+  set_property(TARGET iric PROPERTY SUFFIX ".${Python_SOABI}.pyd")
+else()
+  set_property(TARGET iric
+               PROPERTY SUFFIX ".${Python_SOABI}${CMAKE_SHARED_MODULE_SUFFIX}")
+endif()
+
 # this is required to avoid the header file pyconfig.h forcing
 # a link against python38_d.lib during debug builds
 # Python_LIBRARIES="C:/Users/charlton/Miniconda3/libs/python38.lib"

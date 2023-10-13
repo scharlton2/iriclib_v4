@@ -1,4 +1,11 @@
 %module iric
+
+%begin %{
+#ifdef _MSC_VER
+#define SWIG_PYTHON_INTERPRETER_NO_DEBUG
+#endif
+%}
+
 %include "cstring.i"
 %include "typemaps.i"
 

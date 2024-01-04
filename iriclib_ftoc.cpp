@@ -2304,6 +2304,38 @@ void IRICLIBDLL FMNAME(cg_iric_write_sol_particlegroup_real_f2c, CG_IRIC_WRITE_S
 	*ier = cg_iRIC_Write_Sol_ParticleGroup_Real(*fid, c_name, *value);
 }
 
+void IRICLIBDLL FMNAME(cg_iric_read_sol_particlegroupimage_count_f2c, CG_IRIC_READ_SOL_PARTICLEGROUPIMAGE_COUNT_F2C) (int* fid, int* step, STR_PSTR(groupname), int* count, int *ier STR_PLEN(groupname)) {
+	char c_groupname[STRINGMAXLEN + 1];
+	string_2_C_string(STR_PTR(groupname), STR_LEN(groupname), c_groupname, STRINGMAXLEN, ier);
+	if (*ier != 0) return;
+
+	*ier = cg_iRIC_Read_Sol_ParticleGroupImage_Count(*fid, *step, c_groupname, count);
+}
+
+void IRICLIBDLL FMNAME(cg_iric_read_sol_particlegroupimage_pos2d_f2c, CG_IRIC_READ_SOL_PARTICLEGROUPIMAGE_POS2D_F2C) (int* fid, int* step, STR_PSTR(groupname), double* x_arr, double* y_arr, double* size_arr, double* angle_arr, int *ier STR_PLEN(groupname)) {
+	char c_groupname[STRINGMAXLEN + 1];
+	string_2_C_string(STR_PTR(groupname), STR_LEN(groupname), c_groupname, STRINGMAXLEN, ier);
+	if (*ier != 0) return;
+
+	*ier = cg_iRIC_Read_Sol_ParticleGroupImage_Pos2d(*fid, *step, c_groupname, x_arr, y_arr, size_arr, angle_arr);
+}
+
+void IRICLIBDLL FMNAME(cg_iric_write_sol_particlegroupimage_groupbegin_f2c, CG_IRIC_WRITE_SOL_PARTICLEGROUPIMAGE_GROUPBEGIN_F2C) (int* fid, STR_PSTR(name), int *ier STR_PLEN(name)) {
+	char c_name[STRINGMAXLEN + 1];
+	string_2_C_string(STR_PTR(name), STR_LEN(name), c_name, STRINGMAXLEN, ier);
+	if (*ier != 0) return;
+
+	*ier = cg_iRIC_Write_Sol_ParticleGroupImage_GroupBegin(*fid, c_name);
+}
+
+void IRICLIBDLL FMNAME(cg_iric_write_sol_particlegroupimage_groupend_f2c, CG_IRIC_WRITE_SOL_PARTICLEGROUPIMAGE_GROUPEND_F2C) (int* fid, int *ier) {
+	*ier = cg_iRIC_Write_Sol_ParticleGroupImage_GroupEnd(*fid);
+}
+
+void IRICLIBDLL FMNAME(cg_iric_write_sol_particlegroupimage_pos2d_f2c, CG_IRIC_WRITE_SOL_PARTICLEGROUPIMAGE_POS2D_F2C) (int* fid, double* x, double* y, double* size, double* angle, int *ier) {
+	*ier = cg_iRIC_Write_Sol_ParticleGroupImage_Pos2d(*fid, *x, *y, *size, *angle);
+}
+
 void IRICLIBDLL FMNAME(cg_iric_read_sol_polydata_datacount_f2c, CG_IRIC_READ_SOL_POLYDATA_DATACOUNT_F2C) (int* fid, int* step, STR_PSTR(groupname), int* count, int *ier STR_PLEN(groupname)) {
 	char c_groupname[STRINGMAXLEN + 1];
 	string_2_C_string(STR_PTR(groupname), STR_LEN(groupname), c_groupname, STRINGMAXLEN, ier);
@@ -2819,6 +2851,40 @@ void IRICLIBDLL FMNAME(cg_iric_write_sol_particlegroup_real_withgridid_f2c, CG_I
 	if (*ier != 0) return;
 
 	*ier = cg_iRIC_Write_Sol_ParticleGroup_Real_WithGridId(*fid, *gid, c_name, *value);
+}
+
+
+// from iriclib_sol_particlegroupimage.h
+void IRICLIBDLL FMNAME(cg_iric_read_sol_particlegroupimage_count_withgridid_f2c, CG_IRIC_READ_SOL_PARTICLEGROUPIMAGE_COUNT_WITHGRIDID_F2C) (int* fid, int* gid, int* step, STR_PSTR(groupname), int* count, int *ier STR_PLEN(groupname)) {
+	char c_groupname[STRINGMAXLEN + 1];
+	string_2_C_string(STR_PTR(groupname), STR_LEN(groupname), c_groupname, STRINGMAXLEN, ier);
+	if (*ier != 0) return;
+
+	*ier = cg_iRIC_Read_Sol_ParticleGroupImage_Count_WithGridId(*fid, *gid, *step, c_groupname, count);
+}
+
+void IRICLIBDLL FMNAME(cg_iric_read_sol_particlegroupimage_pos2d_withgridid_f2c, CG_IRIC_READ_SOL_PARTICLEGROUPIMAGE_POS2D_WITHGRIDID_F2C) (int* fid, int* gid, int* step, STR_PSTR(groupname), double* x_arr, double* y_arr, double* size_arr, double* angle_arr, int *ier STR_PLEN(groupname)) {
+	char c_groupname[STRINGMAXLEN + 1];
+	string_2_C_string(STR_PTR(groupname), STR_LEN(groupname), c_groupname, STRINGMAXLEN, ier);
+	if (*ier != 0) return;
+
+	*ier = cg_iRIC_Read_Sol_ParticleGroupImage_Pos2d_WithGridId(*fid, *gid, *step, c_groupname, x_arr, y_arr, size_arr, angle_arr);
+}
+
+void IRICLIBDLL FMNAME(cg_iric_write_sol_particlegroupimage_groupbegin_withgridid_f2c, CG_IRIC_WRITE_SOL_PARTICLEGROUPIMAGE_GROUPBEGIN_WITHGRIDID_F2C) (int* fid, int* gid, STR_PSTR(name), int *ier STR_PLEN(name)) {
+	char c_name[STRINGMAXLEN + 1];
+	string_2_C_string(STR_PTR(name), STR_LEN(name), c_name, STRINGMAXLEN, ier);
+	if (*ier != 0) return;
+
+	*ier = cg_iRIC_Write_Sol_ParticleGroupImage_GroupBegin_WithGridId(*fid, *gid, c_name);
+}
+
+void IRICLIBDLL FMNAME(cg_iric_write_sol_particlegroupimage_groupend_withgridid_f2c, CG_IRIC_WRITE_SOL_PARTICLEGROUPIMAGE_GROUPEND_WITHGRIDID_F2C) (int* fid, int* gid, int *ier) {
+	*ier = cg_iRIC_Write_Sol_ParticleGroupImage_GroupEnd_WithGridId(*fid, *gid);
+}
+
+void IRICLIBDLL FMNAME(cg_iric_write_sol_particlegroupimage_pos2d_withgridid_f2c, CG_IRIC_WRITE_SOL_PARTICLEGROUPIMAGE_POS2D_WITHGRIDID_F2C) (int* fid, int* gid, double* x, double* y, double* size, double* angle, int *ier) {
+	*ier = cg_iRIC_Write_Sol_ParticleGroupImage_Pos2d_WithGridId(*fid, *gid, *x, *y, *size, *angle);
 }
 
 

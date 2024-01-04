@@ -142,6 +142,13 @@ int IRICLIBDLL cg_iRIC_Write_Sol_ParticleGroup_Pos3d(int fid, double x, double y
 int IRICLIBDLL cg_iRIC_Write_Sol_ParticleGroup_Integer(int fid, const char* name, int value);
 int IRICLIBDLL cg_iRIC_Write_Sol_ParticleGroup_Real(int fid, const char* name, double value);
 
+// from iriclib_sol_particlegroupimage.h
+int IRICLIBDLL cg_iRIC_Read_Sol_ParticleGroupImage_Count(int fid, int step, const char* groupname, int* count);
+int IRICLIBDLL cg_iRIC_Read_Sol_ParticleGroupImage_Pos2d(int fid, int step, const char* groupname, double* x_arr, double* y_arr, double* size_arr, double* angle_arr);
+int IRICLIBDLL cg_iRIC_Write_Sol_ParticleGroupImage_GroupBegin(int fid, const char* name);
+int IRICLIBDLL cg_iRIC_Write_Sol_ParticleGroupImage_GroupEnd(int fid);
+int IRICLIBDLL cg_iRIC_Write_Sol_ParticleGroupImage_Pos2d(int fid, double x, double y, double size, double angle);
+
 // from iriclib_sol_polydata.h
 int IRICLIBDLL cg_iRIC_Read_Sol_PolyData_DataCount(int fid, int step, const char* groupname, int* count);
 int IRICLIBDLL cg_iRIC_Read_Sol_PolyData_CoordinateCount(int fid, int step, const char* groupname, int* count);

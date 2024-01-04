@@ -739,6 +739,23 @@ def cg_iRIC_Write_Sol_ParticleGroup_Real(fid, name, value):
 	ier = _iric.cg_iRIC_Write_Sol_ParticleGroup_Real(fid, name, value)
 	_checkErrorCode(ier)
 
+def cg_iRIC_Read_Sol_ParticleGroupImage_Count(fid, step, groupname):
+	ier, count = _iric.cg_iRIC_Read_Sol_ParticleGroupImage_Count(fid, step, groupname)
+	_checkErrorCode(ier)
+	return count
+
+def cg_iRIC_Write_Sol_ParticleGroupImage_GroupBegin(fid, name):
+	ier = _iric.cg_iRIC_Write_Sol_ParticleGroupImage_GroupBegin(fid, name)
+	_checkErrorCode(ier)
+
+def cg_iRIC_Write_Sol_ParticleGroupImage_GroupEnd(fid):
+	ier = _iric.cg_iRIC_Write_Sol_ParticleGroupImage_GroupEnd(fid)
+	_checkErrorCode(ier)
+
+def cg_iRIC_Write_Sol_ParticleGroupImage_Pos2d(fid, x, y, size, angle):
+	ier = _iric.cg_iRIC_Write_Sol_ParticleGroupImage_Pos2d(fid, x, y, size, angle)
+	_checkErrorCode(ier)
+
 def cg_iRIC_Read_Sol_PolyData_DataCount(fid, step, groupname):
 	ier, count = _iric.cg_iRIC_Read_Sol_PolyData_DataCount(fid, step, groupname)
 	_checkErrorCode(ier)
@@ -801,6 +818,25 @@ def cg_iRIC_Write_Sol_ParticleGroup_Integer_WithGridId(fid, gid, name, value):
 
 def cg_iRIC_Write_Sol_ParticleGroup_Real_WithGridId(fid, gid, name, value):
 	ier = _iric.cg_iRIC_Write_Sol_ParticleGroup_Real_WithGridId(fid, gid, name, value)
+	_checkErrorCode(ier)
+
+
+# from iriclib_sol_particlegroupimage.h
+def cg_iRIC_Read_Sol_ParticleGroupImage_Count_WithGridId(fid, gid, step, groupname):
+	ier, count = _iric.cg_iRIC_Read_Sol_ParticleGroupImage_Count_WithGridId(fid, gid, step, groupname)
+	_checkErrorCode(ier)
+	return count
+
+def cg_iRIC_Write_Sol_ParticleGroupImage_GroupBegin_WithGridId(fid, gid, name):
+	ier = _iric.cg_iRIC_Write_Sol_ParticleGroupImage_GroupBegin_WithGridId(fid, gid, name)
+	_checkErrorCode(ier)
+
+def cg_iRIC_Write_Sol_ParticleGroupImage_GroupEnd_WithGridId(fid, gid):
+	ier = _iric.cg_iRIC_Write_Sol_ParticleGroupImage_GroupEnd_WithGridId(fid, gid)
+	_checkErrorCode(ier)
+
+def cg_iRIC_Write_Sol_ParticleGroupImage_Pos2d_WithGridId(fid, gid, x, y, size, angle):
+	ier = _iric.cg_iRIC_Write_Sol_ParticleGroupImage_Pos2d_WithGridId(fid, gid, x, y, size, angle)
 	_checkErrorCode(ier)
 
 
@@ -1778,6 +1814,16 @@ def cg_iRIC_Read_Sol_ParticleGroup_Integer(fid, step, groupname, name):
 	_checkErrorCode(ier)
 	return v.get()
 
+def cg_iRIC_Read_Sol_ParticleGroupImage_Pos2d(fid, step, groupname):
+	size = cg_iRIC_Read_Sol_ParticleGroupImage_Count(fid, step, groupname)
+	x = RealArrayContainer(size)
+	y = RealArrayContainer(size)
+	size = RealArrayContainer(size)
+	angle = RealArrayContainer(size)
+	ier = _iric.cg_iRIC_Read_Sol_ParticleGroupImage_Pos2d(fid, step, groupname, x, y, size, angle)
+	_checkErrorCode(ier)
+	return x.get(), y.get(), size.get(), angle.get()
+
 def cg_iRIC_Read_Sol_PolyData_Pos2d(fid, step, groupname):
 	size = cg_iRIC_Read_Sol_PolyData_CoordinateCount(fid, step, groupname)
 	x = RealArrayContainer(size)
@@ -2079,6 +2125,16 @@ def cg_iRIC_Read_Sol_ParticleGroup_Integer_WithGridId(fid, gid, step, groupname,
 	ier = _iric.cg_iRIC_Read_Sol_ParticleGroup_Integer_WithGridId(fid, gid, step, groupname, name, v)
 	_checkErrorCode(ier)
 	return v.get()
+
+def cg_iRIC_Read_Sol_ParticleGroupImage_Pos2d_WithGridId(fid, gid, step, groupname):
+	size = cg_iRIC_Read_Sol_ParticleGroupImage_Count_WithGridId(fid, gid, step, groupname)
+	x = RealArrayContainer(size)
+	y = RealArrayContainer(size)
+	size = RealArrayContainer(size)
+	angle = RealArrayContainer(size)
+	ier = _iric.cg_iRIC_Read_Sol_ParticleGroupImage_Pos2d_WithGridId(fid, gid, step, groupname, x, y, size, angle)
+	_checkErrorCode(ier)
+	return x.get(), y.get(), size.get(), angle.get()
 
 def cg_iRIC_Read_Sol_PolyData_Pos2d_WithGridId(fid, gid, step, groupname):
 	size = cg_iRIC_Read_Sol_PolyData_CoordinateCount_WithGridId(fid, gid, step, groupname)

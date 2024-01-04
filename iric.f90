@@ -6374,6 +6374,65 @@ contains
 
   end subroutine
 
+  subroutine cg_iric_read_sol_particlegroupimage_count(fid, step, groupname, count, ier)
+    integer, intent(in):: fid
+    integer, intent(in):: step
+    character(*), intent(in):: groupname
+    integer, intent(out):: count
+    integer, intent(out):: ier
+
+    call cg_iric_read_sol_particlegroupimage_count_f2c &
+      (fid, step, groupname, count, ier)
+
+  end subroutine
+
+  subroutine cg_iric_read_sol_particlegroupimage_pos2d(fid, step, groupname, x_arr, y_arr, size_arr, angle_arr, ier)
+    integer, intent(in):: fid
+    integer, intent(in):: step
+    character(*), intent(in):: groupname
+    double precision, dimension(:), intent(out):: x_arr
+    double precision, dimension(:), intent(out):: y_arr
+    double precision, dimension(:), intent(out):: size_arr
+    double precision, dimension(:), intent(out):: angle_arr
+    integer, intent(out):: ier
+
+    call cg_iric_read_sol_particlegroupimage_pos2d_f2c &
+      (fid, step, groupname, x_arr, y_arr, size_arr, angle_arr, ier)
+
+  end subroutine
+
+  subroutine cg_iric_write_sol_particlegroupimage_groupbegin(fid, name, ier)
+    integer, intent(in):: fid
+    character(*), intent(in):: name
+    integer, intent(out):: ier
+
+    call cg_iric_write_sol_particlegroupimage_groupbegin_f2c &
+      (fid, name, ier)
+
+  end subroutine
+
+  subroutine cg_iric_write_sol_particlegroupimage_groupend(fid, ier)
+    integer, intent(in):: fid
+    integer, intent(out):: ier
+
+    call cg_iric_write_sol_particlegroupimage_groupend_f2c &
+      (fid, ier)
+
+  end subroutine
+
+  subroutine cg_iric_write_sol_particlegroupimage_pos2d(fid, x, y, size, angle, ier)
+    integer, intent(in):: fid
+    double precision, intent(in):: x
+    double precision, intent(in):: y
+    double precision, intent(in):: size
+    double precision, intent(in):: angle
+    integer, intent(out):: ier
+
+    call cg_iric_write_sol_particlegroupimage_pos2d_f2c &
+      (fid, x, y, size, angle, ier)
+
+  end subroutine
+
   subroutine cg_iric_read_sol_polydata_datacount(fid, step, groupname, count, ier)
     integer, intent(in):: fid
     integer, intent(in):: step
@@ -7827,6 +7886,74 @@ contains
 
     call cg_iric_write_sol_particlegroup_real_withgridid_f2c &
       (fid, gid, name, value, ier)
+
+  end subroutine
+
+
+
+  ! from iriclib_sol_particlegroupimage.h
+
+  subroutine cg_iric_read_sol_particlegroupimage_count_withgridid(fid, gid, step, groupname, count, ier)
+    integer, intent(in):: fid
+    integer, intent(in):: gid
+    integer, intent(in):: step
+    character(*), intent(in):: groupname
+    integer, intent(out):: count
+    integer, intent(out):: ier
+
+    call cg_iric_read_sol_particlegroupimage_count_withgridid_f2c &
+      (fid, gid, step, groupname, count, ier)
+
+  end subroutine
+
+  subroutine cg_iric_read_sol_particlegroupimage_pos2d_withgridid(fid, gid, step, groupname, x_arr, y_arr, size_arr, angle_arr, ier)
+    integer, intent(in):: fid
+    integer, intent(in):: gid
+    integer, intent(in):: step
+    character(*), intent(in):: groupname
+    double precision, dimension(:), intent(out):: x_arr
+    double precision, dimension(:), intent(out):: y_arr
+    double precision, dimension(:), intent(out):: size_arr
+    double precision, dimension(:), intent(out):: angle_arr
+    integer, intent(out):: ier
+
+    call cg_iric_read_sol_particlegroupimage_pos2d_withgridid_f2c &
+      (fid, gid, step, groupname, x_arr, y_arr, size_arr, angle_arr, ier)
+
+  end subroutine
+
+  subroutine cg_iric_write_sol_particlegroupimage_groupbegin_withgridid(fid, gid, name, ier)
+    integer, intent(in):: fid
+    integer, intent(in):: gid
+    character(*), intent(in):: name
+    integer, intent(out):: ier
+
+    call cg_iric_write_sol_particlegroupimage_groupbegin_withgridid_f2c &
+      (fid, gid, name, ier)
+
+  end subroutine
+
+  subroutine cg_iric_write_sol_particlegroupimage_groupend_withgridid(fid, gid, ier)
+    integer, intent(in):: fid
+    integer, intent(in):: gid
+    integer, intent(out):: ier
+
+    call cg_iric_write_sol_particlegroupimage_groupend_withgridid_f2c &
+      (fid, gid, ier)
+
+  end subroutine
+
+  subroutine cg_iric_write_sol_particlegroupimage_pos2d_withgridid(fid, gid, x, y, size, angle, ier)
+    integer, intent(in):: fid
+    integer, intent(in):: gid
+    double precision, intent(in):: x
+    double precision, intent(in):: y
+    double precision, intent(in):: size
+    double precision, intent(in):: angle
+    integer, intent(out):: ier
+
+    call cg_iric_write_sol_particlegroupimage_pos2d_withgridid_f2c &
+      (fid, gid, x, y, size, angle, ier)
 
   end subroutine
 

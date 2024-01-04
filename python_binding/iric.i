@@ -184,6 +184,10 @@ int cg_iRIC_Write_Sol_ParticleGroup_Pos2d(int fid, double x, double y);
 int cg_iRIC_Write_Sol_ParticleGroup_Pos3d(int fid, double x, double y, double z);
 int cg_iRIC_Write_Sol_ParticleGroup_Integer(int fid, const char* name, int value);
 int cg_iRIC_Write_Sol_ParticleGroup_Real(int fid, const char* name, double value);
+int cg_iRIC_Read_Sol_ParticleGroupImage_Count(int fid, int step, const char* groupname, int* OUTPUT);
+int cg_iRIC_Write_Sol_ParticleGroupImage_GroupBegin(int fid, const char* name);
+int cg_iRIC_Write_Sol_ParticleGroupImage_GroupEnd(int fid);
+int cg_iRIC_Write_Sol_ParticleGroupImage_Pos2d(int fid, double x, double y, double size, double angle);
 int cg_iRIC_Read_Sol_PolyData_DataCount(int fid, int step, const char* groupname, int* OUTPUT);
 int cg_iRIC_Read_Sol_PolyData_CoordinateCount(int fid, int step, const char* groupname, int* OUTPUT);
 int cg_iRIC_Write_Sol_PolyData_GroupBegin(int fid, const char* name);
@@ -202,6 +206,12 @@ int cg_iRIC_Write_Sol_ParticleGroup_Pos2d_WithGridId(int fid, int gid, double x,
 int cg_iRIC_Write_Sol_ParticleGroup_Pos3d_WithGridId(int fid, int gid, double x, double y, double z);
 int cg_iRIC_Write_Sol_ParticleGroup_Integer_WithGridId(int fid, int gid, const char* name, int value);
 int cg_iRIC_Write_Sol_ParticleGroup_Real_WithGridId(int fid, int gid, const char* name, double value);
+
+// from iriclib_sol_particlegroupimage.h
+int cg_iRIC_Read_Sol_ParticleGroupImage_Count_WithGridId(int fid, int gid, int step, const char* groupname, int* OUTPUT);
+int cg_iRIC_Write_Sol_ParticleGroupImage_GroupBegin_WithGridId(int fid, int gid, const char* name);
+int cg_iRIC_Write_Sol_ParticleGroupImage_GroupEnd_WithGridId(int fid, int gid);
+int cg_iRIC_Write_Sol_ParticleGroupImage_Pos2d_WithGridId(int fid, int gid, double x, double y, double size, double angle);
 
 // from iriclib_sol_polydata.h
 int cg_iRIC_Read_Sol_PolyData_DataCount_WithGridId(int fid, int gid, int step, const char* groupname, int* OUTPUT);
@@ -351,6 +361,7 @@ int cg_iRIC_Read_Sol_ParticleGroup_Pos2d(int fid, int step, const char* groupnam
 int cg_iRIC_Read_Sol_ParticleGroup_Pos3d(int fid, int step, const char* groupname, RealArrayContainer& x_arr, RealArrayContainer& y_arr, RealArrayContainer& z_arr);
 int cg_iRIC_Read_Sol_ParticleGroup_Real(int fid, int step, const char* groupname, const char* name, RealArrayContainer& v_arr);
 int cg_iRIC_Read_Sol_ParticleGroup_Integer(int fid, int step, const char* groupname, const char* name, IntArrayContainer& v_arr);
+int cg_iRIC_Read_Sol_ParticleGroupImage_Pos2d(int fid, int step, const char* groupname, RealArrayContainer& x_arr, RealArrayContainer& y_arr, RealArrayContainer& size_arr, RealArrayContainer& angle_arr);
 int cg_iRIC_Read_Sol_PolyData_Pos2d(int fid, int step, const char* groupname, RealArrayContainer& x_arr, RealArrayContainer& y_arr);
 int cg_iRIC_Read_Sol_PolyData_Type(int fid, int step, const char* groupname, IntArrayContainer& v_arr);
 int cg_iRIC_Read_Sol_PolyData_Real(int fid, int step, const char* groupname, const char* name, RealArrayContainer& v_arr);
@@ -393,6 +404,7 @@ int cg_iRIC_Read_Sol_ParticleGroup_Pos2d_WithGridId(int fid, int gid, int step, 
 int cg_iRIC_Read_Sol_ParticleGroup_Pos3d_WithGridId(int fid, int gid, int step, const char* groupname, RealArrayContainer& x_arr, RealArrayContainer& y_arr, RealArrayContainer& z_arr);
 int cg_iRIC_Read_Sol_ParticleGroup_Real_WithGridId(int fid, int gid, int step, const char* groupname, const char* name, RealArrayContainer& v_arr);
 int cg_iRIC_Read_Sol_ParticleGroup_Integer_WithGridId(int fid, int gid, int step, const char* groupname, const char* name, IntArrayContainer& v_arr);
+int cg_iRIC_Read_Sol_ParticleGroupImage_Pos2d_WithGridId(int fid, int gid, int step, const char* groupname, RealArrayContainer& x_arr, RealArrayContainer& y_arr, RealArrayContainer& size_arr, RealArrayContainer& angle_arr);
 int cg_iRIC_Read_Sol_PolyData_Pos2d_WithGridId(int fid, int gid, int step, const char* groupname, RealArrayContainer& x_arr, RealArrayContainer& y_arr);
 int cg_iRIC_Read_Sol_PolyData_Type_WithGridId(int fid, int gid, int step, const char* groupname, IntArrayContainer& v_arr);
 int cg_iRIC_Read_Sol_PolyData_Real_WithGridId(int fid, int gid, int step, const char* groupname, const char* name, RealArrayContainer& v_arr);

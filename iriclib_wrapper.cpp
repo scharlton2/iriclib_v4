@@ -636,6 +636,11 @@ int cg_iRIC_Read_Sol_ParticleGroup_Integer(int fid, int step, const char* groupn
 	return cg_iRIC_Read_Sol_ParticleGroup_Integer(fid, step, groupname, name, v_arr.pointer());
 }
 
+int cg_iRIC_Read_Sol_ParticleGroupImage_Pos2d(int fid, int step, const char* groupname, RealArrayContainer& x_arr, RealArrayContainer& y_arr, RealArrayContainer& size_arr, RealArrayContainer& angle_arr)
+{
+	return cg_iRIC_Read_Sol_ParticleGroupImage_Pos2d(fid, step, groupname, x_arr.pointer(), y_arr.pointer(), size_arr.pointer(), angle_arr.pointer());
+}
+
 int cg_iRIC_Read_Sol_PolyData_Pos2d(int fid, int step, const char* groupname, RealArrayContainer& x_arr, RealArrayContainer& y_arr)
 {
 	return cg_iRIC_Read_Sol_PolyData_Pos2d(fid, step, groupname, x_arr.pointer(), y_arr.pointer());
@@ -860,6 +865,13 @@ int cg_iRIC_Read_Sol_ParticleGroup_Real_WithGridId(int fid, int gid, int step, c
 int cg_iRIC_Read_Sol_ParticleGroup_Integer_WithGridId(int fid, int gid, int step, const char* groupname, const char* name, IntArrayContainer& v_arr)
 {
 	return cg_iRIC_Read_Sol_ParticleGroup_Integer_WithGridId(fid, gid, step, groupname, name, v_arr.pointer());
+}
+
+
+// from iriclib_sol_particlegroupimage.h
+int cg_iRIC_Read_Sol_ParticleGroupImage_Pos2d_WithGridId(int fid, int gid, int step, const char* groupname, RealArrayContainer& x_arr, RealArrayContainer& y_arr, RealArrayContainer& size_arr, RealArrayContainer& angle_arr)
+{
+	return cg_iRIC_Read_Sol_ParticleGroupImage_Pos2d_WithGridId(fid, gid, step, groupname, x_arr.pointer(), y_arr.pointer(), size_arr.pointer(), angle_arr.pointer());
 }
 
 

@@ -146,6 +146,7 @@ int IRICLIBDLL cg_iRIC_Read_Sol_ParticleGroup_Pos2d(int fid, int step, const cha
 int IRICLIBDLL cg_iRIC_Read_Sol_ParticleGroup_Pos3d(int fid, int step, const char* groupname, RealArrayContainer& x_arr, RealArrayContainer& y_arr, RealArrayContainer& z_arr);
 int IRICLIBDLL cg_iRIC_Read_Sol_ParticleGroup_Real(int fid, int step, const char* groupname, const char* name, RealArrayContainer& v_arr);
 int IRICLIBDLL cg_iRIC_Read_Sol_ParticleGroup_Integer(int fid, int step, const char* groupname, const char* name, IntArrayContainer& v_arr);
+int IRICLIBDLL cg_iRIC_Read_Sol_ParticleGroupImage_Pos2d(int fid, int step, const char* groupname, RealArrayContainer& x_arr, RealArrayContainer& y_arr, RealArrayContainer& size_arr, RealArrayContainer& angle_arr);
 int IRICLIBDLL cg_iRIC_Read_Sol_PolyData_Pos2d(int fid, int step, const char* groupname, RealArrayContainer& x_arr, RealArrayContainer& y_arr);
 int IRICLIBDLL cg_iRIC_Read_Sol_PolyData_Type(int fid, int step, const char* groupname, IntArrayContainer& v_arr);
 int IRICLIBDLL cg_iRIC_Read_Sol_PolyData_Real(int fid, int step, const char* groupname, const char* name, RealArrayContainer& v_arr);
@@ -204,6 +205,9 @@ int IRICLIBDLL cg_iRIC_Read_Sol_ParticleGroup_Pos2d_WithGridId(int fid, int gid,
 int IRICLIBDLL cg_iRIC_Read_Sol_ParticleGroup_Pos3d_WithGridId(int fid, int gid, int step, const char* groupname, RealArrayContainer& x_arr, RealArrayContainer& y_arr, RealArrayContainer& z_arr);
 int IRICLIBDLL cg_iRIC_Read_Sol_ParticleGroup_Real_WithGridId(int fid, int gid, int step, const char* groupname, const char* name, RealArrayContainer& v_arr);
 int IRICLIBDLL cg_iRIC_Read_Sol_ParticleGroup_Integer_WithGridId(int fid, int gid, int step, const char* groupname, const char* name, IntArrayContainer& v_arr);
+
+// from iriclib_sol_particlegroupimage.h
+int IRICLIBDLL cg_iRIC_Read_Sol_ParticleGroupImage_Pos2d_WithGridId(int fid, int gid, int step, const char* groupname, RealArrayContainer& x_arr, RealArrayContainer& y_arr, RealArrayContainer& size_arr, RealArrayContainer& angle_arr);
 
 // from iriclib_sol_polydata.h
 int IRICLIBDLL cg_iRIC_Read_Sol_PolyData_Pos2d_WithGridId(int fid, int gid, int step, const char* groupname, RealArrayContainer& x_arr, RealArrayContainer& y_arr);

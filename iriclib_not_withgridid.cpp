@@ -1055,6 +1055,53 @@ int cg_iRIC_Write_Sol_ParticleGroup_Real(int fid, const char* name, double value
 }
 
 
+// from iriclib_sol_particlegroupimage.h
+int cg_iRIC_Read_Sol_ParticleGroupImage_Count(int fid, int step, const char* groupname, int* count)
+{
+  int gid;
+  int ier = getlastGridId(fid, &gid);
+  RETURN_IF_ERR;
+
+  return cg_iRIC_Read_Sol_ParticleGroupImage_Count_WithGridId(fid, gid, step, groupname, count);
+}
+
+int cg_iRIC_Read_Sol_ParticleGroupImage_Pos2d(int fid, int step, const char* groupname, double* x_arr, double* y_arr, double* size_arr, double* angle_arr)
+{
+  int gid;
+  int ier = getDefault2dGridId(fid, &gid);
+  RETURN_IF_ERR;
+
+  return cg_iRIC_Read_Sol_ParticleGroupImage_Pos2d_WithGridId(fid, gid, step, groupname, x_arr, y_arr, size_arr, angle_arr);
+}
+
+int cg_iRIC_Write_Sol_ParticleGroupImage_GroupBegin(int fid, const char* name)
+{
+  int gid;
+  int ier = getlastGridId(fid, &gid);
+  RETURN_IF_ERR;
+
+  return cg_iRIC_Write_Sol_ParticleGroupImage_GroupBegin_WithGridId(fid, gid, name);
+}
+
+int cg_iRIC_Write_Sol_ParticleGroupImage_GroupEnd(int fid)
+{
+  int gid;
+  int ier = getlastGridId(fid, &gid);
+  RETURN_IF_ERR;
+
+  return cg_iRIC_Write_Sol_ParticleGroupImage_GroupEnd_WithGridId(fid, gid);
+}
+
+int cg_iRIC_Write_Sol_ParticleGroupImage_Pos2d(int fid, double x, double y, double size, double angle)
+{
+  int gid;
+  int ier = getDefault2dGridId(fid, &gid);
+  RETURN_IF_ERR;
+
+  return cg_iRIC_Write_Sol_ParticleGroupImage_Pos2d_WithGridId(fid, gid, x, y, size, angle);
+}
+
+
 // from iriclib_sol_polydata.h
 int cg_iRIC_Read_Sol_PolyData_DataCount(int fid, int step, const char* groupname, int* count)
 {

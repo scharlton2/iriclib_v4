@@ -67,6 +67,7 @@ HEADERS += error_macros.h \
            h5cgnsjfaceflowsolution.h \
            h5cgnskfaceflowsolution.h \
            h5cgnsnodeflowsolution.h \
+           h5cgnsparticlegroupimagesolution.h \
            h5cgnsparticlegroupsolution.h \
            h5cgnsparticlesolution.h \
            h5cgnspolydatasolution.h \
@@ -111,6 +112,7 @@ HEADERS += error_macros.h \
            iriclib_sol_node.h \
            iriclib_sol_particle.h \
            iriclib_sol_particlegroup.h \
+           iriclib_sol_particlegroupimage.h \
            iriclib_sol_polydata.h \
            iriclib_solution.h \
            iriclib_wrapper.h \
@@ -140,6 +142,7 @@ HEADERS += error_macros.h \
            private/h5cgnsgridcomplexconditiongroup_impl.h \
            private/h5cgnsgridcomplexconditiontop_impl.h \
            private/h5cgnsgridcoordinates_impl.h \
+           private/h5cgnsparticlegroupimagesolution_impl.h \
            private/h5cgnsparticlegroupsolution_impl.h \
            private/h5cgnsparticlesolution_impl.h \
            private/h5cgnspolydatasolution_impl.h \
@@ -174,6 +177,7 @@ SOURCES += h5attributecloser.cpp \
            h5cgnsjfaceflowsolution.cpp \
            h5cgnskfaceflowsolution.cpp \
            h5cgnsnodeflowsolution.cpp \
+           h5cgnsparticlegroupimagesolution.cpp \
            h5cgnsparticlegroupsolution.cpp \
            h5cgnsparticlesolution.cpp \
            h5cgnspolydatasolution.cpp \
@@ -214,6 +218,7 @@ SOURCES += h5attributecloser.cpp \
            iriclib_sol_node.cpp \
            iriclib_sol_particle.cpp \
            iriclib_sol_particlegroup.cpp \
+           iriclib_sol_particlegroupimage.cpp \
            iriclib_sol_polydata.cpp \
            iriclib_solution.cpp \
            iriclib_wrapper.cpp \
@@ -240,6 +245,7 @@ SOURCES += h5attributecloser.cpp \
            private/h5cgnsgridcomplexconditiongroup_impl.cpp \
            private/h5cgnsgridcomplexconditiontop_impl.cpp \
            private/h5cgnsgridcoordinates_impl.cpp \
+           private/h5cgnsparticlegroupimagesolution_impl.cpp \
            private/h5cgnsparticlegroupsolution_impl.cpp \
            private/h5cgnspolydatasolution_impl.cpp \
            private/h5cgnssolverinformation_impl.cpp \

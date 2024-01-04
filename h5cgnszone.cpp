@@ -4,6 +4,7 @@
 #include "h5cgnsflowsolution.h"
 #include "h5cgnsgridattributes.h"
 #include "h5cgnsgridcoordinates.h"
+#include "h5cgnsparticlegroupimagesolution.h"
 #include "h5cgnsparticlegroupsolution.h"
 #include "h5cgnsparticlesolution.h"
 #include "h5cgnspolydatasolution.h"
@@ -580,6 +581,26 @@ H5CgnsParticleGroupSolution* H5CgnsZone::particleGroupSolution()
 	}
 }
 
+bool H5CgnsZone::particleGroupImageSolutionExists() const
+{
+	if (impl->m_flowSolutionPointerNames.find("ParticleGroupImageSolutionPointers") != impl->m_flowSolutionPointerNames.end()) {return true;}
+	if (impl->m_names.find("ParticleGroupImageSolution1") != impl->m_names.end()) {return true;}
+
+	return false;
+}
+
+H5CgnsParticleGroupImageSolution* H5CgnsZone::particleGroupImageSolution()
+{
+	if (impl->m_particleGroupImageSolution != nullptr) {
+		return impl->m_particleGroupImageSolution;
+	}
+	if (impl->m_base->file()->mode() == H5CgnsFile::Mode::OpenReadOnly) {
+		return impl->openParticleGroupImageSolution();
+	} else {
+		return impl->createParticleGroupImageSolution();
+	}
+}
+
 bool H5CgnsZone::particleSolutionExists() const
 {
 	if (impl->m_flowSolutionPointerNames.find("ParticleSolutionPointers") != impl->m_flowSolutionPointerNames.end()) {return true;}
@@ -707,6 +728,9 @@ void H5CgnsZone::clearSolutionGroups()
 	delete impl->m_particleGroupSolution;
 	impl->m_particleGroupSolution = nullptr;
 
+	delete impl->m_particleGroupImageSolution;
+	impl->m_particleGroupImageSolution = nullptr;
+
 	delete impl->m_particleSolution;
 	impl->m_particleSolution = nullptr;
 
@@ -723,6 +747,7 @@ int H5CgnsZone::deleteAllResults()
 	solHeaders.push_back("FlowJFaceSolution");
 	solHeaders.push_back("FlowKFaceSolution");
 	solHeaders.push_back("ParticleGroupSolution");
+	solHeaders.push_back("ParticleGroupImageSolution");
 	solHeaders.push_back("ParticleSolution");
 	solHeaders.push_back("PolydataSolution");
 

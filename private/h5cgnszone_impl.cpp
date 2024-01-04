@@ -9,6 +9,7 @@
 #include "../h5cgnsjfaceflowsolution.h"
 #include "../h5cgnskfaceflowsolution.h"
 #include "../h5cgnsnodeflowsolution.h"
+#include "../h5cgnsparticlegroupimagesolution.h"
 #include "../h5cgnsparticlegroupsolution.h"
 #include "../h5cgnsparticlesolution.h"
 #include "../h5cgnspolydatasolution.h"
@@ -84,6 +85,7 @@ H5CgnsZone::Impl::Impl(H5CgnsZone* zone) :
 	m_jFaceSolution {nullptr},
 	m_kFaceSolution {nullptr},
 	m_particleGroupSolution {nullptr},
+	m_particleGroupImageSolution {nullptr},
 	m_particleSolution {nullptr},
 	m_polyDataSolution {nullptr},
 	m_base {nullptr},
@@ -549,6 +551,43 @@ H5CgnsParticleGroupSolution* H5CgnsZone::Impl::createParticleGroupSolution()
 	return sol;
 }
 
+H5CgnsParticleGroupImageSolution* H5CgnsZone::Impl::openParticleGroupImageSolution()
+{
+	if (m_solutionId == 0) {return nullptr;}
+
+	auto name = getSolutionName("ParticleGroupImageSolutionPointers", "ParticleGroupImageSolution", m_solutionId);
+
+	hid_t gId;
+	_IRIC_LOGGER_TRACE_CALL_START("H5Util::openGroup");
+	int ier = H5Util::openGroup(m_groupId, name, H5Util::userDefinedDataLabel(), &gId);
+	_IRIC_LOGGER_TRACE_CALL_END_WITHVAL("H5Util::openGroup", ier);
+	if (ier != IRIC_NO_ERROR) {return nullptr;}
+
+	auto sol = new H5CgnsParticleGroupImageSolution(name, gId, m_zone);
+	m_particleGroupImageSolution = sol;
+
+	return sol;
+}
+
+H5CgnsParticleGroupImageSolution* H5CgnsZone::Impl::createParticleGroupImageSolution()
+{
+	if (m_solutionId == 0) {return nullptr;}
+
+	std::ostringstream ss;
+	ss << "ParticleGroupImageSolution" << m_solutionId;
+
+	hid_t gId;
+	_IRIC_LOGGER_TRACE_CALL_START("H5Util::createUserDefinedDataGroup");
+	int ier = H5Util::createUserDefinedDataGroup(m_groupId, ss.str(), &gId);
+	_IRIC_LOGGER_TRACE_CALL_END_WITHVAL("H5Util::createUserDefinedDataGroup", ier);
+	if (ier != IRIC_NO_ERROR) {return nullptr;}
+
+	auto sol = new H5CgnsParticleGroupImageSolution(ss.str(), gId, m_zone);
+	m_particleGroupImageSolution = sol;
+
+	return sol;
+}
+
 H5CgnsParticleSolution* H5CgnsZone::Impl::openParticleSolution()
 {
 	if (m_solutionId == 0) {return nullptr;}
@@ -691,6 +730,13 @@ int H5CgnsZone::Impl::writeZoneIterativeData()
 	if (m_particleGroupSolution != nullptr) {
 		_IRIC_LOGGER_TRACE_CALL_START("writeSolutionPointers");
 		ier = writeSolutionPointers(gId, m_solutionId, "ParticleGroupSolutionPointers", "ParticleGroupSolution", &names);
+		_IRIC_LOGGER_TRACE_CALL_END_WITHVAL("writeSolutionPointers", ier);
+		RETURN_IF_ERR
+	}
+
+	if (m_particleGroupImageSolution != nullptr) {
+		_IRIC_LOGGER_TRACE_CALL_START("writeSolutionPointers");
+		ier = writeSolutionPointers(gId, m_solutionId, "ParticleGroupImageSolutionPointers", "ParticleGroupImageSolution", &names);
 		_IRIC_LOGGER_TRACE_CALL_END_WITHVAL("writeSolutionPointers", ier);
 		RETURN_IF_ERR
 	}

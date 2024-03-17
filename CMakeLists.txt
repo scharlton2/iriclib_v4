@@ -321,7 +321,7 @@ SET(iriclib_Headers
   ${PROJECT_SOURCE_DIR}/h5cgnskfaceflowsolution.h
   ${PROJECT_SOURCE_DIR}/h5cgnsnodeflowsolution.h
   ${PROJECT_SOURCE_DIR}/h5cgnsparticlegroupsolution.h
-  ${PROJECT_SOURCE_DIR}/h5cgnsparticleimagesolution.h
+  ${PROJECT_SOURCE_DIR}/h5cgnsparticlegroupimagesolution.h
   ${PROJECT_SOURCE_DIR}/h5cgnsparticlesolution.h
   ${PROJECT_SOURCE_DIR}/h5cgnspolydatasolution.h
   ${PROJECT_SOURCE_DIR}/h5cgnssolutioni.h

@@ -89,6 +89,8 @@ SET(iriclib_SOURCES
   h5cgnskfaceflowsolution.h
   h5cgnsnodeflowsolution.cpp
   h5cgnsnodeflowsolution.h
+  h5cgnsparticlegroupimagesolution.cpp
+  h5cgnsparticlegroupimagesolution.h
   h5cgnsparticlegroupsolution.cpp
   h5cgnsparticlegroupsolution.h
   h5cgnsparticlesolution.cpp
@@ -180,6 +182,8 @@ SET(iriclib_SOURCES
   iriclib_sol_particle.h
   iriclib_sol_particlegroup.cpp
   iriclib_sol_particlegroup.h
+  iriclib_sol_particlegroupimage.cpp
+  iriclib_sol_particlegroupimage.h
   iriclib_sol_polydata.cpp
   iriclib_sol_polydata.h
   iriclib_solution.cpp
@@ -226,6 +230,8 @@ SET(iriclib_SOURCES
   private/h5cgnsgridcoordinates_impl.h
   private/h5cgnsparticlegroupsolution_impl.cpp
   private/h5cgnsparticlegroupsolution_impl.h
+  private/h5cgnsparticlegroupimagesolution_impl.cpp
+  private/h5cgnsparticlegroupimagesolution_impl.h
   private/h5cgnsparticlesolution_impl.h
   private/h5cgnspolydatasolution_impl.cpp
   private/h5cgnspolydatasolution_impl.h
@@ -315,6 +321,7 @@ SET(iriclib_Headers
   ${PROJECT_SOURCE_DIR}/h5cgnskfaceflowsolution.h
   ${PROJECT_SOURCE_DIR}/h5cgnsnodeflowsolution.h
   ${PROJECT_SOURCE_DIR}/h5cgnsparticlegroupsolution.h
+  ${PROJECT_SOURCE_DIR}/h5cgnsparticleimagesolution.h
   ${PROJECT_SOURCE_DIR}/h5cgnsparticlesolution.h
   ${PROJECT_SOURCE_DIR}/h5cgnspolydatasolution.h
   ${PROJECT_SOURCE_DIR}/h5cgnssolutioni.h
@@ -357,6 +364,7 @@ SET(iriclib_Headers
   ${PROJECT_SOURCE_DIR}/iriclib_sol_node.h
   ${PROJECT_SOURCE_DIR}/iriclib_sol_particle.h
   ${PROJECT_SOURCE_DIR}/iriclib_sol_particlegroup.h
+  ${PROJECT_SOURCE_DIR}/iriclib_sol_particlegroupimage.h
   ${PROJECT_SOURCE_DIR}/iriclib_sol_polydata.h
   ${PROJECT_SOURCE_DIR}/iriclib_solution.h
   ${PROJECT_SOURCE_DIR}/iriclib_wrapper.h
@@ -393,6 +401,7 @@ SET(iriclib_private_Headers
   ${PROJECT_SOURCE_DIR}/private/h5cgnsgridcomplexconditiontop_impl.h
   ${PROJECT_SOURCE_DIR}/private/h5cgnsgridcoordinates_impl.h
   ${PROJECT_SOURCE_DIR}/private/h5cgnsparticlegroupsolution_impl.h
+  ${PROJECT_SOURCE_DIR}/private/h5cgnsparticlegroupimagesolution_impl.h
   ${PROJECT_SOURCE_DIR}/private/h5cgnsparticlesolution_impl.h
   ${PROJECT_SOURCE_DIR}/private/h5cgnspolydatasolution_impl.h
   ${PROJECT_SOURCE_DIR}/private/h5cgnssolverinformation_impl.h

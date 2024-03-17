@@ -688,6 +688,22 @@ void IRICLIBDLL FMNAME(cg_iric_read_grid_complex_cell_withgridid_f2c, CG_IRIC_RE
 	*ier = cg_iRIC_Read_Grid_Complex_Cell_WithGridId(*fid, *gid, c_groupname, v_arr);
 }
 
+void IRICLIBDLL FMNAME(cg_iric_read_grid_complex_iface_withgridid_f2c, CG_IRIC_READ_GRID_COMPLEX_IFACE_WITHGRIDID_F2C) (int* fid, int* gid, STR_PSTR(groupname), int* v_arr, int *ier STR_PLEN(groupname)) {
+	char c_groupname[STRINGMAXLEN + 1];
+	string_2_C_string(STR_PTR(groupname), STR_LEN(groupname), c_groupname, STRINGMAXLEN, ier);
+	if (*ier != 0) return;
+
+	*ier = cg_iRIC_Read_Grid_Complex_IFace_WithGridId(*fid, *gid, c_groupname, v_arr);
+}
+
+void IRICLIBDLL FMNAME(cg_iric_read_grid_complex_jface_withgridid_f2c, CG_IRIC_READ_GRID_COMPLEX_JFACE_WITHGRIDID_F2C) (int* fid, int* gid, STR_PSTR(groupname), int* v_arr, int *ier STR_PLEN(groupname)) {
+	char c_groupname[STRINGMAXLEN + 1];
+	string_2_C_string(STR_PTR(groupname), STR_LEN(groupname), c_groupname, STRINGMAXLEN, ier);
+	if (*ier != 0) return;
+
+	*ier = cg_iRIC_Read_Grid_Complex_JFace_WithGridId(*fid, *gid, c_groupname, v_arr);
+}
+
 void IRICLIBDLL FMNAME(cg_iric_clear_complex_withbaseid_f2c, CG_IRIC_CLEAR_COMPLEX_WITHBASEID_F2C) (int* fid, int* bid, int *ier) {
 	*ier = cg_iRIC_Clear_Complex_WithBaseId(*fid, *bid);
 }
@@ -784,6 +800,22 @@ void IRICLIBDLL FMNAME(cg_iric_write_grid_complex_cell_withgridid_f2c, CG_IRIC_W
 	if (*ier != 0) return;
 
 	*ier = cg_iRIC_Write_Grid_Complex_Cell_WithGridId(*fid, *gid, c_groupname, v_arr);
+}
+
+void IRICLIBDLL FMNAME(cg_iric_write_grid_complex_iface_withgridid_f2c, CG_IRIC_WRITE_GRID_COMPLEX_IFACE_WITHGRIDID_F2C) (int* fid, int* gid, STR_PSTR(groupname), int* v_arr, int *ier STR_PLEN(groupname)) {
+	char c_groupname[STRINGMAXLEN + 1];
+	string_2_C_string(STR_PTR(groupname), STR_LEN(groupname), c_groupname, STRINGMAXLEN, ier);
+	if (*ier != 0) return;
+
+	*ier = cg_iRIC_Write_Grid_Complex_IFace_WithGridId(*fid, *gid, c_groupname, v_arr);
+}
+
+void IRICLIBDLL FMNAME(cg_iric_write_grid_complex_jface_withgridid_f2c, CG_IRIC_WRITE_GRID_COMPLEX_JFACE_WITHGRIDID_F2C) (int* fid, int* gid, STR_PSTR(groupname), int* v_arr, int *ier STR_PLEN(groupname)) {
+	char c_groupname[STRINGMAXLEN + 1];
+	string_2_C_string(STR_PTR(groupname), STR_LEN(groupname), c_groupname, STRINGMAXLEN, ier);
+	if (*ier != 0) return;
+
+	*ier = cg_iRIC_Write_Grid_Complex_JFace_WithGridId(*fid, *gid, c_groupname, v_arr);
 }
 
 
@@ -988,6 +1020,38 @@ void IRICLIBDLL FMNAME(cg_iric_read_grid_integer_cell_withgridid_f2c, CG_IRIC_RE
 	*ier = cg_iRIC_Read_Grid_Integer_Cell_WithGridId(*fid, *gid, c_name, v_arr);
 }
 
+void IRICLIBDLL FMNAME(cg_iric_read_grid_real_iface_withgridid_f2c, CG_IRIC_READ_GRID_REAL_IFACE_WITHGRIDID_F2C) (int* fid, int* gid, STR_PSTR(name), double* v_arr, int *ier STR_PLEN(name)) {
+	char c_name[STRINGMAXLEN + 1];
+	string_2_C_string(STR_PTR(name), STR_LEN(name), c_name, STRINGMAXLEN, ier);
+	if (*ier != 0) return;
+
+	*ier = cg_iRIC_Read_Grid_Real_IFace_WithGridId(*fid, *gid, c_name, v_arr);
+}
+
+void IRICLIBDLL FMNAME(cg_iric_read_grid_integer_iface_withgridid_f2c, CG_IRIC_READ_GRID_INTEGER_IFACE_WITHGRIDID_F2C) (int* fid, int* gid, STR_PSTR(name), int* v_arr, int *ier STR_PLEN(name)) {
+	char c_name[STRINGMAXLEN + 1];
+	string_2_C_string(STR_PTR(name), STR_LEN(name), c_name, STRINGMAXLEN, ier);
+	if (*ier != 0) return;
+
+	*ier = cg_iRIC_Read_Grid_Integer_IFace_WithGridId(*fid, *gid, c_name, v_arr);
+}
+
+void IRICLIBDLL FMNAME(cg_iric_read_grid_real_jface_withgridid_f2c, CG_IRIC_READ_GRID_REAL_JFACE_WITHGRIDID_F2C) (int* fid, int* gid, STR_PSTR(name), double* v_arr, int *ier STR_PLEN(name)) {
+	char c_name[STRINGMAXLEN + 1];
+	string_2_C_string(STR_PTR(name), STR_LEN(name), c_name, STRINGMAXLEN, ier);
+	if (*ier != 0) return;
+
+	*ier = cg_iRIC_Read_Grid_Real_JFace_WithGridId(*fid, *gid, c_name, v_arr);
+}
+
+void IRICLIBDLL FMNAME(cg_iric_read_grid_integer_jface_withgridid_f2c, CG_IRIC_READ_GRID_INTEGER_JFACE_WITHGRIDID_F2C) (int* fid, int* gid, STR_PSTR(name), int* v_arr, int *ier STR_PLEN(name)) {
+	char c_name[STRINGMAXLEN + 1];
+	string_2_C_string(STR_PTR(name), STR_LEN(name), c_name, STRINGMAXLEN, ier);
+	if (*ier != 0) return;
+
+	*ier = cg_iRIC_Read_Grid_Integer_JFace_WithGridId(*fid, *gid, c_name, v_arr);
+}
+
 void IRICLIBDLL FMNAME(cg_iric_read_grid_functionaldimensionsize_withgridid_f2c, CG_IRIC_READ_GRID_FUNCTIONALDIMENSIONSIZE_WITHGRIDID_F2C) (int* fid, int* gid, STR_PSTR(name), STR_PSTR(dimname), int* count, int *ier STR_PLEN(name) STR_PLEN(dimname)) {
 	char c_name[STRINGMAXLEN + 1];
 	char c_dimname[STRINGMAXLEN + 1];
@@ -1069,6 +1133,38 @@ void IRICLIBDLL FMNAME(cg_iric_read_grid_functional_real_cell_withgridid_f2c, CG
 	*ier = cg_iRIC_Read_Grid_Functional_Real_Cell_WithGridId(*fid, *gid, c_name, *dimid, v_arr);
 }
 
+void IRICLIBDLL FMNAME(cg_iric_read_grid_functional_integer_iface_withgridid_f2c, CG_IRIC_READ_GRID_FUNCTIONAL_INTEGER_IFACE_WITHGRIDID_F2C) (int* fid, int* gid, STR_PSTR(name), int* dimid, int* v_arr, int *ier STR_PLEN(name)) {
+	char c_name[STRINGMAXLEN + 1];
+	string_2_C_string(STR_PTR(name), STR_LEN(name), c_name, STRINGMAXLEN, ier);
+	if (*ier != 0) return;
+
+	*ier = cg_iRIC_Read_Grid_Functional_Integer_IFace_WithGridId(*fid, *gid, c_name, *dimid, v_arr);
+}
+
+void IRICLIBDLL FMNAME(cg_iric_read_grid_functional_real_iface_withgridid_f2c, CG_IRIC_READ_GRID_FUNCTIONAL_REAL_IFACE_WITHGRIDID_F2C) (int* fid, int* gid, STR_PSTR(name), int* dimid, double* v_arr, int *ier STR_PLEN(name)) {
+	char c_name[STRINGMAXLEN + 1];
+	string_2_C_string(STR_PTR(name), STR_LEN(name), c_name, STRINGMAXLEN, ier);
+	if (*ier != 0) return;
+
+	*ier = cg_iRIC_Read_Grid_Functional_Real_IFace_WithGridId(*fid, *gid, c_name, *dimid, v_arr);
+}
+
+void IRICLIBDLL FMNAME(cg_iric_read_grid_functional_integer_jface_withgridid_f2c, CG_IRIC_READ_GRID_FUNCTIONAL_INTEGER_JFACE_WITHGRIDID_F2C) (int* fid, int* gid, STR_PSTR(name), int* dimid, int* v_arr, int *ier STR_PLEN(name)) {
+	char c_name[STRINGMAXLEN + 1];
+	string_2_C_string(STR_PTR(name), STR_LEN(name), c_name, STRINGMAXLEN, ier);
+	if (*ier != 0) return;
+
+	*ier = cg_iRIC_Read_Grid_Functional_Integer_JFace_WithGridId(*fid, *gid, c_name, *dimid, v_arr);
+}
+
+void IRICLIBDLL FMNAME(cg_iric_read_grid_functional_real_jface_withgridid_f2c, CG_IRIC_READ_GRID_FUNCTIONAL_REAL_JFACE_WITHGRIDID_F2C) (int* fid, int* gid, STR_PSTR(name), int* dimid, double* v_arr, int *ier STR_PLEN(name)) {
+	char c_name[STRINGMAXLEN + 1];
+	string_2_C_string(STR_PTR(name), STR_LEN(name), c_name, STRINGMAXLEN, ier);
+	if (*ier != 0) return;
+
+	*ier = cg_iRIC_Read_Grid_Functional_Real_JFace_WithGridId(*fid, *gid, c_name, *dimid, v_arr);
+}
+
 void IRICLIBDLL FMNAME(cg_iric_write_grid1d_coords_withgridid_f2c, CG_IRIC_WRITE_GRID1D_COORDS_WITHGRIDID_F2C) (int* fid, int* isize, double* x_arr, int* gid, int *ier) {
 	*ier = cg_iRIC_Write_Grid1d_Coords_WithGridId(*fid, *isize, x_arr, gid);
 }
@@ -1135,6 +1231,38 @@ void IRICLIBDLL FMNAME(cg_iric_write_grid_integer_cell_withgridid_f2c, CG_IRIC_W
 	if (*ier != 0) return;
 
 	*ier = cg_iRIC_Write_Grid_Integer_Cell_WithGridId(*fid, *gid, c_name, v_arr);
+}
+
+void IRICLIBDLL FMNAME(cg_iric_write_grid_real_iface_withgridid_f2c, CG_IRIC_WRITE_GRID_REAL_IFACE_WITHGRIDID_F2C) (int* fid, int* gid, STR_PSTR(name), double* v_arr, int *ier STR_PLEN(name)) {
+	char c_name[STRINGMAXLEN + 1];
+	string_2_C_string(STR_PTR(name), STR_LEN(name), c_name, STRINGMAXLEN, ier);
+	if (*ier != 0) return;
+
+	*ier = cg_iRIC_Write_Grid_Real_IFace_WithGridId(*fid, *gid, c_name, v_arr);
+}
+
+void IRICLIBDLL FMNAME(cg_iric_write_grid_integer_iface_withgridid_f2c, CG_IRIC_WRITE_GRID_INTEGER_IFACE_WITHGRIDID_F2C) (int* fid, int* gid, STR_PSTR(name), int* v_arr, int *ier STR_PLEN(name)) {
+	char c_name[STRINGMAXLEN + 1];
+	string_2_C_string(STR_PTR(name), STR_LEN(name), c_name, STRINGMAXLEN, ier);
+	if (*ier != 0) return;
+
+	*ier = cg_iRIC_Write_Grid_Integer_IFace_WithGridId(*fid, *gid, c_name, v_arr);
+}
+
+void IRICLIBDLL FMNAME(cg_iric_write_grid_real_jface_withgridid_f2c, CG_IRIC_WRITE_GRID_REAL_JFACE_WITHGRIDID_F2C) (int* fid, int* gid, STR_PSTR(name), double* v_arr, int *ier STR_PLEN(name)) {
+	char c_name[STRINGMAXLEN + 1];
+	string_2_C_string(STR_PTR(name), STR_LEN(name), c_name, STRINGMAXLEN, ier);
+	if (*ier != 0) return;
+
+	*ier = cg_iRIC_Write_Grid_Real_JFace_WithGridId(*fid, *gid, c_name, v_arr);
+}
+
+void IRICLIBDLL FMNAME(cg_iric_write_grid_integer_jface_withgridid_f2c, CG_IRIC_WRITE_GRID_INTEGER_JFACE_WITHGRIDID_F2C) (int* fid, int* gid, STR_PSTR(name), int* v_arr, int *ier STR_PLEN(name)) {
+	char c_name[STRINGMAXLEN + 1];
+	string_2_C_string(STR_PTR(name), STR_LEN(name), c_name, STRINGMAXLEN, ier);
+	if (*ier != 0) return;
+
+	*ier = cg_iRIC_Write_Grid_Integer_JFace_WithGridId(*fid, *gid, c_name, v_arr);
 }
 
 void IRICLIBDLL FMNAME(cg_iric_copy_grid_withgridid_f2c, CG_IRIC_COPY_GRID_WITHGRIDID_F2C) (int* fid_from, int* fid_to, int* gid, int *ier) {
@@ -1741,6 +1869,22 @@ void IRICLIBDLL FMNAME(cg_iric_read_grid_complex_cell_f2c, CG_IRIC_READ_GRID_COM
 	*ier = cg_iRIC_Read_Grid_Complex_Cell(*fid, c_groupname, v_arr);
 }
 
+void IRICLIBDLL FMNAME(cg_iric_read_grid_complex_iface_f2c, CG_IRIC_READ_GRID_COMPLEX_IFACE_F2C) (int* fid, STR_PSTR(groupname), int* v_arr, int *ier STR_PLEN(groupname)) {
+	char c_groupname[STRINGMAXLEN + 1];
+	string_2_C_string(STR_PTR(groupname), STR_LEN(groupname), c_groupname, STRINGMAXLEN, ier);
+	if (*ier != 0) return;
+
+	*ier = cg_iRIC_Read_Grid_Complex_IFace(*fid, c_groupname, v_arr);
+}
+
+void IRICLIBDLL FMNAME(cg_iric_read_grid_complex_jface_f2c, CG_IRIC_READ_GRID_COMPLEX_JFACE_F2C) (int* fid, STR_PSTR(groupname), int* v_arr, int *ier STR_PLEN(groupname)) {
+	char c_groupname[STRINGMAXLEN + 1];
+	string_2_C_string(STR_PTR(groupname), STR_LEN(groupname), c_groupname, STRINGMAXLEN, ier);
+	if (*ier != 0) return;
+
+	*ier = cg_iRIC_Read_Grid_Complex_JFace(*fid, c_groupname, v_arr);
+}
+
 void IRICLIBDLL FMNAME(cg_iric_write_grid_complex_node_f2c, CG_IRIC_WRITE_GRID_COMPLEX_NODE_F2C) (int* fid, STR_PSTR(groupname), int* v_arr, int *ier STR_PLEN(groupname)) {
 	char c_groupname[STRINGMAXLEN + 1];
 	string_2_C_string(STR_PTR(groupname), STR_LEN(groupname), c_groupname, STRINGMAXLEN, ier);
@@ -1755,6 +1899,22 @@ void IRICLIBDLL FMNAME(cg_iric_write_grid_complex_cell_f2c, CG_IRIC_WRITE_GRID_C
 	if (*ier != 0) return;
 
 	*ier = cg_iRIC_Write_Grid_Complex_Cell(*fid, c_groupname, v_arr);
+}
+
+void IRICLIBDLL FMNAME(cg_iric_write_grid_complex_iface_f2c, CG_IRIC_WRITE_GRID_COMPLEX_IFACE_F2C) (int* fid, STR_PSTR(groupname), int* v_arr, int *ier STR_PLEN(groupname)) {
+	char c_groupname[STRINGMAXLEN + 1];
+	string_2_C_string(STR_PTR(groupname), STR_LEN(groupname), c_groupname, STRINGMAXLEN, ier);
+	if (*ier != 0) return;
+
+	*ier = cg_iRIC_Write_Grid_Complex_IFace(*fid, c_groupname, v_arr);
+}
+
+void IRICLIBDLL FMNAME(cg_iric_write_grid_complex_jface_f2c, CG_IRIC_WRITE_GRID_COMPLEX_JFACE_F2C) (int* fid, STR_PSTR(groupname), int* v_arr, int *ier STR_PLEN(groupname)) {
+	char c_groupname[STRINGMAXLEN + 1];
+	string_2_C_string(STR_PTR(groupname), STR_LEN(groupname), c_groupname, STRINGMAXLEN, ier);
+	if (*ier != 0) return;
+
+	*ier = cg_iRIC_Write_Grid_Complex_JFace(*fid, c_groupname, v_arr);
 }
 
 void IRICLIBDLL FMNAME(cg_iric_read_grid2d_str_size_f2c, CG_IRIC_READ_GRID2D_STR_SIZE_F2C) (int* fid, int* isize, int* jsize, int *ier) {
@@ -1831,6 +1991,38 @@ void IRICLIBDLL FMNAME(cg_iric_read_grid_integer_cell_f2c, CG_IRIC_READ_GRID_INT
 	if (*ier != 0) return;
 
 	*ier = cg_iRIC_Read_Grid_Integer_Cell(*fid, c_name, v_arr);
+}
+
+void IRICLIBDLL FMNAME(cg_iric_read_grid_real_iface_f2c, CG_IRIC_READ_GRID_REAL_IFACE_F2C) (int* fid, STR_PSTR(name), double* v_arr, int *ier STR_PLEN(name)) {
+	char c_name[STRINGMAXLEN + 1];
+	string_2_C_string(STR_PTR(name), STR_LEN(name), c_name, STRINGMAXLEN, ier);
+	if (*ier != 0) return;
+
+	*ier = cg_iRIC_Read_Grid_Real_IFace(*fid, c_name, v_arr);
+}
+
+void IRICLIBDLL FMNAME(cg_iric_read_grid_integer_iface_f2c, CG_IRIC_READ_GRID_INTEGER_IFACE_F2C) (int* fid, STR_PSTR(name), int* v_arr, int *ier STR_PLEN(name)) {
+	char c_name[STRINGMAXLEN + 1];
+	string_2_C_string(STR_PTR(name), STR_LEN(name), c_name, STRINGMAXLEN, ier);
+	if (*ier != 0) return;
+
+	*ier = cg_iRIC_Read_Grid_Integer_IFace(*fid, c_name, v_arr);
+}
+
+void IRICLIBDLL FMNAME(cg_iric_read_grid_real_jface_f2c, CG_IRIC_READ_GRID_REAL_JFACE_F2C) (int* fid, STR_PSTR(name), double* v_arr, int *ier STR_PLEN(name)) {
+	char c_name[STRINGMAXLEN + 1];
+	string_2_C_string(STR_PTR(name), STR_LEN(name), c_name, STRINGMAXLEN, ier);
+	if (*ier != 0) return;
+
+	*ier = cg_iRIC_Read_Grid_Real_JFace(*fid, c_name, v_arr);
+}
+
+void IRICLIBDLL FMNAME(cg_iric_read_grid_integer_jface_f2c, CG_IRIC_READ_GRID_INTEGER_JFACE_F2C) (int* fid, STR_PSTR(name), int* v_arr, int *ier STR_PLEN(name)) {
+	char c_name[STRINGMAXLEN + 1];
+	string_2_C_string(STR_PTR(name), STR_LEN(name), c_name, STRINGMAXLEN, ier);
+	if (*ier != 0) return;
+
+	*ier = cg_iRIC_Read_Grid_Integer_JFace(*fid, c_name, v_arr);
 }
 
 void IRICLIBDLL FMNAME(cg_iric_read_grid_functionaldimensionsize_f2c, CG_IRIC_READ_GRID_FUNCTIONALDIMENSIONSIZE_F2C) (int* fid, STR_PSTR(name), STR_PSTR(dimname), int* count, int *ier STR_PLEN(name) STR_PLEN(dimname)) {
@@ -1914,6 +2106,38 @@ void IRICLIBDLL FMNAME(cg_iric_read_grid_functional_real_cell_f2c, CG_IRIC_READ_
 	*ier = cg_iRIC_Read_Grid_Functional_Real_Cell(*fid, c_name, *dimid, v_arr);
 }
 
+void IRICLIBDLL FMNAME(cg_iric_read_grid_functional_integer_iface_f2c, CG_IRIC_READ_GRID_FUNCTIONAL_INTEGER_IFACE_F2C) (int* fid, STR_PSTR(name), int* dimid, int* v_arr, int *ier STR_PLEN(name)) {
+	char c_name[STRINGMAXLEN + 1];
+	string_2_C_string(STR_PTR(name), STR_LEN(name), c_name, STRINGMAXLEN, ier);
+	if (*ier != 0) return;
+
+	*ier = cg_iRIC_Read_Grid_Functional_Integer_IFace(*fid, c_name, *dimid, v_arr);
+}
+
+void IRICLIBDLL FMNAME(cg_iric_read_grid_functional_real_iface_f2c, CG_IRIC_READ_GRID_FUNCTIONAL_REAL_IFACE_F2C) (int* fid, STR_PSTR(name), int* dimid, double* v_arr, int *ier STR_PLEN(name)) {
+	char c_name[STRINGMAXLEN + 1];
+	string_2_C_string(STR_PTR(name), STR_LEN(name), c_name, STRINGMAXLEN, ier);
+	if (*ier != 0) return;
+
+	*ier = cg_iRIC_Read_Grid_Functional_Real_IFace(*fid, c_name, *dimid, v_arr);
+}
+
+void IRICLIBDLL FMNAME(cg_iric_read_grid_functional_integer_jface_f2c, CG_IRIC_READ_GRID_FUNCTIONAL_INTEGER_JFACE_F2C) (int* fid, STR_PSTR(name), int* dimid, int* v_arr, int *ier STR_PLEN(name)) {
+	char c_name[STRINGMAXLEN + 1];
+	string_2_C_string(STR_PTR(name), STR_LEN(name), c_name, STRINGMAXLEN, ier);
+	if (*ier != 0) return;
+
+	*ier = cg_iRIC_Read_Grid_Functional_Integer_JFace(*fid, c_name, *dimid, v_arr);
+}
+
+void IRICLIBDLL FMNAME(cg_iric_read_grid_functional_real_jface_f2c, CG_IRIC_READ_GRID_FUNCTIONAL_REAL_JFACE_F2C) (int* fid, STR_PSTR(name), int* dimid, double* v_arr, int *ier STR_PLEN(name)) {
+	char c_name[STRINGMAXLEN + 1];
+	string_2_C_string(STR_PTR(name), STR_LEN(name), c_name, STRINGMAXLEN, ier);
+	if (*ier != 0) return;
+
+	*ier = cg_iRIC_Read_Grid_Functional_Real_JFace(*fid, c_name, *dimid, v_arr);
+}
+
 void IRICLIBDLL FMNAME(cg_iric_write_grid1d_coords_f2c, CG_IRIC_WRITE_GRID1D_COORDS_F2C) (int* fid, int* isize, double* x_arr, int *ier) {
 	*ier = cg_iRIC_Write_Grid1d_Coords(*fid, *isize, x_arr);
 }
@@ -1980,6 +2204,38 @@ void IRICLIBDLL FMNAME(cg_iric_write_grid_integer_cell_f2c, CG_IRIC_WRITE_GRID_I
 	if (*ier != 0) return;
 
 	*ier = cg_iRIC_Write_Grid_Integer_Cell(*fid, c_name, v_arr);
+}
+
+void IRICLIBDLL FMNAME(cg_iric_write_grid_real_iface_f2c, CG_IRIC_WRITE_GRID_REAL_IFACE_F2C) (int* fid, STR_PSTR(name), double* v_arr, int *ier STR_PLEN(name)) {
+	char c_name[STRINGMAXLEN + 1];
+	string_2_C_string(STR_PTR(name), STR_LEN(name), c_name, STRINGMAXLEN, ier);
+	if (*ier != 0) return;
+
+	*ier = cg_iRIC_Write_Grid_Real_IFace(*fid, c_name, v_arr);
+}
+
+void IRICLIBDLL FMNAME(cg_iric_write_grid_integer_iface_f2c, CG_IRIC_WRITE_GRID_INTEGER_IFACE_F2C) (int* fid, STR_PSTR(name), int* v_arr, int *ier STR_PLEN(name)) {
+	char c_name[STRINGMAXLEN + 1];
+	string_2_C_string(STR_PTR(name), STR_LEN(name), c_name, STRINGMAXLEN, ier);
+	if (*ier != 0) return;
+
+	*ier = cg_iRIC_Write_Grid_Integer_IFace(*fid, c_name, v_arr);
+}
+
+void IRICLIBDLL FMNAME(cg_iric_write_grid_real_jface_f2c, CG_IRIC_WRITE_GRID_REAL_JFACE_F2C) (int* fid, STR_PSTR(name), double* v_arr, int *ier STR_PLEN(name)) {
+	char c_name[STRINGMAXLEN + 1];
+	string_2_C_string(STR_PTR(name), STR_LEN(name), c_name, STRINGMAXLEN, ier);
+	if (*ier != 0) return;
+
+	*ier = cg_iRIC_Write_Grid_Real_JFace(*fid, c_name, v_arr);
+}
+
+void IRICLIBDLL FMNAME(cg_iric_write_grid_integer_jface_f2c, CG_IRIC_WRITE_GRID_INTEGER_JFACE_F2C) (int* fid, STR_PSTR(name), int* v_arr, int *ier STR_PLEN(name)) {
+	char c_name[STRINGMAXLEN + 1];
+	string_2_C_string(STR_PTR(name), STR_LEN(name), c_name, STRINGMAXLEN, ier);
+	if (*ier != 0) return;
+
+	*ier = cg_iRIC_Write_Grid_Integer_JFace(*fid, c_name, v_arr);
 }
 
 void IRICLIBDLL FMNAME(cg_iric_copy_grid_f2c, CG_IRIC_COPY_GRID_F2C) (int* fid_from, int* fid_to, int *ier) {

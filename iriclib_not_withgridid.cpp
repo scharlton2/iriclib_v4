@@ -290,6 +290,24 @@ int cg_iRIC_Read_Grid_Complex_Cell(int fid, const char* groupname, int* v_arr)
   return cg_iRIC_Read_Grid_Complex_Cell_WithGridId(fid, gid, groupname, v_arr);
 }
 
+int cg_iRIC_Read_Grid_Complex_IFace(int fid, const char* groupname, int* v_arr)
+{
+  int gid;
+  int ier = getlastGridId(fid, &gid);
+  RETURN_IF_ERR;
+
+  return cg_iRIC_Read_Grid_Complex_IFace_WithGridId(fid, gid, groupname, v_arr);
+}
+
+int cg_iRIC_Read_Grid_Complex_JFace(int fid, const char* groupname, int* v_arr)
+{
+  int gid;
+  int ier = getlastGridId(fid, &gid);
+  RETURN_IF_ERR;
+
+  return cg_iRIC_Read_Grid_Complex_JFace_WithGridId(fid, gid, groupname, v_arr);
+}
+
 int cg_iRIC_Write_Grid_Complex_Node(int fid, const char* groupname, int* v_arr)
 {
   int gid;
@@ -306,6 +324,24 @@ int cg_iRIC_Write_Grid_Complex_Cell(int fid, const char* groupname, int* v_arr)
   RETURN_IF_ERR;
 
   return cg_iRIC_Write_Grid_Complex_Cell_WithGridId(fid, gid, groupname, v_arr);
+}
+
+int cg_iRIC_Write_Grid_Complex_IFace(int fid, const char* groupname, int* v_arr)
+{
+  int gid;
+  int ier = getlastGridId(fid, &gid);
+  RETURN_IF_ERR;
+
+  return cg_iRIC_Write_Grid_Complex_IFace_WithGridId(fid, gid, groupname, v_arr);
+}
+
+int cg_iRIC_Write_Grid_Complex_JFace(int fid, const char* groupname, int* v_arr)
+{
+  int gid;
+  int ier = getlastGridId(fid, &gid);
+  RETURN_IF_ERR;
+
+  return cg_iRIC_Write_Grid_Complex_JFace_WithGridId(fid, gid, groupname, v_arr);
 }
 
 
@@ -454,6 +490,42 @@ int cg_iRIC_Read_Grid_Integer_Cell(int fid, const char* name, int* v_arr)
   return cg_iRIC_Read_Grid_Integer_Cell_WithGridId(fid, gid, name, v_arr);
 }
 
+int cg_iRIC_Read_Grid_Real_IFace(int fid, const char* name, double* v_arr)
+{
+  int gid;
+  int ier = getlastGridId(fid, &gid);
+  RETURN_IF_ERR;
+
+  return cg_iRIC_Read_Grid_Real_IFace_WithGridId(fid, gid, name, v_arr);
+}
+
+int cg_iRIC_Read_Grid_Integer_IFace(int fid, const char* name, int* v_arr)
+{
+  int gid;
+  int ier = getlastGridId(fid, &gid);
+  RETURN_IF_ERR;
+
+  return cg_iRIC_Read_Grid_Integer_IFace_WithGridId(fid, gid, name, v_arr);
+}
+
+int cg_iRIC_Read_Grid_Real_JFace(int fid, const char* name, double* v_arr)
+{
+  int gid;
+  int ier = getlastGridId(fid, &gid);
+  RETURN_IF_ERR;
+
+  return cg_iRIC_Read_Grid_Real_JFace_WithGridId(fid, gid, name, v_arr);
+}
+
+int cg_iRIC_Read_Grid_Integer_JFace(int fid, const char* name, int* v_arr)
+{
+  int gid;
+  int ier = getlastGridId(fid, &gid);
+  RETURN_IF_ERR;
+
+  return cg_iRIC_Read_Grid_Integer_JFace_WithGridId(fid, gid, name, v_arr);
+}
+
 int cg_iRIC_Read_Grid_FunctionalDimensionSize(int fid, const char* name, const char* dimname, int* count)
 {
   int gid;
@@ -535,6 +607,42 @@ int cg_iRIC_Read_Grid_Functional_Real_Cell(int fid, const char* name, int dimid,
   return cg_iRIC_Read_Grid_Functional_Real_Cell_WithGridId(fid, gid, name, dimid, v_arr);
 }
 
+int cg_iRIC_Read_Grid_Functional_Integer_IFace(int fid, const char* name, int dimid, int* v_arr)
+{
+  int gid;
+  int ier = getlastGridId(fid, &gid);
+  RETURN_IF_ERR;
+
+  return cg_iRIC_Read_Grid_Functional_Integer_IFace_WithGridId(fid, gid, name, dimid, v_arr);
+}
+
+int cg_iRIC_Read_Grid_Functional_Real_IFace(int fid, const char* name, int dimid, double* v_arr)
+{
+  int gid;
+  int ier = getlastGridId(fid, &gid);
+  RETURN_IF_ERR;
+
+  return cg_iRIC_Read_Grid_Functional_Real_IFace_WithGridId(fid, gid, name, dimid, v_arr);
+}
+
+int cg_iRIC_Read_Grid_Functional_Integer_JFace(int fid, const char* name, int dimid, int* v_arr)
+{
+  int gid;
+  int ier = getlastGridId(fid, &gid);
+  RETURN_IF_ERR;
+
+  return cg_iRIC_Read_Grid_Functional_Integer_JFace_WithGridId(fid, gid, name, dimid, v_arr);
+}
+
+int cg_iRIC_Read_Grid_Functional_Real_JFace(int fid, const char* name, int dimid, double* v_arr)
+{
+  int gid;
+  int ier = getlastGridId(fid, &gid);
+  RETURN_IF_ERR;
+
+  return cg_iRIC_Read_Grid_Functional_Real_JFace_WithGridId(fid, gid, name, dimid, v_arr);
+}
+
 int cg_iRIC_Write_Grid1d_Coords(int fid, int isize, double* x_arr)
 {
   int gid;
@@ -611,6 +719,42 @@ int cg_iRIC_Write_Grid_Integer_Cell(int fid, const char* name, int* v_arr)
   RETURN_IF_ERR;
 
   return cg_iRIC_Write_Grid_Integer_Cell_WithGridId(fid, gid, name, v_arr);
+}
+
+int cg_iRIC_Write_Grid_Real_IFace(int fid, const char* name, double* v_arr)
+{
+  int gid;
+  int ier = getlastGridId(fid, &gid);
+  RETURN_IF_ERR;
+
+  return cg_iRIC_Write_Grid_Real_IFace_WithGridId(fid, gid, name, v_arr);
+}
+
+int cg_iRIC_Write_Grid_Integer_IFace(int fid, const char* name, int* v_arr)
+{
+  int gid;
+  int ier = getlastGridId(fid, &gid);
+  RETURN_IF_ERR;
+
+  return cg_iRIC_Write_Grid_Integer_IFace_WithGridId(fid, gid, name, v_arr);
+}
+
+int cg_iRIC_Write_Grid_Real_JFace(int fid, const char* name, double* v_arr)
+{
+  int gid;
+  int ier = getlastGridId(fid, &gid);
+  RETURN_IF_ERR;
+
+  return cg_iRIC_Write_Grid_Real_JFace_WithGridId(fid, gid, name, v_arr);
+}
+
+int cg_iRIC_Write_Grid_Integer_JFace(int fid, const char* name, int* v_arr)
+{
+  int gid;
+  int ier = getlastGridId(fid, &gid);
+  RETURN_IF_ERR;
+
+  return cg_iRIC_Write_Grid_Integer_JFace_WithGridId(fid, gid, name, v_arr);
 }
 
 int cg_iRIC_Copy_Grid(int fid_from, int fid_to)

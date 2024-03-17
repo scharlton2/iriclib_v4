@@ -292,6 +292,44 @@ int cg_iRIC_Read_Grid_Complex_Cell_WithGridId(int fid, int gid, const char* grou
 	return IRIC_NO_ERROR;
 }
 
+int cg_iRIC_Read_Grid_Complex_IFace_WithGridId(int fid, int gid, const char* groupname, int* v_arr)
+{
+	_IRIC_LOGGER_TRACE_ENTER();
+
+	H5CgnsGridAttributes* atts = nullptr;
+	int ier = getGridAttributes(fid, gid, &atts, __func__);
+	RETURN_IF_ERR;
+
+	std::vector<int> buffer;
+
+	ier = atts->readValue(groupname, &buffer);
+	RETURN_IF_ERR;
+
+	_vectorToPointerT(buffer, v_arr);
+
+	_IRIC_LOGGER_TRACE_LEAVE();
+	return IRIC_NO_ERROR;
+}
+
+int cg_iRIC_Read_Grid_Complex_JFace_WithGridId(int fid, int gid, const char* groupname, int* v_arr)
+{
+	_IRIC_LOGGER_TRACE_ENTER();
+
+	H5CgnsGridAttributes* atts = nullptr;
+	int ier = getGridAttributes(fid, gid, &atts, __func__);
+	RETURN_IF_ERR;
+
+	std::vector<int> buffer;
+
+	ier = atts->readValue(groupname, &buffer);
+	RETURN_IF_ERR;
+
+	_vectorToPointerT(buffer, v_arr);
+
+	_IRIC_LOGGER_TRACE_LEAVE();
+	return IRIC_NO_ERROR;
+}
+
 int cg_iRIC_Clear_Complex_WithBaseId(int fid, int bid)
 {
 	_IRIC_LOGGER_TRACE_ENTER();
@@ -430,6 +468,46 @@ int cg_iRIC_Write_Grid_Complex_Cell_WithGridId(int fid, int gid, const char *gro
 	RETURN_IF_ERR;
 
 	int cellCount = atts->zone()->cellCount();
+	std::vector<int> buffer(cellCount);
+
+	_pointerToVectorT(v_arr, &buffer);
+
+	ier = atts->writeValue(groupname, buffer);
+	RETURN_IF_ERR;
+
+	_IRIC_LOGGER_TRACE_LEAVE();
+	return IRIC_NO_ERROR;
+}
+
+int IRICLIBDLL cg_iRIC_Write_Grid_Complex_IFace_WithGridId(int fid, int gid, const char* groupname, int* v_arr)
+{
+	_IRIC_LOGGER_TRACE_ENTER();
+
+	H5CgnsGridAttributes* atts = nullptr;
+	int ier = getGridAttributes(fid, gid, &atts, __func__);
+	RETURN_IF_ERR;
+
+	int cellCount = atts->zone()->iFaceCount();
+	std::vector<int> buffer(cellCount);
+
+	_pointerToVectorT(v_arr, &buffer);
+
+	ier = atts->writeValue(groupname, buffer);
+	RETURN_IF_ERR;
+
+	_IRIC_LOGGER_TRACE_LEAVE();
+	return IRIC_NO_ERROR;
+}
+
+int IRICLIBDLL cg_iRIC_Write_Grid_Complex_JFace_WithGridId(int fid, int gid, const char* groupname, int* v_arr)
+{
+	_IRIC_LOGGER_TRACE_ENTER();
+
+	H5CgnsGridAttributes* atts = nullptr;
+	int ier = getGridAttributes(fid, gid, &atts, __func__);
+	RETURN_IF_ERR;
+
+	int cellCount = atts->zone()->jFaceCount();
 	std::vector<int> buffer(cellCount);
 
 	_pointerToVectorT(v_arr, &buffer);

@@ -129,6 +129,40 @@ def gen_size_func(fname, args):
 
         return 'cg_iRIC_Read_Grid_CellCount' + suffix, args2
 
+    m = re.search('(cg_iRIC_Read_Grid_(Real|Integer|Complex)_IFace)(.*)', fname)
+    if m:
+        m, d1, suffix = m.groups()
+        args2 = copy.copy(args)
+        args2.pop()
+
+        return 'cg_iRIC_Read_Grid_IFaceCount' + suffix, args2
+
+    m = re.search('(cg_iRIC_Read_Grid_Functional_(Real|Integer)_IFace)(.*)', fname)
+    if m:
+        m, d1, suffix = m.groups()
+        args2 = copy.copy(args)
+        args2.pop()
+        args2.pop()
+
+        return 'cg_iRIC_Read_Grid_IFaceCount' + suffix, args2
+
+    m = re.search('(cg_iRIC_Read_Grid_(Real|Integer|Complex)_JFace)(.*)', fname)
+    if m:
+        m, d1, suffix = m.groups()
+        args2 = copy.copy(args)
+        args2.pop()
+
+        return 'cg_iRIC_Read_Grid_JFaceCount' + suffix, args2
+
+    m = re.search('(cg_iRIC_Read_Grid_Functional_(Real|Integer)_JFace)(.*)', fname)
+    if m:
+        m, d1, suffix = m.groups()
+        args2 = copy.copy(args)
+        args2.pop()
+        args2.pop()
+
+        return 'cg_iRIC_Read_Grid_JFaceCount' + suffix, args2
+
     m = re.search('(cg_iRIC_GetGridCoord[1-3]d)(.*)', fname)
     if m:
         m, suffix = m.groups()

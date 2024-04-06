@@ -139,7 +139,7 @@ int cg_iRIC_Read_Sol_PolyData_Integer_WithGridId(int fid, int gid, int step, con
 	return IRIC_NO_ERROR;
 }
 
-int cg_iRIC_Write_Sol_PolyData_GroupBegin_WithGridId(int fid, int gid, const char* name)
+int cg_iRIC_Write_Sol_PolyData_GroupBegin_WithGridId(int fid, int gid, const char* groupname)
 {
 	_IRIC_LOGGER_TRACE_ENTER();
 
@@ -147,7 +147,7 @@ int cg_iRIC_Write_Sol_PolyData_GroupBegin_WithGridId(int fid, int gid, const cha
 	int ier = getPolyDataSolutionForWrite(fid, gid, &solution, "cg_iRIC_Write_Sol_PolyData_GroupBegin");
 	RETURN_IF_ERR;
 
-	solution->writeBegin(name);
+	solution->writeBegin(groupname);
 
 	_IRIC_LOGGER_TRACE_LEAVE();
 	return IRIC_NO_ERROR;

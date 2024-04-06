@@ -56,13 +56,13 @@ int cg_iRIC_Read_Sol_Time(int fid, int step, double* time)
 	return IRIC_NO_ERROR;
 }
 
-int cg_iRIC_Read_Sol_Iteration(int fid, int step, int* index)
+int cg_iRIC_Read_Sol_Iteration(int fid, int step, int* iteration)
 {
 	_IRIC_LOGGER_TRACE_ENTER();
 
 	GET_F;
 
-	ier = file->ccBase()->biterData()->readIteration(step, index);
+	ier = file->ccBase()->biterData()->readIteration(step, iteration);
 	RETURN_IF_ERR;
 
 	_IRIC_LOGGER_TRACE_LEAVE();
@@ -180,13 +180,13 @@ int cg_iRIC_Write_Sol_Time(int fid, double time)
 	return IRIC_NO_ERROR;
 }
 
-int cg_iRIC_Write_Sol_Iteration(int fid, int index)
+int cg_iRIC_Write_Sol_Iteration(int fid, int iteration)
 {
 	_IRIC_LOGGER_TRACE_ENTER();
 
 	GET_F;
 
-	ier = file->solutionWriter()->writeIteration(index);
+	ier = file->solutionWriter()->writeIteration(iteration);
 	RETURN_IF_ERR;
 
 	_IRIC_LOGGER_TRACE_LEAVE();

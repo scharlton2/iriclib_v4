@@ -382,22 +382,22 @@ int cg_iRIC_Read_Grid3d_Coords(int fid, double* x_arr, double* y_arr, double* z_
   return cg_iRIC_Read_Grid3d_Coords_WithGridId(fid, gid, x_arr, y_arr, z_arr);
 }
 
-int cg_iRIC_Read_Grid_TriangleElementsSize(int fid, int* size)
+int cg_iRIC_Read_Grid_TriangleElementsSize(int fid, int* tsize)
 {
   int gid;
   int ier = getlastGridId(fid, &gid);
   RETURN_IF_ERR;
 
-  return cg_iRIC_Read_Grid_TriangleElementsSize_WithGridId(fid, gid, size);
+  return cg_iRIC_Read_Grid_TriangleElementsSize_WithGridId(fid, gid, tsize);
 }
 
-int cg_iRIC_Read_Grid_TriangleElementsSize2(int fid, int* size)
+int cg_iRIC_Read_Grid_TriangleElementsSize2(int fid, int* tsize)
 {
   int gid;
   int ier = getlastGridId(fid, &gid);
   RETURN_IF_ERR;
 
-  return cg_iRIC_Read_Grid_TriangleElementsSize2_WithGridId(fid, gid, size);
+  return cg_iRIC_Read_Grid_TriangleElementsSize2_WithGridId(fid, gid, tsize);
 }
 
 int cg_iRIC_Read_Grid_TriangleElements(int fid, int* id_arr)
@@ -777,13 +777,13 @@ int cg_iRIC_Read_Grid2d_Open(int fid, int* grid_handle)
   return cg_iRIC_Read_Grid2d_Open_WithGridId(fid, gid, grid_handle);
 }
 
-int cg_iRIC_Read_Sol_Grid2d_Open(int fid, int solid, int* grid_handle)
+int cg_iRIC_Read_Sol_Grid2d_Open(int fid, int step, int* grid_handle)
 {
   int gid;
   int ier = getDefault2dGridId(fid, &gid);
   RETURN_IF_ERR;
 
-  return cg_iRIC_Read_Sol_Grid2d_Open_WithGridId(fid, gid, solid, grid_handle);
+  return cg_iRIC_Read_Sol_Grid2d_Open_WithGridId(fid, gid, step, grid_handle);
 }
 
 
@@ -1144,13 +1144,13 @@ int cg_iRIC_Read_Sol_ParticleGroup_Integer(int fid, int step, const char* groupn
   return cg_iRIC_Read_Sol_ParticleGroup_Integer_WithGridId(fid, gid, step, groupname, name, v_arr);
 }
 
-int cg_iRIC_Write_Sol_ParticleGroup_GroupBegin(int fid, const char* name)
+int cg_iRIC_Write_Sol_ParticleGroup_GroupBegin(int fid, const char* groupname)
 {
   int gid;
   int ier = getlastGridId(fid, &gid);
   RETURN_IF_ERR;
 
-  return cg_iRIC_Write_Sol_ParticleGroup_GroupBegin_WithGridId(fid, gid, name);
+  return cg_iRIC_Write_Sol_ParticleGroup_GroupBegin_WithGridId(fid, gid, groupname);
 }
 
 int cg_iRIC_Write_Sol_ParticleGroup_GroupEnd(int fid)
@@ -1218,13 +1218,13 @@ int cg_iRIC_Read_Sol_ParticleGroupImage_Pos2d(int fid, int step, const char* gro
   return cg_iRIC_Read_Sol_ParticleGroupImage_Pos2d_WithGridId(fid, gid, step, groupname, x_arr, y_arr, size_arr, angle_arr);
 }
 
-int cg_iRIC_Write_Sol_ParticleGroupImage_GroupBegin(int fid, const char* name)
+int cg_iRIC_Write_Sol_ParticleGroupImage_GroupBegin(int fid, const char* groupname)
 {
   int gid;
   int ier = getlastGridId(fid, &gid);
   RETURN_IF_ERR;
 
-  return cg_iRIC_Write_Sol_ParticleGroupImage_GroupBegin_WithGridId(fid, gid, name);
+  return cg_iRIC_Write_Sol_ParticleGroupImage_GroupBegin_WithGridId(fid, gid, groupname);
 }
 
 int cg_iRIC_Write_Sol_ParticleGroupImage_GroupEnd(int fid)
@@ -1301,13 +1301,13 @@ int cg_iRIC_Read_Sol_PolyData_Integer(int fid, int step, const char* groupname, 
   return cg_iRIC_Read_Sol_PolyData_Integer_WithGridId(fid, gid, step, groupname, name, v_arr);
 }
 
-int cg_iRIC_Write_Sol_PolyData_GroupBegin(int fid, const char* name)
+int cg_iRIC_Write_Sol_PolyData_GroupBegin(int fid, const char* groupname)
 {
   int gid;
   int ier = getlastGridId(fid, &gid);
   RETURN_IF_ERR;
 
-  return cg_iRIC_Write_Sol_PolyData_GroupBegin_WithGridId(fid, gid, name);
+  return cg_iRIC_Write_Sol_PolyData_GroupBegin_WithGridId(fid, gid, groupname);
 }
 
 int cg_iRIC_Write_Sol_PolyData_GroupEnd(int fid)

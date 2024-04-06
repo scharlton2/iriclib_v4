@@ -130,7 +130,7 @@ int cg_iRIC_Read_Sol_ParticleGroup_Integer_WithGridId(int fid, int gid, int step
 	return IRIC_NO_ERROR;
 }
 
-int cg_iRIC_Write_Sol_ParticleGroup_GroupBegin_WithGridId(int fid, int gid, const char* name)
+int cg_iRIC_Write_Sol_ParticleGroup_GroupBegin_WithGridId(int fid, int gid, const char* groupname)
 {
 	_IRIC_LOGGER_TRACE_ENTER();
 
@@ -138,7 +138,7 @@ int cg_iRIC_Write_Sol_ParticleGroup_GroupBegin_WithGridId(int fid, int gid, cons
 	int ier = getParticleGroupSolutionForWrite(fid, gid, &solution, "cg_iRIC_Write_Sol_ParticleGroup_GroupBegin_WithGridId");
 	RETURN_IF_ERR;
 
-	solution->writeBegin(name);
+	solution->writeBegin(groupname);
 
 	_IRIC_LOGGER_TRACE_LEAVE();
 	return IRIC_NO_ERROR;

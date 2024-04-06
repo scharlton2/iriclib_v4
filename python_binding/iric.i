@@ -81,24 +81,24 @@ int cg_iRIC_Write_Complex_FunctionalWithName_String_WithBaseId(int fid, int bid,
 
 // from iriclib_geo.h
 int iRIC_Geo_Polygon_Open(const char* filename, int* OUTPUT);
-int iRIC_Geo_Polygon_Read_IntegerValue(int id, int* OUTPUT);
-int iRIC_Geo_Polygon_Read_RealValue(int id, double* OUTPUT);
-int iRIC_Geo_Polygon_Read_PointCount(int id, int* OUTPUT);
-int iRIC_Geo_Polygon_Read_HoleCount(int id, int* OUTPUT);
-int iRIC_Geo_Polygon_Read_HolePointCount(int id, int holeid, int* OUTPUT);
-int iRIC_Geo_Polygon_Close(int id);
+int iRIC_Geo_Polygon_Read_IntegerValue(int geo_handle, int* OUTPUT);
+int iRIC_Geo_Polygon_Read_RealValue(int geo_handle, double* OUTPUT);
+int iRIC_Geo_Polygon_Read_PointCount(int geo_handle, int* OUTPUT);
+int iRIC_Geo_Polygon_Read_HoleCount(int geo_handle, int* OUTPUT);
+int iRIC_Geo_Polygon_Read_HolePointCount(int geo_handle, int holeid, int* OUTPUT);
+int iRIC_Geo_Polygon_Close(int geo_handle);
 int iRIC_Geo_RiverSurvey_Open(const char* filename, int* OUTPUT);
-int iRIC_Geo_RiverSurvey_Read_Count(int id, int* OUTPUT);
-int iRIC_Geo_RiverSurvey_Read_Position(int id, int pointid, double* OUTPUT, double* OUTPUT);
-int iRIC_Geo_RiverSurvey_Read_Direction(int id, int pointid, double* OUTPUT, double* OUTPUT);
-int iRIC_Geo_RiverSurvey_Read_Name(int id, int pointid, char* strvalue);
-int iRIC_Geo_RiverSurvey_Read_RealName(int id, int pointid, double* OUTPUT);
-int iRIC_Geo_RiverSurvey_Read_LeftShift(int id, int pointid, double* OUTPUT);
-int iRIC_Geo_RiverSurvey_Read_AltitudeCount(int id, int pointid, int* OUTPUT);
-int iRIC_Geo_RiverSurvey_Read_FixedPointL(int id, int pointid, int* OUTPUT, double* OUTPUT, double* OUTPUT, int* OUTPUT);
-int iRIC_Geo_RiverSurvey_Read_FixedPointR(int id, int pointid, int* OUTPUT, double* OUTPUT, double* OUTPUT, int* OUTPUT);
-int iRIC_Geo_RiverSurvey_Read_WaterSurfaceElevation(int id, int pointid, int* OUTPUT, double* OUTPUT);
-int iRIC_Geo_RiverSurvey_Close(int id);
+int iRIC_Geo_RiverSurvey_Read_Count(int geo_handle, int* OUTPUT);
+int iRIC_Geo_RiverSurvey_Read_Position(int geo_handle, int csid, double* OUTPUT, double* OUTPUT);
+int iRIC_Geo_RiverSurvey_Read_Direction(int geo_handle, int csid, double* OUTPUT, double* OUTPUT);
+int iRIC_Geo_RiverSurvey_Read_Name(int geo_handle, int csid, char* strvalue);
+int iRIC_Geo_RiverSurvey_Read_RealName(int geo_handle, int csid, double* OUTPUT);
+int iRIC_Geo_RiverSurvey_Read_LeftShift(int geo_handle, int csid, double* OUTPUT);
+int iRIC_Geo_RiverSurvey_Read_AltitudeCount(int geo_handle, int csid, int* OUTPUT);
+int iRIC_Geo_RiverSurvey_Read_FixedPointL(int geo_handle, int csid, int* OUTPUT, double* OUTPUT, double* OUTPUT, int* OUTPUT);
+int iRIC_Geo_RiverSurvey_Read_FixedPointR(int geo_handle, int csid, int* OUTPUT, double* OUTPUT, double* OUTPUT, int* OUTPUT);
+int iRIC_Geo_RiverSurvey_Read_WaterSurfaceElevation(int geo_handle, int csid, int* OUTPUT, double* OUTPUT);
+int iRIC_Geo_RiverSurvey_Close(int geo_handle);
 
 // from iriclib_geoutil.h
 int cg_iRIC_Read_Geo_Count(int fid, const char* name, int* OUTPUT);
@@ -120,7 +120,7 @@ int cg_iRIC_Copy_Grid_WithGridId(int fid_from, int fid_to, int gid);
 
 // from iriclib_grid_solverlib.h
 int cg_iRIC_Read_Grid2d_Open_WithGridId(int fid, int gid, int* OUTPUT);
-int cg_iRIC_Read_Sol_Grid2d_Open_WithGridId(int fid, int gid, int solid, int* OUTPUT);
+int cg_iRIC_Read_Sol_Grid2d_Open_WithGridId(int fid, int gid, int step, int* OUTPUT);
 int cg_iRIC_Read_Grid2d_Close(int grid_handle);
 int cg_iRIC_Read_Grid2d_CellArea(int grid_handle, int cellId, double* OUTPUT);
 int cg_iRIC_Read_Grid2d_FindCell(int grid_handle, double x, double y, int* OUTPUT);
@@ -175,22 +175,22 @@ int cg_iRIC_Read_Grid_FunctionalDimensionSize(int fid, const char* name, const c
 int cg_iRIC_Read_Grid_FunctionalTimeSize(int fid, const char* name, int* OUTPUT);
 int cg_iRIC_Copy_Grid(int fid_from, int fid_to);
 int cg_iRIC_Read_Grid2d_Open(int fid, int* OUTPUT);
-int cg_iRIC_Read_Sol_Grid2d_Open(int fid, int solid, int* OUTPUT);
+int cg_iRIC_Read_Sol_Grid2d_Open(int fid, int step, int* OUTPUT);
 int cg_iRIC_Read_Sol_Particle_Count(int fid, int step, int* OUTPUT);
 int cg_iRIC_Read_Sol_ParticleGroup_Count(int fid, int step, const char* groupname, int* OUTPUT);
-int cg_iRIC_Write_Sol_ParticleGroup_GroupBegin(int fid, const char* name);
+int cg_iRIC_Write_Sol_ParticleGroup_GroupBegin(int fid, const char* groupname);
 int cg_iRIC_Write_Sol_ParticleGroup_GroupEnd(int fid);
 int cg_iRIC_Write_Sol_ParticleGroup_Pos2d(int fid, double x, double y);
 int cg_iRIC_Write_Sol_ParticleGroup_Pos3d(int fid, double x, double y, double z);
 int cg_iRIC_Write_Sol_ParticleGroup_Integer(int fid, const char* name, int value);
 int cg_iRIC_Write_Sol_ParticleGroup_Real(int fid, const char* name, double value);
 int cg_iRIC_Read_Sol_ParticleGroupImage_Count(int fid, int step, const char* groupname, int* OUTPUT);
-int cg_iRIC_Write_Sol_ParticleGroupImage_GroupBegin(int fid, const char* name);
+int cg_iRIC_Write_Sol_ParticleGroupImage_GroupBegin(int fid, const char* groupname);
 int cg_iRIC_Write_Sol_ParticleGroupImage_GroupEnd(int fid);
 int cg_iRIC_Write_Sol_ParticleGroupImage_Pos2d(int fid, double x, double y, double size, double angle);
 int cg_iRIC_Read_Sol_PolyData_DataCount(int fid, int step, const char* groupname, int* OUTPUT);
 int cg_iRIC_Read_Sol_PolyData_CoordinateCount(int fid, int step, const char* groupname, int* OUTPUT);
-int cg_iRIC_Write_Sol_PolyData_GroupBegin(int fid, const char* name);
+int cg_iRIC_Write_Sol_PolyData_GroupBegin(int fid, const char* groupname);
 int cg_iRIC_Write_Sol_PolyData_GroupEnd(int fid);
 int cg_iRIC_Write_Sol_PolyData_Integer(int fid, const char* name, int value);
 int cg_iRIC_Write_Sol_PolyData_Real(int fid, const char* name, double value);
@@ -200,7 +200,7 @@ int cg_iRIC_Read_Sol_Particle_Count_WithGridId(int fid, int gid, int step, int* 
 
 // from iriclib_sol_particlegroup.h
 int cg_iRIC_Read_Sol_ParticleGroup_Count_WithGridId(int fid, int gid, int step, const char* groupname, int* OUTPUT);
-int cg_iRIC_Write_Sol_ParticleGroup_GroupBegin_WithGridId(int fid, int gid, const char* name);
+int cg_iRIC_Write_Sol_ParticleGroup_GroupBegin_WithGridId(int fid, int gid, const char* groupname);
 int cg_iRIC_Write_Sol_ParticleGroup_GroupEnd_WithGridId(int fid, int gid);
 int cg_iRIC_Write_Sol_ParticleGroup_Pos2d_WithGridId(int fid, int gid, double x, double y);
 int cg_iRIC_Write_Sol_ParticleGroup_Pos3d_WithGridId(int fid, int gid, double x, double y, double z);
@@ -209,14 +209,14 @@ int cg_iRIC_Write_Sol_ParticleGroup_Real_WithGridId(int fid, int gid, const char
 
 // from iriclib_sol_particlegroupimage.h
 int cg_iRIC_Read_Sol_ParticleGroupImage_Count_WithGridId(int fid, int gid, int step, const char* groupname, int* OUTPUT);
-int cg_iRIC_Write_Sol_ParticleGroupImage_GroupBegin_WithGridId(int fid, int gid, const char* name);
+int cg_iRIC_Write_Sol_ParticleGroupImage_GroupBegin_WithGridId(int fid, int gid, const char* groupname);
 int cg_iRIC_Write_Sol_ParticleGroupImage_GroupEnd_WithGridId(int fid, int gid);
 int cg_iRIC_Write_Sol_ParticleGroupImage_Pos2d_WithGridId(int fid, int gid, double x, double y, double size, double angle);
 
 // from iriclib_sol_polydata.h
 int cg_iRIC_Read_Sol_PolyData_DataCount_WithGridId(int fid, int gid, int step, const char* groupname, int* OUTPUT);
 int cg_iRIC_Read_Sol_PolyData_CoordinateCount_WithGridId(int fid, int gid, int step, const char* groupname, int* OUTPUT);
-int cg_iRIC_Write_Sol_PolyData_GroupBegin_WithGridId(int fid, int gid, const char* name);
+int cg_iRIC_Write_Sol_PolyData_GroupBegin_WithGridId(int fid, int gid, const char* groupname);
 int cg_iRIC_Write_Sol_PolyData_GroupEnd_WithGridId(int fid, int gid);
 int cg_iRIC_Write_Sol_PolyData_Integer_WithGridId(int fid, int gid, const char* name, int value);
 int cg_iRIC_Write_Sol_PolyData_Real_WithGridId(int fid, int gid, const char* name, double value);
@@ -231,7 +231,7 @@ int cg_iRIC_Read_Sol_BaseIterative_String(int fid, int step, const char* name, c
 int cg_iRIC_Write_Sol_Start(int fid);
 int cg_iRIC_Write_Sol_End(int fid);
 int cg_iRIC_Write_Sol_Time(int fid, double time);
-int cg_iRIC_Write_Sol_Iteration(int fid, int index);
+int cg_iRIC_Write_Sol_Iteration(int fid, int iteration);
 int cg_iRIC_Write_Sol_BaseIterative_Integer(int fid, const char* name, int value);
 int cg_iRIC_Write_Sol_BaseIterative_Real(int fid, const char* name, double value);
 int cg_iRIC_Write_Sol_BaseIterative_String(int fid, const char* name, const char* value);
@@ -262,9 +262,9 @@ int cg_iRIC_Write_Grid_Complex_Node_WithGridId(int fid, int gid, const char* gro
 int cg_iRIC_Write_Grid_Complex_Cell_WithGridId(int fid, int gid, const char* groupname, IntArrayContainer& v_arr);
 int cg_iRIC_Write_Grid_Complex_IFace_WithGridId(int fid, int gid, const char* groupname, IntArrayContainer& v_arr);
 int cg_iRIC_Write_Grid_Complex_JFace_WithGridId(int fid, int gid, const char* groupname, IntArrayContainer& v_arr);
-int iRIC_Geo_Polygon_Read_Points(int id, RealArrayContainer& x_arr, RealArrayContainer& y_arr);
-int iRIC_Geo_Polygon_Read_HolePoints(int id, int holeid, RealArrayContainer& x_arr, RealArrayContainer& y_arr);
-int iRIC_Geo_RiverSurvey_Read_Altitudes(int id, int pointid, RealArrayContainer& position_arr, RealArrayContainer& height_arr, IntArrayContainer& active_arr);
+int iRIC_Geo_Polygon_Read_Points(int geo_handle, RealArrayContainer& x_arr, RealArrayContainer& y_arr);
+int iRIC_Geo_Polygon_Read_HolePoints(int geo_handle, int holeid, RealArrayContainer& x_arr, RealArrayContainer& y_arr);
+int iRIC_Geo_RiverSurvey_Read_Altitudes(int geo_handle, int csid, RealArrayContainer& position_arr, RealArrayContainer& height_arr, IntArrayContainer& active_arr);
 int cg_iRIC_Read_Grid2d_Coords_WithGridId(int fid, int gid, RealArrayContainer& x_arr, RealArrayContainer& y_arr);
 int cg_iRIC_Read_Grid3d_Coords_WithGridId(int fid, int gid, RealArrayContainer& x_arr, RealArrayContainer& y_arr, RealArrayContainer& z_arr);
 int cg_iRIC_Read_Grid_TriangleElements_WithGridId(int fid, int gid, IntArrayContainer& id_arr);

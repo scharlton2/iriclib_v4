@@ -126,19 +126,19 @@ int cg_iRIC_Write_Grid_Complex_JFace_WithGridId(int fid, int gid, const char* gr
 
 
 // from iriclib_geo.h
-int iRIC_Geo_Polygon_Read_Points(int id, RealArrayContainer& x_arr, RealArrayContainer& y_arr)
+int iRIC_Geo_Polygon_Read_Points(int geo_handle, RealArrayContainer& x_arr, RealArrayContainer& y_arr)
 {
-	return iRIC_Geo_Polygon_Read_Points(id, x_arr.pointer(), y_arr.pointer());
+	return iRIC_Geo_Polygon_Read_Points(geo_handle, x_arr.pointer(), y_arr.pointer());
 }
 
-int iRIC_Geo_Polygon_Read_HolePoints(int id, int holeid, RealArrayContainer& x_arr, RealArrayContainer& y_arr)
+int iRIC_Geo_Polygon_Read_HolePoints(int geo_handle, int holeid, RealArrayContainer& x_arr, RealArrayContainer& y_arr)
 {
-	return iRIC_Geo_Polygon_Read_HolePoints(id, holeid, x_arr.pointer(), y_arr.pointer());
+	return iRIC_Geo_Polygon_Read_HolePoints(geo_handle, holeid, x_arr.pointer(), y_arr.pointer());
 }
 
-int iRIC_Geo_RiverSurvey_Read_Altitudes(int id, int pointid, RealArrayContainer& position_arr, RealArrayContainer& height_arr, IntArrayContainer& active_arr)
+int iRIC_Geo_RiverSurvey_Read_Altitudes(int geo_handle, int csid, RealArrayContainer& position_arr, RealArrayContainer& height_arr, IntArrayContainer& active_arr)
 {
-	return iRIC_Geo_RiverSurvey_Read_Altitudes(id, pointid, position_arr.pointer(), height_arr.pointer(), active_arr.pointer());
+	return iRIC_Geo_RiverSurvey_Read_Altitudes(geo_handle, csid, position_arr.pointer(), height_arr.pointer(), active_arr.pointer());
 }
 
 

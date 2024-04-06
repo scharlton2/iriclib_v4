@@ -820,104 +820,104 @@ void IRICLIBDLL FMNAME(cg_iric_write_grid_complex_jface_withgridid_f2c, CG_IRIC_
 
 
 // from iriclib_geo.h
-void IRICLIBDLL FMNAME(iric_geo_polygon_open_f2c, IRIC_GEO_POLYGON_OPEN_F2C) (STR_PSTR(filename), int* id, int *ier STR_PLEN(filename)) {
+void IRICLIBDLL FMNAME(iric_geo_polygon_open_f2c, IRIC_GEO_POLYGON_OPEN_F2C) (STR_PSTR(filename), int* geo_handle, int *ier STR_PLEN(filename)) {
 	char c_filename[STRINGMAXLEN + 1];
 	string_2_C_string(STR_PTR(filename), STR_LEN(filename), c_filename, STRINGMAXLEN, ier);
 	if (*ier != 0) return;
 
-	*ier = iRIC_Geo_Polygon_Open(c_filename, id);
+	*ier = iRIC_Geo_Polygon_Open(c_filename, geo_handle);
 }
 
-void IRICLIBDLL FMNAME(iric_geo_polygon_read_integervalue_f2c, IRIC_GEO_POLYGON_READ_INTEGERVALUE_F2C) (int* id, int* value, int *ier) {
-	*ier = iRIC_Geo_Polygon_Read_IntegerValue(*id, value);
+void IRICLIBDLL FMNAME(iric_geo_polygon_read_integervalue_f2c, IRIC_GEO_POLYGON_READ_INTEGERVALUE_F2C) (int* geo_handle, int* value, int *ier) {
+	*ier = iRIC_Geo_Polygon_Read_IntegerValue(*geo_handle, value);
 }
 
-void IRICLIBDLL FMNAME(iric_geo_polygon_read_realvalue_f2c, IRIC_GEO_POLYGON_READ_REALVALUE_F2C) (int* id, double* value, int *ier) {
-	*ier = iRIC_Geo_Polygon_Read_RealValue(*id, value);
+void IRICLIBDLL FMNAME(iric_geo_polygon_read_realvalue_f2c, IRIC_GEO_POLYGON_READ_REALVALUE_F2C) (int* geo_handle, double* value, int *ier) {
+	*ier = iRIC_Geo_Polygon_Read_RealValue(*geo_handle, value);
 }
 
-void IRICLIBDLL FMNAME(iric_geo_polygon_read_pointcount_f2c, IRIC_GEO_POLYGON_READ_POINTCOUNT_F2C) (int* id, int* size, int *ier) {
-	*ier = iRIC_Geo_Polygon_Read_PointCount(*id, size);
+void IRICLIBDLL FMNAME(iric_geo_polygon_read_pointcount_f2c, IRIC_GEO_POLYGON_READ_POINTCOUNT_F2C) (int* geo_handle, int* count, int *ier) {
+	*ier = iRIC_Geo_Polygon_Read_PointCount(*geo_handle, count);
 }
 
-void IRICLIBDLL FMNAME(iric_geo_polygon_read_points_f2c, IRIC_GEO_POLYGON_READ_POINTS_F2C) (int* id, double* x_arr, double* y_arr, int *ier) {
-	*ier = iRIC_Geo_Polygon_Read_Points(*id, x_arr, y_arr);
+void IRICLIBDLL FMNAME(iric_geo_polygon_read_points_f2c, IRIC_GEO_POLYGON_READ_POINTS_F2C) (int* geo_handle, double* x_arr, double* y_arr, int *ier) {
+	*ier = iRIC_Geo_Polygon_Read_Points(*geo_handle, x_arr, y_arr);
 }
 
-void IRICLIBDLL FMNAME(iric_geo_polygon_read_holecount_f2c, IRIC_GEO_POLYGON_READ_HOLECOUNT_F2C) (int* id, int* count, int *ier) {
-	*ier = iRIC_Geo_Polygon_Read_HoleCount(*id, count);
+void IRICLIBDLL FMNAME(iric_geo_polygon_read_holecount_f2c, IRIC_GEO_POLYGON_READ_HOLECOUNT_F2C) (int* geo_handle, int* count, int *ier) {
+	*ier = iRIC_Geo_Polygon_Read_HoleCount(*geo_handle, count);
 }
 
-void IRICLIBDLL FMNAME(iric_geo_polygon_read_holepointcount_f2c, IRIC_GEO_POLYGON_READ_HOLEPOINTCOUNT_F2C) (int* id, int* holeid, int* count, int *ier) {
-	*ier = iRIC_Geo_Polygon_Read_HolePointCount(*id, *holeid, count);
+void IRICLIBDLL FMNAME(iric_geo_polygon_read_holepointcount_f2c, IRIC_GEO_POLYGON_READ_HOLEPOINTCOUNT_F2C) (int* geo_handle, int* holeid, int* count, int *ier) {
+	*ier = iRIC_Geo_Polygon_Read_HolePointCount(*geo_handle, *holeid, count);
 }
 
-void IRICLIBDLL FMNAME(iric_geo_polygon_read_holepoints_f2c, IRIC_GEO_POLYGON_READ_HOLEPOINTS_F2C) (int* id, int* holeid, double* x_arr, double* y_arr, int *ier) {
-	*ier = iRIC_Geo_Polygon_Read_HolePoints(*id, *holeid, x_arr, y_arr);
+void IRICLIBDLL FMNAME(iric_geo_polygon_read_holepoints_f2c, IRIC_GEO_POLYGON_READ_HOLEPOINTS_F2C) (int* geo_handle, int* holeid, double* x_arr, double* y_arr, int *ier) {
+	*ier = iRIC_Geo_Polygon_Read_HolePoints(*geo_handle, *holeid, x_arr, y_arr);
 }
 
-void IRICLIBDLL FMNAME(iric_geo_polygon_close_f2c, IRIC_GEO_POLYGON_CLOSE_F2C) (int* id, int *ier) {
-	*ier = iRIC_Geo_Polygon_Close(*id);
+void IRICLIBDLL FMNAME(iric_geo_polygon_close_f2c, IRIC_GEO_POLYGON_CLOSE_F2C) (int* geo_handle, int *ier) {
+	*ier = iRIC_Geo_Polygon_Close(*geo_handle);
 }
 
-void IRICLIBDLL FMNAME(iric_geo_riversurvey_open_f2c, IRIC_GEO_RIVERSURVEY_OPEN_F2C) (STR_PSTR(filename), int* id, int *ier STR_PLEN(filename)) {
+void IRICLIBDLL FMNAME(iric_geo_riversurvey_open_f2c, IRIC_GEO_RIVERSURVEY_OPEN_F2C) (STR_PSTR(filename), int* geo_handle, int *ier STR_PLEN(filename)) {
 	char c_filename[STRINGMAXLEN + 1];
 	string_2_C_string(STR_PTR(filename), STR_LEN(filename), c_filename, STRINGMAXLEN, ier);
 	if (*ier != 0) return;
 
-	*ier = iRIC_Geo_RiverSurvey_Open(c_filename, id);
+	*ier = iRIC_Geo_RiverSurvey_Open(c_filename, geo_handle);
 }
 
-void IRICLIBDLL FMNAME(iric_geo_riversurvey_read_count_f2c, IRIC_GEO_RIVERSURVEY_READ_COUNT_F2C) (int* id, int* count, int *ier) {
-	*ier = iRIC_Geo_RiverSurvey_Read_Count(*id, count);
+void IRICLIBDLL FMNAME(iric_geo_riversurvey_read_count_f2c, IRIC_GEO_RIVERSURVEY_READ_COUNT_F2C) (int* geo_handle, int* count, int *ier) {
+	*ier = iRIC_Geo_RiverSurvey_Read_Count(*geo_handle, count);
 }
 
-void IRICLIBDLL FMNAME(iric_geo_riversurvey_read_position_f2c, IRIC_GEO_RIVERSURVEY_READ_POSITION_F2C) (int* id, int* pointid, double* x, double* y, int *ier) {
-	*ier = iRIC_Geo_RiverSurvey_Read_Position(*id, *pointid, x, y);
+void IRICLIBDLL FMNAME(iric_geo_riversurvey_read_position_f2c, IRIC_GEO_RIVERSURVEY_READ_POSITION_F2C) (int* geo_handle, int* csid, double* x, double* y, int *ier) {
+	*ier = iRIC_Geo_RiverSurvey_Read_Position(*geo_handle, *csid, x, y);
 }
 
-void IRICLIBDLL FMNAME(iric_geo_riversurvey_read_direction_f2c, IRIC_GEO_RIVERSURVEY_READ_DIRECTION_F2C) (int* id, int* pointid, double* vx, double* vy, int *ier) {
-	*ier = iRIC_Geo_RiverSurvey_Read_Direction(*id, *pointid, vx, vy);
+void IRICLIBDLL FMNAME(iric_geo_riversurvey_read_direction_f2c, IRIC_GEO_RIVERSURVEY_READ_DIRECTION_F2C) (int* geo_handle, int* csid, double* dirx, double* diry, int *ier) {
+	*ier = iRIC_Geo_RiverSurvey_Read_Direction(*geo_handle, *csid, dirx, diry);
 }
 
-void IRICLIBDLL FMNAME(iric_geo_riversurvey_read_name_f2c, IRIC_GEO_RIVERSURVEY_READ_NAME_F2C) (int* id, int* pointid, STR_PSTR(strvalue), int *ier STR_PLEN(strvalue)) {
+void IRICLIBDLL FMNAME(iric_geo_riversurvey_read_name_f2c, IRIC_GEO_RIVERSURVEY_READ_NAME_F2C) (int* geo_handle, int* csid, STR_PSTR(strvalue), int *ier STR_PLEN(strvalue)) {
 	char c_strvalue[STRINGMAXLEN + 1];
-	*ier = iRIC_Geo_RiverSurvey_Read_Name(*id, *pointid, c_strvalue);
+	*ier = iRIC_Geo_RiverSurvey_Read_Name(*geo_handle, *csid, c_strvalue);
 
 	if (*ier != 0) return;
 	string_2_F_string(c_strvalue, STR_PTR(strvalue), STR_LEN(strvalue), ier);
 }
 
-void IRICLIBDLL FMNAME(iric_geo_riversurvey_read_realname_f2c, IRIC_GEO_RIVERSURVEY_READ_REALNAME_F2C) (int* id, int* pointid, double* name, int *ier) {
-	*ier = iRIC_Geo_RiverSurvey_Read_RealName(*id, *pointid, name);
+void IRICLIBDLL FMNAME(iric_geo_riversurvey_read_realname_f2c, IRIC_GEO_RIVERSURVEY_READ_REALNAME_F2C) (int* geo_handle, int* csid, double* name, int *ier) {
+	*ier = iRIC_Geo_RiverSurvey_Read_RealName(*geo_handle, *csid, name);
 }
 
-void IRICLIBDLL FMNAME(iric_geo_riversurvey_read_leftshift_f2c, IRIC_GEO_RIVERSURVEY_READ_LEFTSHIFT_F2C) (int* id, int* pointid, double* shift, int *ier) {
-	*ier = iRIC_Geo_RiverSurvey_Read_LeftShift(*id, *pointid, shift);
+void IRICLIBDLL FMNAME(iric_geo_riversurvey_read_leftshift_f2c, IRIC_GEO_RIVERSURVEY_READ_LEFTSHIFT_F2C) (int* geo_handle, int* csid, double* shift, int *ier) {
+	*ier = iRIC_Geo_RiverSurvey_Read_LeftShift(*geo_handle, *csid, shift);
 }
 
-void IRICLIBDLL FMNAME(iric_geo_riversurvey_read_altitudecount_f2c, IRIC_GEO_RIVERSURVEY_READ_ALTITUDECOUNT_F2C) (int* id, int* pointid, int* count, int *ier) {
-	*ier = iRIC_Geo_RiverSurvey_Read_AltitudeCount(*id, *pointid, count);
+void IRICLIBDLL FMNAME(iric_geo_riversurvey_read_altitudecount_f2c, IRIC_GEO_RIVERSURVEY_READ_ALTITUDECOUNT_F2C) (int* geo_handle, int* csid, int* count, int *ier) {
+	*ier = iRIC_Geo_RiverSurvey_Read_AltitudeCount(*geo_handle, *csid, count);
 }
 
-void IRICLIBDLL FMNAME(iric_geo_riversurvey_read_altitudes_f2c, IRIC_GEO_RIVERSURVEY_READ_ALTITUDES_F2C) (int* id, int* pointid, double* position_arr, double* height_arr, int* active_arr, int *ier) {
-	*ier = iRIC_Geo_RiverSurvey_Read_Altitudes(*id, *pointid, position_arr, height_arr, active_arr);
+void IRICLIBDLL FMNAME(iric_geo_riversurvey_read_altitudes_f2c, IRIC_GEO_RIVERSURVEY_READ_ALTITUDES_F2C) (int* geo_handle, int* csid, double* position_arr, double* height_arr, int* active_arr, int *ier) {
+	*ier = iRIC_Geo_RiverSurvey_Read_Altitudes(*geo_handle, *csid, position_arr, height_arr, active_arr);
 }
 
-void IRICLIBDLL FMNAME(iric_geo_riversurvey_read_fixedpointl_f2c, IRIC_GEO_RIVERSURVEY_READ_FIXEDPOINTL_F2C) (int* id, int* pointid, int* set, double* directionX, double* directionY, int* index, int *ier) {
-	*ier = iRIC_Geo_RiverSurvey_Read_FixedPointL(*id, *pointid, set, directionX, directionY, index);
+void IRICLIBDLL FMNAME(iric_geo_riversurvey_read_fixedpointl_f2c, IRIC_GEO_RIVERSURVEY_READ_FIXEDPOINTL_F2C) (int* geo_handle, int* csid, int* set, double* dirx, double* diry, int* index, int *ier) {
+	*ier = iRIC_Geo_RiverSurvey_Read_FixedPointL(*geo_handle, *csid, set, dirx, diry, index);
 }
 
-void IRICLIBDLL FMNAME(iric_geo_riversurvey_read_fixedpointr_f2c, IRIC_GEO_RIVERSURVEY_READ_FIXEDPOINTR_F2C) (int* id, int* pointid, int* set, double* directionX, double* directionY, int* index, int *ier) {
-	*ier = iRIC_Geo_RiverSurvey_Read_FixedPointR(*id, *pointid, set, directionX, directionY, index);
+void IRICLIBDLL FMNAME(iric_geo_riversurvey_read_fixedpointr_f2c, IRIC_GEO_RIVERSURVEY_READ_FIXEDPOINTR_F2C) (int* geo_handle, int* csid, int* set, double* dirx, double* diry, int* index, int *ier) {
+	*ier = iRIC_Geo_RiverSurvey_Read_FixedPointR(*geo_handle, *csid, set, dirx, diry, index);
 }
 
-void IRICLIBDLL FMNAME(iric_geo_riversurvey_read_watersurfaceelevation_f2c, IRIC_GEO_RIVERSURVEY_READ_WATERSURFACEELEVATION_F2C) (int* id, int* pointid, int* set, double* value, int *ier) {
-	*ier = iRIC_Geo_RiverSurvey_Read_WaterSurfaceElevation(*id, *pointid, set, value);
+void IRICLIBDLL FMNAME(iric_geo_riversurvey_read_watersurfaceelevation_f2c, IRIC_GEO_RIVERSURVEY_READ_WATERSURFACEELEVATION_F2C) (int* geo_handle, int* csid, int* set, double* value, int *ier) {
+	*ier = iRIC_Geo_RiverSurvey_Read_WaterSurfaceElevation(*geo_handle, *csid, set, value);
 }
 
-void IRICLIBDLL FMNAME(iric_geo_riversurvey_close_f2c, IRIC_GEO_RIVERSURVEY_CLOSE_F2C) (int* id, int *ier) {
-	*ier = iRIC_Geo_RiverSurvey_Close(*id);
+void IRICLIBDLL FMNAME(iric_geo_riversurvey_close_f2c, IRIC_GEO_RIVERSURVEY_CLOSE_F2C) (int* geo_handle, int *ier) {
+	*ier = iRIC_Geo_RiverSurvey_Close(*geo_handle);
 }
 
 
@@ -960,8 +960,8 @@ void IRICLIBDLL FMNAME(cg_iric_read_grid3d_coords_withgridid_f2c, CG_IRIC_READ_G
 	*ier = cg_iRIC_Read_Grid3d_Coords_WithGridId(*fid, *gid, x_arr, y_arr, z_arr);
 }
 
-void IRICLIBDLL FMNAME(cg_iric_read_grid_triangleelementssize_withgridid_f2c, CG_IRIC_READ_GRID_TRIANGLEELEMENTSSIZE_WITHGRIDID_F2C) (int* fid, int* gid, int* size, int *ier) {
-	*ier = cg_iRIC_Read_Grid_TriangleElementsSize_WithGridId(*fid, *gid, size);
+void IRICLIBDLL FMNAME(cg_iric_read_grid_triangleelementssize_withgridid_f2c, CG_IRIC_READ_GRID_TRIANGLEELEMENTSSIZE_WITHGRIDID_F2C) (int* fid, int* gid, int* tsize, int *ier) {
+	*ier = cg_iRIC_Read_Grid_TriangleElementsSize_WithGridId(*fid, *gid, tsize);
 }
 
 void IRICLIBDLL FMNAME(cg_iric_read_grid_triangleelements_withgridid_f2c, CG_IRIC_READ_GRID_TRIANGLEELEMENTS_WITHGRIDID_F2C) (int* fid, int* gid, int* id_arr, int *ier) {
@@ -1275,8 +1275,8 @@ void IRICLIBDLL FMNAME(cg_iric_read_grid2d_open_withgridid_f2c, CG_IRIC_READ_GRI
 	*ier = cg_iRIC_Read_Grid2d_Open_WithGridId(*fid, *gid, grid_handle);
 }
 
-void IRICLIBDLL FMNAME(cg_iric_read_sol_grid2d_open_withgridid_f2c, CG_IRIC_READ_SOL_GRID2D_OPEN_WITHGRIDID_F2C) (int* fid, int* gid, int* solid, int* grid_handle, int *ier) {
-	*ier = cg_iRIC_Read_Sol_Grid2d_Open_WithGridId(*fid, *gid, *solid, grid_handle);
+void IRICLIBDLL FMNAME(cg_iric_read_sol_grid2d_open_withgridid_f2c, CG_IRIC_READ_SOL_GRID2D_OPEN_WITHGRIDID_F2C) (int* fid, int* gid, int* step, int* grid_handle, int *ier) {
+	*ier = cg_iRIC_Read_Sol_Grid2d_Open_WithGridId(*fid, *gid, *step, grid_handle);
 }
 
 void IRICLIBDLL FMNAME(cg_iric_read_grid2d_close_f2c, CG_IRIC_READ_GRID2D_CLOSE_F2C) (int* grid_handle, int *ier) {
@@ -1933,8 +1933,8 @@ void IRICLIBDLL FMNAME(cg_iric_read_grid3d_coords_f2c, CG_IRIC_READ_GRID3D_COORD
 	*ier = cg_iRIC_Read_Grid3d_Coords(*fid, x_arr, y_arr, z_arr);
 }
 
-void IRICLIBDLL FMNAME(cg_iric_read_grid_triangleelementssize_f2c, CG_IRIC_READ_GRID_TRIANGLEELEMENTSSIZE_F2C) (int* fid, int* size, int *ier) {
-	*ier = cg_iRIC_Read_Grid_TriangleElementsSize(*fid, size);
+void IRICLIBDLL FMNAME(cg_iric_read_grid_triangleelementssize_f2c, CG_IRIC_READ_GRID_TRIANGLEELEMENTSSIZE_F2C) (int* fid, int* tsize, int *ier) {
+	*ier = cg_iRIC_Read_Grid_TriangleElementsSize(*fid, tsize);
 }
 
 void IRICLIBDLL FMNAME(cg_iric_read_grid_triangleelements_f2c, CG_IRIC_READ_GRID_TRIANGLEELEMENTS_F2C) (int* fid, int* id_arr, int *ier) {
@@ -2246,8 +2246,8 @@ void IRICLIBDLL FMNAME(cg_iric_read_grid2d_open_f2c, CG_IRIC_READ_GRID2D_OPEN_F2
 	*ier = cg_iRIC_Read_Grid2d_Open(*fid, grid_handle);
 }
 
-void IRICLIBDLL FMNAME(cg_iric_read_sol_grid2d_open_f2c, CG_IRIC_READ_SOL_GRID2D_OPEN_F2C) (int* fid, int* solid, int* grid_handle, int *ier) {
-	*ier = cg_iRIC_Read_Sol_Grid2d_Open(*fid, *solid, grid_handle);
+void IRICLIBDLL FMNAME(cg_iric_read_sol_grid2d_open_f2c, CG_IRIC_READ_SOL_GRID2D_OPEN_F2C) (int* fid, int* step, int* grid_handle, int *ier) {
+	*ier = cg_iRIC_Read_Sol_Grid2d_Open(*fid, *step, grid_handle);
 }
 
 void IRICLIBDLL FMNAME(cg_iric_read_sol_cell_integer_f2c, CG_IRIC_READ_SOL_CELL_INTEGER_F2C) (int* fid, int* step, STR_PSTR(name), int* v_arr, int *ier STR_PLEN(name)) {
@@ -2524,12 +2524,12 @@ void IRICLIBDLL FMNAME(cg_iric_read_sol_particlegroup_integer_f2c, CG_IRIC_READ_
 	*ier = cg_iRIC_Read_Sol_ParticleGroup_Integer(*fid, *step, c_groupname, c_name, v_arr);
 }
 
-void IRICLIBDLL FMNAME(cg_iric_write_sol_particlegroup_groupbegin_f2c, CG_IRIC_WRITE_SOL_PARTICLEGROUP_GROUPBEGIN_F2C) (int* fid, STR_PSTR(name), int *ier STR_PLEN(name)) {
-	char c_name[STRINGMAXLEN + 1];
-	string_2_C_string(STR_PTR(name), STR_LEN(name), c_name, STRINGMAXLEN, ier);
+void IRICLIBDLL FMNAME(cg_iric_write_sol_particlegroup_groupbegin_f2c, CG_IRIC_WRITE_SOL_PARTICLEGROUP_GROUPBEGIN_F2C) (int* fid, STR_PSTR(groupname), int *ier STR_PLEN(groupname)) {
+	char c_groupname[STRINGMAXLEN + 1];
+	string_2_C_string(STR_PTR(groupname), STR_LEN(groupname), c_groupname, STRINGMAXLEN, ier);
 	if (*ier != 0) return;
 
-	*ier = cg_iRIC_Write_Sol_ParticleGroup_GroupBegin(*fid, c_name);
+	*ier = cg_iRIC_Write_Sol_ParticleGroup_GroupBegin(*fid, c_groupname);
 }
 
 void IRICLIBDLL FMNAME(cg_iric_write_sol_particlegroup_groupend_f2c, CG_IRIC_WRITE_SOL_PARTICLEGROUP_GROUPEND_F2C) (int* fid, int *ier) {
@@ -2576,12 +2576,12 @@ void IRICLIBDLL FMNAME(cg_iric_read_sol_particlegroupimage_pos2d_f2c, CG_IRIC_RE
 	*ier = cg_iRIC_Read_Sol_ParticleGroupImage_Pos2d(*fid, *step, c_groupname, x_arr, y_arr, size_arr, angle_arr);
 }
 
-void IRICLIBDLL FMNAME(cg_iric_write_sol_particlegroupimage_groupbegin_f2c, CG_IRIC_WRITE_SOL_PARTICLEGROUPIMAGE_GROUPBEGIN_F2C) (int* fid, STR_PSTR(name), int *ier STR_PLEN(name)) {
-	char c_name[STRINGMAXLEN + 1];
-	string_2_C_string(STR_PTR(name), STR_LEN(name), c_name, STRINGMAXLEN, ier);
+void IRICLIBDLL FMNAME(cg_iric_write_sol_particlegroupimage_groupbegin_f2c, CG_IRIC_WRITE_SOL_PARTICLEGROUPIMAGE_GROUPBEGIN_F2C) (int* fid, STR_PSTR(groupname), int *ier STR_PLEN(groupname)) {
+	char c_groupname[STRINGMAXLEN + 1];
+	string_2_C_string(STR_PTR(groupname), STR_LEN(groupname), c_groupname, STRINGMAXLEN, ier);
 	if (*ier != 0) return;
 
-	*ier = cg_iRIC_Write_Sol_ParticleGroupImage_GroupBegin(*fid, c_name);
+	*ier = cg_iRIC_Write_Sol_ParticleGroupImage_GroupBegin(*fid, c_groupname);
 }
 
 void IRICLIBDLL FMNAME(cg_iric_write_sol_particlegroupimage_groupend_f2c, CG_IRIC_WRITE_SOL_PARTICLEGROUPIMAGE_GROUPEND_F2C) (int* fid, int *ier) {
@@ -2646,12 +2646,12 @@ void IRICLIBDLL FMNAME(cg_iric_read_sol_polydata_integer_f2c, CG_IRIC_READ_SOL_P
 	*ier = cg_iRIC_Read_Sol_PolyData_Integer(*fid, *step, c_groupname, c_name, v_arr);
 }
 
-void IRICLIBDLL FMNAME(cg_iric_write_sol_polydata_groupbegin_f2c, CG_IRIC_WRITE_SOL_POLYDATA_GROUPBEGIN_F2C) (int* fid, STR_PSTR(name), int *ier STR_PLEN(name)) {
-	char c_name[STRINGMAXLEN + 1];
-	string_2_C_string(STR_PTR(name), STR_LEN(name), c_name, STRINGMAXLEN, ier);
+void IRICLIBDLL FMNAME(cg_iric_write_sol_polydata_groupbegin_f2c, CG_IRIC_WRITE_SOL_POLYDATA_GROUPBEGIN_F2C) (int* fid, STR_PSTR(groupname), int *ier STR_PLEN(groupname)) {
+	char c_groupname[STRINGMAXLEN + 1];
+	string_2_C_string(STR_PTR(groupname), STR_LEN(groupname), c_groupname, STRINGMAXLEN, ier);
 	if (*ier != 0) return;
 
-	*ier = cg_iRIC_Write_Sol_PolyData_GroupBegin(*fid, c_name);
+	*ier = cg_iRIC_Write_Sol_PolyData_GroupBegin(*fid, c_groupname);
 }
 
 void IRICLIBDLL FMNAME(cg_iric_write_sol_polydata_groupend_f2c, CG_IRIC_WRITE_SOL_POLYDATA_GROUPEND_F2C) (int* fid, int *ier) {
@@ -2692,8 +2692,8 @@ void IRICLIBDLL FMNAME(cg_iric_read_sol_time_f2c, CG_IRIC_READ_SOL_TIME_F2C) (in
 	*ier = cg_iRIC_Read_Sol_Time(*fid, *step, time);
 }
 
-void IRICLIBDLL FMNAME(cg_iric_read_sol_iteration_f2c, CG_IRIC_READ_SOL_ITERATION_F2C) (int* fid, int* step, int* index, int *ier) {
-	*ier = cg_iRIC_Read_Sol_Iteration(*fid, *step, index);
+void IRICLIBDLL FMNAME(cg_iric_read_sol_iteration_f2c, CG_IRIC_READ_SOL_ITERATION_F2C) (int* fid, int* step, int* iteration, int *ier) {
+	*ier = cg_iRIC_Read_Sol_Iteration(*fid, *step, iteration);
 }
 
 void IRICLIBDLL FMNAME(cg_iric_read_sol_baseiterative_integer_f2c, CG_IRIC_READ_SOL_BASEITERATIVE_INTEGER_F2C) (int* fid, int* step, STR_PSTR(name), int* value, int *ier STR_PLEN(name)) {
@@ -2744,8 +2744,8 @@ void IRICLIBDLL FMNAME(cg_iric_write_sol_time_f2c, CG_IRIC_WRITE_SOL_TIME_F2C) (
 	*ier = cg_iRIC_Write_Sol_Time(*fid, *time);
 }
 
-void IRICLIBDLL FMNAME(cg_iric_write_sol_iteration_f2c, CG_IRIC_WRITE_SOL_ITERATION_F2C) (int* fid, int* index, int *ier) {
-	*ier = cg_iRIC_Write_Sol_Iteration(*fid, *index);
+void IRICLIBDLL FMNAME(cg_iric_write_sol_iteration_f2c, CG_IRIC_WRITE_SOL_ITERATION_F2C) (int* fid, int* iteration, int *ier) {
+	*ier = cg_iRIC_Write_Sol_Iteration(*fid, *iteration);
 }
 
 void IRICLIBDLL FMNAME(cg_iric_write_sol_baseiterative_integer_f2c, CG_IRIC_WRITE_SOL_BASEITERATIVE_INTEGER_F2C) (int* fid, STR_PSTR(name), int* value, int *ier STR_PLEN(name)) {
@@ -3073,12 +3073,12 @@ void IRICLIBDLL FMNAME(cg_iric_read_sol_particlegroup_integer_withgridid_f2c, CG
 	*ier = cg_iRIC_Read_Sol_ParticleGroup_Integer_WithGridId(*fid, *gid, *step, c_groupname, c_name, v_arr);
 }
 
-void IRICLIBDLL FMNAME(cg_iric_write_sol_particlegroup_groupbegin_withgridid_f2c, CG_IRIC_WRITE_SOL_PARTICLEGROUP_GROUPBEGIN_WITHGRIDID_F2C) (int* fid, int* gid, STR_PSTR(name), int *ier STR_PLEN(name)) {
-	char c_name[STRINGMAXLEN + 1];
-	string_2_C_string(STR_PTR(name), STR_LEN(name), c_name, STRINGMAXLEN, ier);
+void IRICLIBDLL FMNAME(cg_iric_write_sol_particlegroup_groupbegin_withgridid_f2c, CG_IRIC_WRITE_SOL_PARTICLEGROUP_GROUPBEGIN_WITHGRIDID_F2C) (int* fid, int* gid, STR_PSTR(groupname), int *ier STR_PLEN(groupname)) {
+	char c_groupname[STRINGMAXLEN + 1];
+	string_2_C_string(STR_PTR(groupname), STR_LEN(groupname), c_groupname, STRINGMAXLEN, ier);
 	if (*ier != 0) return;
 
-	*ier = cg_iRIC_Write_Sol_ParticleGroup_GroupBegin_WithGridId(*fid, *gid, c_name);
+	*ier = cg_iRIC_Write_Sol_ParticleGroup_GroupBegin_WithGridId(*fid, *gid, c_groupname);
 }
 
 void IRICLIBDLL FMNAME(cg_iric_write_sol_particlegroup_groupend_withgridid_f2c, CG_IRIC_WRITE_SOL_PARTICLEGROUP_GROUPEND_WITHGRIDID_F2C) (int* fid, int* gid, int *ier) {
@@ -3127,12 +3127,12 @@ void IRICLIBDLL FMNAME(cg_iric_read_sol_particlegroupimage_pos2d_withgridid_f2c,
 	*ier = cg_iRIC_Read_Sol_ParticleGroupImage_Pos2d_WithGridId(*fid, *gid, *step, c_groupname, x_arr, y_arr, size_arr, angle_arr);
 }
 
-void IRICLIBDLL FMNAME(cg_iric_write_sol_particlegroupimage_groupbegin_withgridid_f2c, CG_IRIC_WRITE_SOL_PARTICLEGROUPIMAGE_GROUPBEGIN_WITHGRIDID_F2C) (int* fid, int* gid, STR_PSTR(name), int *ier STR_PLEN(name)) {
-	char c_name[STRINGMAXLEN + 1];
-	string_2_C_string(STR_PTR(name), STR_LEN(name), c_name, STRINGMAXLEN, ier);
+void IRICLIBDLL FMNAME(cg_iric_write_sol_particlegroupimage_groupbegin_withgridid_f2c, CG_IRIC_WRITE_SOL_PARTICLEGROUPIMAGE_GROUPBEGIN_WITHGRIDID_F2C) (int* fid, int* gid, STR_PSTR(groupname), int *ier STR_PLEN(groupname)) {
+	char c_groupname[STRINGMAXLEN + 1];
+	string_2_C_string(STR_PTR(groupname), STR_LEN(groupname), c_groupname, STRINGMAXLEN, ier);
 	if (*ier != 0) return;
 
-	*ier = cg_iRIC_Write_Sol_ParticleGroupImage_GroupBegin_WithGridId(*fid, *gid, c_name);
+	*ier = cg_iRIC_Write_Sol_ParticleGroupImage_GroupBegin_WithGridId(*fid, *gid, c_groupname);
 }
 
 void IRICLIBDLL FMNAME(cg_iric_write_sol_particlegroupimage_groupend_withgridid_f2c, CG_IRIC_WRITE_SOL_PARTICLEGROUPIMAGE_GROUPEND_WITHGRIDID_F2C) (int* fid, int* gid, int *ier) {
@@ -3199,12 +3199,12 @@ void IRICLIBDLL FMNAME(cg_iric_read_sol_polydata_integer_withgridid_f2c, CG_IRIC
 	*ier = cg_iRIC_Read_Sol_PolyData_Integer_WithGridId(*fid, *gid, *step, c_groupname, c_name, v_arr);
 }
 
-void IRICLIBDLL FMNAME(cg_iric_write_sol_polydata_groupbegin_withgridid_f2c, CG_IRIC_WRITE_SOL_POLYDATA_GROUPBEGIN_WITHGRIDID_F2C) (int* fid, int* gid, STR_PSTR(name), int *ier STR_PLEN(name)) {
-	char c_name[STRINGMAXLEN + 1];
-	string_2_C_string(STR_PTR(name), STR_LEN(name), c_name, STRINGMAXLEN, ier);
+void IRICLIBDLL FMNAME(cg_iric_write_sol_polydata_groupbegin_withgridid_f2c, CG_IRIC_WRITE_SOL_POLYDATA_GROUPBEGIN_WITHGRIDID_F2C) (int* fid, int* gid, STR_PSTR(groupname), int *ier STR_PLEN(groupname)) {
+	char c_groupname[STRINGMAXLEN + 1];
+	string_2_C_string(STR_PTR(groupname), STR_LEN(groupname), c_groupname, STRINGMAXLEN, ier);
 	if (*ier != 0) return;
 
-	*ier = cg_iRIC_Write_Sol_PolyData_GroupBegin_WithGridId(*fid, *gid, c_name);
+	*ier = cg_iRIC_Write_Sol_PolyData_GroupBegin_WithGridId(*fid, *gid, c_groupname);
 }
 
 void IRICLIBDLL FMNAME(cg_iric_write_sol_polydata_groupend_withgridid_f2c, CG_IRIC_WRITE_SOL_POLYDATA_GROUPEND_WITHGRIDID_F2C) (int* fid, int* gid, int *ier) {

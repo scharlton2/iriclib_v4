@@ -8,7 +8,7 @@ endif()
 
 project (
   iriclib
-  VERSION 4.0.50
+  VERSION 4.0.51
   LANGUAGES CXX C
 )
 

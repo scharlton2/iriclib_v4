@@ -664,9 +664,9 @@ int copyChildren(hid_t srcGroupId, hid_t tgtGroupId)
 
 		if (oid < 0) {continue;}
 
-		H5O_info_t info;
+		H5O_info2_t info;
 		_IRIC_LOGGER_TRACE_CALL_START("H5Oget_info");
-		status = H5Oget_info(oid, &info);
+		status = H5Oget_info(oid, &info, H5O_INFO_BASIC);
 		_IRIC_LOGGER_TRACE_CALL_END("H5Oget_info");
 
 		_IRIC_LOGGER_TRACE_CALL_START("H5Oclose");
@@ -755,9 +755,9 @@ int getObjectNames(hid_t groupId, H5O_type_t objectType, std::vector<std::string
 
 		H5ObjectCloser objectCloser(oid);
 
-		H5O_info_t info;
+		H5O_info2_t info;
 		_IRIC_LOGGER_TRACE_CALL_START("H5Oget_info");
-		status = H5Oget_info(oid, &info);
+		status = H5Oget_info(oid, &info, H5O_INFO_BASIC);
 		_IRIC_LOGGER_TRACE_CALL_END("H5Oget_info");
 
 		if (status < 0) {
@@ -949,9 +949,9 @@ int H5Util::openGroup(hid_t groupId, const std::string& name, const std::string&
 	}
 
 	// read type info
-	H5O_info_t ginfo;
+	H5O_info2_t ginfo;
 	_IRIC_LOGGER_TRACE_CALL_START("H5Oget_info");
-	herr_t status = H5Oget_info(groupId2, &ginfo);
+	herr_t status = H5Oget_info(groupId2, &ginfo, H5O_INFO_BASIC);
 	_IRIC_LOGGER_TRACE_CALL_END("H5Oget_info");
 	if (status < 0) {
 		_iric_logger_error("H5Util::openGroup", "H5Oget_info", status);

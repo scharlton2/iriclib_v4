@@ -281,6 +281,41 @@ H5CgnsZoneBc* H5CgnsZone::zoneBc() const
 	return impl->m_zoneBc;
 }
 
+int H5CgnsZone::readUnstructuredGridCellType(CellType* type) const
+{
+	if (impl->m_type != Type::Unstructured) {
+		_iric_logger_error("In H5CgnsZone::readUnstructuredGridCellType(), the grid type is not unstructured");
+		return IRIC_WRONG_GRIDTYPE;
+	}
+
+	std::ostringstream ss;
+	ss << ELEMENT;
+
+	hid_t gId;
+
+	_IRIC_LOGGER_TRACE_CALL_START("H5Util::openGroup");
+	int ier = H5Util::openGroup(impl->m_groupId, ss.str(), ELEMENT_LABEL, &gId);
+	_IRIC_LOGGER_TRACE_CALL_END_WITHVAL("H5Util::openGroup", ier);
+	RETURN_IF_ERR;
+
+	H5GroupCloser closer(gId);
+	std::vector<int> data;
+
+	_IRIC_LOGGER_TRACE_CALL_START("H5Util::readGroupValue");
+	ier = H5Util::readGroupValue(gId, &data);
+	_IRIC_LOGGER_TRACE_CALL_END_WITHVAL("H5Util::readGroupValue", ier);
+	RETURN_IF_ERR;
+
+	int elementData = data.at(0);
+	if (elementData == 3) {
+		*type = CellType::Line;
+	} else if (elementData == 5) {
+		*type = CellType::Triangle;
+	}
+
+	return IRIC_NO_ERROR;
+}
+
 int H5CgnsZone::readTriangleElementsSize(int* size) const
 {
 	if (impl->m_type != Type::Unstructured) {
@@ -373,6 +408,107 @@ int H5CgnsZone::writeTriangleElements(const std::vector<int>& indices) const
 	std::vector<int> range;
 	range.push_back(1);
 	range.push_back(static_cast<int> (indices.size() / 3));
+
+	_IRIC_LOGGER_TRACE_CALL_START("H5Util::createGroupWithValue");
+	ier = H5Util::createGroupWithValue(element_id, ELEMENT_RANGE, INDEXRANGE_LABEL, range);
+	_IRIC_LOGGER_TRACE_CALL_END_WITHVAL("H5Util::createGroupWithValue", ier);
+	RETURN_IF_ERR;
+
+	return IRIC_NO_ERROR;
+}
+
+int H5CgnsZone::readLineElementsSize(int* size) const
+{
+	if (impl->m_type != Type::Unstructured) {
+		_iric_logger_error("In H5CgnsZone::readLineElementsSize(), the grid type is not unstructured");
+		return IRIC_WRONG_GRIDTYPE;
+	}
+
+	_IRIC_LOGGER_TRACE_CALL_START("H5CgnsZone::readLineElementsValueCount");
+	int ier = readLineElementsValueCount(size);
+	_IRIC_LOGGER_TRACE_CALL_END_WITHVAL("H5CgnsZone::readLineElementsValueCount", ier);
+	RETURN_IF_ERR;
+
+	*size /= 2;
+
+	return IRIC_NO_ERROR;
+}
+
+int H5CgnsZone::readLineElementsValueCount(int* size) const
+{
+	if (impl->m_type != Type::Unstructured) {
+		_iric_logger_error("In H5CgnsZone::readLineElementsValueCount(), the grid type is not unstructured");
+		return IRIC_WRONG_GRIDTYPE;
+	}
+
+	std::ostringstream ss;
+	ss << ELEMENT << "/" << ELEMENT_CONNECTIVITY;
+
+	hid_t gId;
+
+	_IRIC_LOGGER_TRACE_CALL_START("H5Util::openGroup");
+	int ier = H5Util::openGroup(impl->m_groupId, ss.str(), H5Util::dataArrayLabel(), &gId);
+	_IRIC_LOGGER_TRACE_CALL_END_WITHVAL("H5Util::openGroup", ier);
+	RETURN_IF_ERR;
+
+	H5GroupCloser closer(gId);
+
+	_IRIC_LOGGER_TRACE_CALL_START("H5Util::readGroupValueLength");
+	ier = H5Util::readGroupValueLength(gId, size);
+	_IRIC_LOGGER_TRACE_CALL_END_WITHVAL("H5Util::readGroupValueLength", ier);
+	RETURN_IF_ERR;
+
+	return IRIC_NO_ERROR;
+}
+
+int H5CgnsZone::readLineElements(std::vector<int>* indices) const
+{
+	if (impl->m_type != Type::Unstructured) {return false;}
+
+	std::ostringstream ss;
+	ss << ELEMENT << "/" << ELEMENT_CONNECTIVITY;
+
+	hid_t gId;
+
+	_IRIC_LOGGER_TRACE_CALL_START("H5Util::openGroup");
+	int ier = H5Util::openGroup(impl->m_groupId, ss.str(), H5Util::dataArrayLabel(), &gId);
+	_IRIC_LOGGER_TRACE_CALL_END_WITHVAL("H5Util::openGroup", ier);
+	RETURN_IF_ERR;
+
+	H5GroupCloser closer(gId);
+
+	_IRIC_LOGGER_TRACE_CALL_START("H5Util::readGroupValue");
+	ier = H5Util::readGroupValue(gId, indices);
+	_IRIC_LOGGER_TRACE_CALL_END_WITHVAL("H5Util::readGroupValue", ier);
+	RETURN_IF_ERR;
+
+	return IRIC_NO_ERROR;
+}
+
+int H5CgnsZone::writeLineElements(const std::vector<int>& indices) const
+{
+	if (impl->m_type != Type::Unstructured) {return false;}
+
+	hid_t element_id;
+	std::vector<int> element_vals;
+	element_vals.push_back(3); // BAR_2 = 3
+	element_vals.push_back(0);
+
+	_IRIC_LOGGER_TRACE_CALL_START("H5Util::createGroupWithValue");
+	int ier = H5Util::createGroupWithValue(impl->m_groupId, ELEMENT, ELEMENT_LABEL, element_vals, &element_id);
+	_IRIC_LOGGER_TRACE_CALL_END_WITHVAL("H5Util::createGroupWithValue", ier);
+	RETURN_IF_ERR;
+
+	H5GroupCloser elementCloser(element_id);
+
+	_IRIC_LOGGER_TRACE_CALL_START("H5Util::createDataArray");
+	ier = H5Util::createDataArray(element_id, ELEMENT_CONNECTIVITY, indices);
+	_IRIC_LOGGER_TRACE_CALL_END_WITHVAL("H5Util::createDataArray", ier);
+	RETURN_IF_ERR;
+
+	std::vector<int> range;
+	range.push_back(1);
+	range.push_back(static_cast<int> (indices.size() / 2));
 
 	_IRIC_LOGGER_TRACE_CALL_START("H5Util::createGroupWithValue");
 	ier = H5Util::createGroupWithValue(element_id, ELEMENT_RANGE, INDEXRANGE_LABEL, range);

@@ -131,6 +131,24 @@ int cg_iRIC_Read_Grid3d_Coords_WithGridId(int fid, int gid, double* x_arr, doubl
 	return IRIC_NO_ERROR;
 }
 
+int cg_iRIC_Read_Grid_CellType_WithGridId(int fid, int gid, int* type)
+{
+	_IRIC_LOGGER_TRACE_ENTER();
+
+	H5CgnsZone* zone;
+	int ier = _iric_get_zone(fid, gid, &zone, __func__);
+	RETURN_IF_ERR;
+
+	H5CgnsZone::CellType ct;
+	ier = zone->readUnstructuredGridCellType(&ct);
+	RETURN_IF_ERR;
+
+	*type = static_cast<int> (ct);
+
+	_IRIC_LOGGER_TRACE_LEAVE();
+	return IRIC_NO_ERROR;
+}
+
 int cg_iRIC_Read_Grid_TriangleElementsSize_WithGridId(int fid, int gid, int* size)
 {
 	_IRIC_LOGGER_TRACE_ENTER();
@@ -171,6 +189,54 @@ int cg_iRIC_Read_Grid_TriangleElements_WithGridId(int fid, int gid, int* id_arr)
 
 	std::vector<int> indices;
 	ier = zone->readTriangleElements(&indices);
+	RETURN_IF_ERR;
+
+	_vectorToPointerT(indices, id_arr);
+
+	_IRIC_LOGGER_TRACE_LEAVE();
+	return IRIC_NO_ERROR;
+}
+
+int cg_iRIC_Read_Grid_LineElementsSize_WithGridId(int fid, int gid, int* size)
+{
+	_IRIC_LOGGER_TRACE_ENTER();
+
+	H5CgnsZone* zone;
+	int ier = _iric_get_zone(fid, gid, &zone, __func__);
+	RETURN_IF_ERR;
+
+	ier = zone->readLineElementsSize(size);
+	RETURN_IF_ERR;
+
+	_IRIC_LOGGER_TRACE_LEAVE();
+	return IRIC_NO_ERROR;
+}
+
+int cg_iRIC_Read_Grid_LineElementsSize2_WithGridId(int fid, int gid, int* size)
+{
+	_IRIC_LOGGER_TRACE_ENTER();
+
+	H5CgnsZone* zone;
+	int ier = _iric_get_zone(fid, gid, &zone, __func__);
+	RETURN_IF_ERR;
+
+	ier = zone->readLineElementsValueCount(size);
+	RETURN_IF_ERR;
+
+	_IRIC_LOGGER_TRACE_LEAVE();
+	return IRIC_NO_ERROR;
+}
+
+int cg_iRIC_Read_Grid_LineElements_WithGridId(int fid, int gid, int* id_arr)
+{
+	_IRIC_LOGGER_TRACE_ENTER();
+
+	H5CgnsZone* zone;
+	int ier = _iric_get_zone(fid, gid, &zone, __func__);
+	RETURN_IF_ERR;
+
+	std::vector<int> indices;
+	ier = zone->readLineElements(&indices);
 	RETURN_IF_ERR;
 
 	_vectorToPointerT(indices, id_arr);
@@ -786,6 +852,170 @@ int cg_iRIC_Write_NamedGrid3d_Coords_WithGridId(int fid, const char* name, int i
 	RETURN_IF_ERR;
 
 	ier = zone->gridCoordinates()->writeCoordinatesZ(zVec);
+	RETURN_IF_ERR;
+
+	_IRIC_LOGGER_TRACE_LEAVE();
+	return file->getGridId(zone, gid);
+}
+
+int cg_iRIC_Write_Grid2d_Unst_Triangles_WithGridId(int fid, int psize, double* x_arr, double* y_arr, int csize, int* idx_arr, int* gid)
+{
+	_IRIC_LOGGER_TRACE_ENTER();
+
+	H5CgnsFile* file = nullptr;
+	int ier = _iric_h5cgnsfiles_get(fid, &file);
+	RETURN_IF_ERR;
+
+	auto base = file->base(2);
+	auto name = base->nextDefaultName();
+
+	ier = cg_iRIC_Write_NamedGrid2d_Unst_Triangles_WithGridId(fid, name.c_str(), psize, x_arr, y_arr, csize, idx_arr, gid);
+
+	_IRIC_LOGGER_TRACE_LEAVE();
+	return ier;
+}
+
+int cg_iRIC_Write_Grid2d_Unst_Lines_WithGridId(int fid, int psize, double* x_arr, double* y_arr, int csize, int* idx_arr, int* gid)
+{
+	_IRIC_LOGGER_TRACE_ENTER();
+
+	H5CgnsFile* file = nullptr;
+	int ier = _iric_h5cgnsfiles_get(fid, &file);
+	RETURN_IF_ERR;
+
+	auto base = file->base(2);
+	auto name = base->nextDefaultName();
+
+	ier = cg_iRIC_Write_NamedGrid2d_Unst_Lines_WithGridId(fid, name.c_str(), psize, x_arr, y_arr, csize, idx_arr, gid);
+
+	_IRIC_LOGGER_TRACE_LEAVE();
+	return ier;
+}
+
+int cg_iRIC_Write_Grid3d_Unst_Lines_WithGridId(int fid, int psize, double* x_arr, double* y_arr, double* z_arr, int csize, int* idx_arr, int* gid)
+{
+	_IRIC_LOGGER_TRACE_ENTER();
+
+	H5CgnsFile* file = nullptr;
+	int ier = _iric_h5cgnsfiles_get(fid, &file);
+	RETURN_IF_ERR;
+
+	auto base = file->base(3);
+	auto name = base->nextDefaultName();
+
+	ier = cg_iRIC_Write_NamedGrid3d_Unst_Lines_WithGridId(fid, name.c_str(), psize, x_arr, y_arr, z_arr, csize, idx_arr, gid);
+
+	_IRIC_LOGGER_TRACE_LEAVE();
+	return ier;
+}
+
+int cg_iRIC_Write_NamedGrid2d_Unst_Triangles_WithGridId(int fid, const char* name, int psize, double* x_arr, double* y_arr, int csize, int* idx_arr, int* gid)
+{
+	_IRIC_LOGGER_TRACE_ENTER();
+
+	H5CgnsFile* file = nullptr;
+	int ier = _iric_h5cgnsfiles_get(fid, &file);
+	RETURN_IF_ERR;
+
+	auto base = file->base(2);
+
+	std::vector<int> size;
+	size.push_back(psize);
+	size.push_back(csize);
+	auto zone = base->createZone(name, H5CgnsZone::Type::Unstructured, size);
+
+	std::vector<double> xVec(psize), yVec(psize);
+
+	_pointerToVectorT(x_arr, &xVec);
+	_pointerToVectorT(y_arr, &yVec);
+
+	ier = zone->gridCoordinates()->writeCoordinatesX(xVec);
+	RETURN_IF_ERR;
+
+	ier = zone->gridCoordinates()->writeCoordinatesY(yVec);
+	RETURN_IF_ERR;
+
+	std::vector<int> indices(csize * 3);
+
+	_pointerToVectorT(idx_arr, &indices);
+
+	ier = zone->writeTriangleElements(indices);
+
+	_IRIC_LOGGER_TRACE_LEAVE();
+	return file->getGridId(zone, gid);
+}
+
+int cg_iRIC_Write_NamedGrid2d_Unst_Lines_WithGridId(int fid, const char* name, int psize, double* x_arr, double* y_arr, int csize, int* idx_arr, int* gid)
+{
+	_IRIC_LOGGER_TRACE_ENTER();
+
+	H5CgnsFile* file = nullptr;
+	int ier = _iric_h5cgnsfiles_get(fid, &file);
+	RETURN_IF_ERR;
+
+	auto base = file->base(2);
+
+	std::vector<int> size;
+	size.push_back(psize);
+	size.push_back(csize);
+	auto zone = base->createZone(name, H5CgnsZone::Type::Unstructured, size);
+
+	std::vector<double> xVec(psize), yVec(psize);
+
+	_pointerToVectorT(x_arr, &xVec);
+	_pointerToVectorT(y_arr, &yVec);
+
+	ier = zone->gridCoordinates()->writeCoordinatesX(xVec);
+	RETURN_IF_ERR;
+
+	ier = zone->gridCoordinates()->writeCoordinatesY(yVec);
+	RETURN_IF_ERR;
+
+	std::vector<int> indices(csize * 2);
+
+	_pointerToVectorT(idx_arr, &indices);
+
+	ier = zone->writeLineElements(indices);
+
+	_IRIC_LOGGER_TRACE_LEAVE();
+	return file->getGridId(zone, gid);
+}
+
+int cg_iRIC_Write_NamedGrid3d_Unst_Lines_WithGridId(int fid, const char* name, int psize, double* x_arr, double* y_arr, double* z_arr, int csize, int* idx_arr, int* gid)
+{
+	_IRIC_LOGGER_TRACE_ENTER();
+
+	H5CgnsFile* file = nullptr;
+	int ier = _iric_h5cgnsfiles_get(fid, &file);
+	RETURN_IF_ERR;
+
+	auto base = file->base(3);
+
+	std::vector<int> size;
+	size.push_back(psize);
+	size.push_back(csize);
+	auto zone = base->createZone(name, H5CgnsZone::Type::Unstructured, size);
+
+	std::vector<double> xVec(psize), yVec(psize), zVec(psize);
+
+	_pointerToVectorT(x_arr, &xVec);
+	_pointerToVectorT(y_arr, &yVec);
+	_pointerToVectorT(z_arr, &zVec);
+
+	ier = zone->gridCoordinates()->writeCoordinatesX(xVec);
+	RETURN_IF_ERR;
+
+	ier = zone->gridCoordinates()->writeCoordinatesY(yVec);
+	RETURN_IF_ERR;
+
+	ier = zone->gridCoordinates()->writeCoordinatesZ(zVec);
+	RETURN_IF_ERR;
+
+	std::vector<int> indices(csize * 2);
+
+	_pointerToVectorT(idx_arr, &indices);
+
+	ier = zone->writeLineElements(indices);
 	RETURN_IF_ERR;
 
 	_IRIC_LOGGER_TRACE_LEAVE();

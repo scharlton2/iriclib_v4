@@ -811,9 +811,7 @@ int H5CgnsZone::Impl::createSolutionGroup(const std::string& name, const std::st
 std::string H5CgnsZone::Impl::getSolutionName(const std::string& pointersName, const std::string& prefix, int solId)
 {
 	if (m_flowSolutionPointerNames.find(pointersName) == m_flowSolutionPointerNames.end()) {
-		std::ostringstream ss;
-		ss << prefix << solId;
-		return ss.str();
+		return getStandardSolutionName(prefix, solId);
 	}
 
 	hid_t gId;
@@ -826,5 +824,16 @@ std::string H5CgnsZone::Impl::getSolutionName(const std::string& pointersName, c
 
 	std::vector<std::string> names;
 	H5Util::readDataArrayValue(gId, pointersName, &names);
+	if (solId >= static_cast<int>(names.size())) {
+		return getStandardSolutionName(prefix, solId);
+	}
+
 	return names.at(solId - 1);
+}
+
+std::string H5CgnsZone::Impl::getStandardSolutionName(const std::string& prefix, int solId)
+{
+	std::ostringstream ss;
+	ss << prefix << solId;
+	return ss.str();
 }

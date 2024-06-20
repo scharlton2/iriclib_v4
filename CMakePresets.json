@@ -50,7 +50,7 @@
       "cacheVariables": {
         "HDF5_DIR": {
           "type": "PATH",
-          "value": "${sourceDir}/../../install/hdf5-$env{HDF5_VER}/cmake/hdf5"
+          "value": "${sourceDir}/../../install/hdf5-$env{HDF5_VER}/share/cmake/hdf5"
         },
         "PocoFoundation_DIR": {
           "type": "PATH",

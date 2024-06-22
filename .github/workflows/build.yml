@@ -194,6 +194,15 @@ jobs:
         if: runner.os == 'Windows'
         run: ${{ env.PYTHON_INSTALL_DIR }}\python -c "import sysconfig;import os; print(os.listdir(sysconfig.get_config_vars('prefix')[0] + '/libs'))"
 
+      - name: Debug Configure iriclib
+        run: |
+          Set-Location lib/src/iriclib-git
+          Get-ChildItem -Recurse ../../install
+          # HDF5_DIR ${{ env.HDF5_VER }}
+          Get-ChildItem D:/a/iriclib_v4/iriclib_v4/lib/src/iriclib-git/../../install/hdf5-${{ env.HDF5_VER }}/share/cmake/hdf5
+          # PocoFoundation_DIR ${{ env.POCO_VER }}
+          Get-ChildItem "D:/a/iriclib_v4/iriclib_v4/lib/src/iriclib-git/../../install/poco-${{ env.POCO_VER }}/lib/cmake/Poco
+
       - name: Configure iriclib
         run: |
           Set-Location lib/src/iriclib-git

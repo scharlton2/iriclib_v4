@@ -196,6 +196,8 @@ jobs:
 
       - name: Debug Configure iriclib
         run: |
+          Get-Command cmake
+          cmake --version
           Set-Location lib/src/iriclib-git
           Get-ChildItem -Recurse ../../install
           # HDF5_DIR ${{ env.HDF5_VER }}

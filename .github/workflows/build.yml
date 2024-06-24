@@ -208,7 +208,7 @@ jobs:
       - name: Configure iriclib
         run: |
           Set-Location lib/src/iriclib-git
-          cmake --preset vs2019_no_fortran -DPython_ROOT_DIR=${{ env.PYTHON_INSTALL_DIR }} -DPython_FIND_STRATEGY=LOCATION
+          cmake --preset vs2019_no_fortran -DPython_ROOT_DIR=${{ env.PYTHON_INSTALL_DIR }} -DPython_FIND_STRATEGY=LOCATION --debug-find
 
       - name: Build iriclib debug
         run: |

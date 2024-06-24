@@ -34,7 +34,7 @@ if(IRICLIB_FORTRAN_TESTING)
   enable_language(Fortran)
 endif()
 
-find_package(HDF5 1.8 REQUIRED CONFIG)
+find_package(HDF5 REQUIRED CONFIG)
 
 find_package(PocoFoundation REQUIRED)
 

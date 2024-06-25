@@ -160,6 +160,11 @@ int cg_iRIC_Read_Grid_TriangleElements_WithGridId(int fid, int gid, IntArrayCont
 	return cg_iRIC_Read_Grid_TriangleElements_WithGridId(fid, gid, id_arr.pointer());
 }
 
+int cg_iRIC_Read_Grid_LineElements_WithGridId(int fid, int gid, IntArrayContainer& id_arr)
+{
+	return cg_iRIC_Read_Grid_LineElements_WithGridId(fid, gid, id_arr.pointer());
+}
+
 int cg_iRIC_Read_Grid_Real_Node_WithGridId(int fid, int gid, const char* name, RealArrayContainer& v_arr)
 {
 	return cg_iRIC_Read_Grid_Real_Node_WithGridId(fid, gid, name, v_arr.pointer());
@@ -283,6 +288,36 @@ int cg_iRIC_Write_NamedGrid2d_Coords_WithGridId(int fid, const char* name, int i
 int cg_iRIC_Write_NamedGrid3d_Coords_WithGridId(int fid, const char* name, int isize, int jsize, int ksize, RealArrayContainer& x_arr, RealArrayContainer& y_arr, RealArrayContainer& z_arr, int* gid)
 {
 	return cg_iRIC_Write_NamedGrid3d_Coords_WithGridId(fid, name, isize, jsize, ksize, x_arr.pointer(), y_arr.pointer(), z_arr.pointer(), gid);
+}
+
+int cg_iRIC_Write_Grid2d_Unst_Triangles_WithGridId(int fid, int psize, RealArrayContainer& x_arr, RealArrayContainer& y_arr, int csize, IntArrayContainer& idx_arr, int* gid)
+{
+	return cg_iRIC_Write_Grid2d_Unst_Triangles_WithGridId(fid, psize, x_arr.pointer(), y_arr.pointer(), csize, idx_arr.pointer(), gid);
+}
+
+int cg_iRIC_Write_Grid2d_Unst_Lines_WithGridId(int fid, int psize, RealArrayContainer& x_arr, RealArrayContainer& y_arr, int csize, IntArrayContainer& idx_arr, int* gid)
+{
+	return cg_iRIC_Write_Grid2d_Unst_Lines_WithGridId(fid, psize, x_arr.pointer(), y_arr.pointer(), csize, idx_arr.pointer(), gid);
+}
+
+int cg_iRIC_Write_Grid3d_Unst_Lines_WithGridId(int fid, int psize, RealArrayContainer& x_arr, RealArrayContainer& y_arr, RealArrayContainer& z_arr, int csize, IntArrayContainer& idx_arr, int* gid)
+{
+	return cg_iRIC_Write_Grid3d_Unst_Lines_WithGridId(fid, psize, x_arr.pointer(), y_arr.pointer(), z_arr.pointer(), csize, idx_arr.pointer(), gid);
+}
+
+int cg_iRIC_Write_NamedGrid2d_Unst_Triangles_WithGridId(int fid, const char* name, int psize, RealArrayContainer& x_arr, RealArrayContainer& y_arr, int csize, IntArrayContainer& idx_arr, int* gid)
+{
+	return cg_iRIC_Write_NamedGrid2d_Unst_Triangles_WithGridId(fid, name, psize, x_arr.pointer(), y_arr.pointer(), csize, idx_arr.pointer(), gid);
+}
+
+int cg_iRIC_Write_NamedGrid2d_Unst_Lines_WithGridId(int fid, const char* name, int psize, RealArrayContainer& x_arr, RealArrayContainer& y_arr, int csize, IntArrayContainer& idx_arr, int* gid)
+{
+	return cg_iRIC_Write_NamedGrid2d_Unst_Lines_WithGridId(fid, name, psize, x_arr.pointer(), y_arr.pointer(), csize, idx_arr.pointer(), gid);
+}
+
+int cg_iRIC_Write_NamedGrid3d_Unst_Lines_WithGridId(int fid, const char* name, int psize, RealArrayContainer& x_arr, RealArrayContainer& y_arr, RealArrayContainer& z_arr, int csize, IntArrayContainer& idx_arr, int* gid)
+{
+	return cg_iRIC_Write_NamedGrid3d_Unst_Lines_WithGridId(fid, name, psize, x_arr.pointer(), y_arr.pointer(), z_arr.pointer(), csize, idx_arr.pointer(), gid);
 }
 
 int cg_iRIC_Write_Grid_Real_Node_WithGridId(int fid, int gid, const char* name, RealArrayContainer& v_arr)
@@ -451,6 +486,11 @@ int cg_iRIC_Read_Grid_TriangleElements(int fid, IntArrayContainer& id_arr)
 	return cg_iRIC_Read_Grid_TriangleElements(fid, id_arr.pointer());
 }
 
+int cg_iRIC_Read_Grid_LineElements(int fid, IntArrayContainer& id_arr)
+{
+	return cg_iRIC_Read_Grid_LineElements(fid, id_arr.pointer());
+}
+
 int cg_iRIC_Read_Grid_Real_Node(int fid, const char* name, RealArrayContainer& v_arr)
 {
 	return cg_iRIC_Read_Grid_Real_Node(fid, name, v_arr.pointer());
@@ -574,6 +614,36 @@ int cg_iRIC_Write_NamedGrid2d_Coords(int fid, const char* name, int isize, int j
 int cg_iRIC_Write_NamedGrid3d_Coords(int fid, const char* name, int isize, int jsize, int ksize, RealArrayContainer& x_arr, RealArrayContainer& y_arr, RealArrayContainer& z_arr)
 {
 	return cg_iRIC_Write_NamedGrid3d_Coords(fid, name, isize, jsize, ksize, x_arr.pointer(), y_arr.pointer(), z_arr.pointer());
+}
+
+int cg_iRIC_Write_Grid2d_Unst_Triangles(int fid, int psize, RealArrayContainer& x_arr, RealArrayContainer& y_arr, int csize, IntArrayContainer& idx_arr, int* gid)
+{
+	return cg_iRIC_Write_Grid2d_Unst_Triangles(fid, psize, x_arr.pointer(), y_arr.pointer(), csize, idx_arr.pointer(), gid);
+}
+
+int cg_iRIC_Write_Grid2d_Unst_Lines(int fid, int psize, RealArrayContainer& x_arr, RealArrayContainer& y_arr, int csize, IntArrayContainer& idx_arr, int* gid)
+{
+	return cg_iRIC_Write_Grid2d_Unst_Lines(fid, psize, x_arr.pointer(), y_arr.pointer(), csize, idx_arr.pointer(), gid);
+}
+
+int cg_iRIC_Write_Grid3d_Unst_Lines(int fid, int psize, RealArrayContainer& x_arr, RealArrayContainer& y_arr, RealArrayContainer& z_arr, int csize, IntArrayContainer& idx_arr, int* gid)
+{
+	return cg_iRIC_Write_Grid3d_Unst_Lines(fid, psize, x_arr.pointer(), y_arr.pointer(), z_arr.pointer(), csize, idx_arr.pointer(), gid);
+}
+
+int cg_iRIC_Write_NamedGrid2d_Unst_Triangles(int fid, const char* name, int psize, RealArrayContainer& x_arr, RealArrayContainer& y_arr, int csize, IntArrayContainer& idx_arr, int* gid)
+{
+	return cg_iRIC_Write_NamedGrid2d_Unst_Triangles(fid, name, psize, x_arr.pointer(), y_arr.pointer(), csize, idx_arr.pointer(), gid);
+}
+
+int cg_iRIC_Write_NamedGrid2d_Unst_Lines(int fid, const char* name, int psize, RealArrayContainer& x_arr, RealArrayContainer& y_arr, int csize, IntArrayContainer& idx_arr, int* gid)
+{
+	return cg_iRIC_Write_NamedGrid2d_Unst_Lines(fid, name, psize, x_arr.pointer(), y_arr.pointer(), csize, idx_arr.pointer(), gid);
+}
+
+int cg_iRIC_Write_NamedGrid3d_Unst_Lines(int fid, const char* name, int psize, RealArrayContainer& x_arr, RealArrayContainer& y_arr, RealArrayContainer& z_arr, int csize, IntArrayContainer& idx_arr, int* gid)
+{
+	return cg_iRIC_Write_NamedGrid3d_Unst_Lines(fid, name, psize, x_arr.pointer(), y_arr.pointer(), z_arr.pointer(), csize, idx_arr.pointer(), gid);
 }
 
 int cg_iRIC_Write_Grid_Real_Node(int fid, const char* name, RealArrayContainer& v_arr)

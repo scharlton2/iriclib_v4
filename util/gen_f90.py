@@ -54,7 +54,7 @@ def gen_f90_interface_content(fdef):
     if fname_lower == 'cg_iric_read_grid2d_interpolatewithcell':
         return ""
 
-    if ('node' in fname_lower or 'cell' in fname_lower or 'iface' in fname_lower or 'jface' in fname_lower or 'kface' in fname_lower) and not ('count' in fname_lower):
+    if ('node' in fname_lower or 'cell' in fname_lower or 'iface' in fname_lower or 'jface' in fname_lower or 'kface' in fname_lower) and not ('count' in fname_lower or 'celltype' in fname_lower):
         return _gen_f90_interface_content(fname_lower, range(1, 4))
 
     if '_grid2d_coords' in fname_lower or '_namedgrid2d_coords' in fname_lower:
@@ -203,7 +203,7 @@ def gen_f90_source_content(fdef):
 
         return _gen_f90_source_content(fdef, None)
 
-    if ('node' in fname_lower or 'cell' in fname_lower or 'iface' in fname_lower or 'jface' in fname_lower or 'kface' in fname_lower) and not ('count' in fname_lower):
+    if ('node' in fname_lower or 'cell' in fname_lower or 'iface' in fname_lower or 'jface' in fname_lower or 'kface' in fname_lower) and not ('count' in fname_lower or 'celltype' in fname_lower):
         cont = ''
         for dim in range(1, 4):
             cont += _gen_f90_source_content(fdef, dim)

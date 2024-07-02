@@ -20,7 +20,7 @@ env:
   GENERATOR: Ninja Multi-Config
   SGEN: ninja-x64
   PYTHON_INSTALL_DIR: C:\Python-x64
-  PYTHON_VERSION: 3.8.10
+  PYTHON_VERSION: 3.12.4
 
   # oneAPI
   # Based on https://github.com/oneapi-src/oneapi-ci/blob/master/.github/workflows/build_all.yml

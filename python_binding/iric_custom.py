@@ -1175,7 +1175,7 @@ def cg_iRIC_Read_Grid_TriangleElements_WithGridId(fid, gid):
 	return id.get()
 
 def cg_iRIC_Read_Grid_LineElements_WithGridId(fid, gid):
-	size = @TODO FIX THIS()
+	size = cg_iRIC_Read_Grid_LineElementsSize2_WithGridId(fid, gid)
 	id = IntArrayContainer(size)
 	ier = _iric.cg_iRIC_Read_Grid_LineElements_WithGridId(fid, gid, id)
 	_checkErrorCode(ier)
@@ -1648,7 +1648,7 @@ def cg_iRIC_Read_Grid_TriangleElements(fid):
 	return id.get()
 
 def cg_iRIC_Read_Grid_LineElements(fid):
-	size = @TODO FIX THIS()
+	size = cg_iRIC_Read_Grid_LineElementsSize2(fid)
 	id = IntArrayContainer(size)
 	ier = _iric.cg_iRIC_Read_Grid_LineElements(fid, id)
 	_checkErrorCode(ier)
@@ -1842,9 +1842,8 @@ def cg_iRIC_Write_Grid2d_Unst_Triangles(fid, psize, x_arr, y_arr, csize, idx_arr
 	y.set(y_arr)
 	idx = IntArrayContainer(idx_arr.size)
 	idx.set(idx_arr)
-	ier, gid = _iric.cg_iRIC_Write_Grid2d_Unst_Triangles(fid, psize, x, y, csize, idx)
+	ier = _iric.cg_iRIC_Write_Grid2d_Unst_Triangles(fid, psize, x, y, csize, idx)
 	_checkErrorCode(ier)
-	return gid
 
 def cg_iRIC_Write_Grid2d_Unst_Lines(fid, psize, x_arr, y_arr, csize, idx_arr):
 	x = RealArrayContainer(x_arr.size)
@@ -1853,9 +1852,8 @@ def cg_iRIC_Write_Grid2d_Unst_Lines(fid, psize, x_arr, y_arr, csize, idx_arr):
 	y.set(y_arr)
 	idx = IntArrayContainer(idx_arr.size)
 	idx.set(idx_arr)
-	ier, gid = _iric.cg_iRIC_Write_Grid2d_Unst_Lines(fid, psize, x, y, csize, idx)
+	ier = _iric.cg_iRIC_Write_Grid2d_Unst_Lines(fid, psize, x, y, csize, idx)
 	_checkErrorCode(ier)
-	return gid
 
 def cg_iRIC_Write_Grid3d_Unst_Lines(fid, psize, x_arr, y_arr, z_arr, csize, idx_arr):
 	x = RealArrayContainer(x_arr.size)
@@ -1866,9 +1864,8 @@ def cg_iRIC_Write_Grid3d_Unst_Lines(fid, psize, x_arr, y_arr, z_arr, csize, idx_
 	z.set(z_arr)
 	idx = IntArrayContainer(idx_arr.size)
 	idx.set(idx_arr)
-	ier, gid = _iric.cg_iRIC_Write_Grid3d_Unst_Lines(fid, psize, x, y, z, csize, idx)
+	ier = _iric.cg_iRIC_Write_Grid3d_Unst_Lines(fid, psize, x, y, z, csize, idx)
 	_checkErrorCode(ier)
-	return gid
 
 def cg_iRIC_Write_NamedGrid2d_Unst_Triangles(fid, name, psize, x_arr, y_arr, csize, idx_arr):
 	x = RealArrayContainer(x_arr.size)
@@ -1877,9 +1874,8 @@ def cg_iRIC_Write_NamedGrid2d_Unst_Triangles(fid, name, psize, x_arr, y_arr, csi
 	y.set(y_arr)
 	idx = IntArrayContainer(idx_arr.size)
 	idx.set(idx_arr)
-	ier, gid = _iric.cg_iRIC_Write_NamedGrid2d_Unst_Triangles(fid, name, psize, x, y, csize, idx)
+	ier = _iric.cg_iRIC_Write_NamedGrid2d_Unst_Triangles(fid, name, psize, x, y, csize, idx)
 	_checkErrorCode(ier)
-	return gid
 
 def cg_iRIC_Write_NamedGrid2d_Unst_Lines(fid, name, psize, x_arr, y_arr, csize, idx_arr):
 	x = RealArrayContainer(x_arr.size)
@@ -1888,9 +1884,8 @@ def cg_iRIC_Write_NamedGrid2d_Unst_Lines(fid, name, psize, x_arr, y_arr, csize, 
 	y.set(y_arr)
 	idx = IntArrayContainer(idx_arr.size)
 	idx.set(idx_arr)
-	ier, gid = _iric.cg_iRIC_Write_NamedGrid2d_Unst_Lines(fid, name, psize, x, y, csize, idx)
+	ier = _iric.cg_iRIC_Write_NamedGrid2d_Unst_Lines(fid, name, psize, x, y, csize, idx)
 	_checkErrorCode(ier)
-	return gid
 
 def cg_iRIC_Write_NamedGrid3d_Unst_Lines(fid, name, psize, x_arr, y_arr, z_arr, csize, idx_arr):
 	x = RealArrayContainer(x_arr.size)
@@ -1901,9 +1896,8 @@ def cg_iRIC_Write_NamedGrid3d_Unst_Lines(fid, name, psize, x_arr, y_arr, z_arr, 
 	z.set(z_arr)
 	idx = IntArrayContainer(idx_arr.size)
 	idx.set(idx_arr)
-	ier, gid = _iric.cg_iRIC_Write_NamedGrid3d_Unst_Lines(fid, name, psize, x, y, z, csize, idx)
+	ier = _iric.cg_iRIC_Write_NamedGrid3d_Unst_Lines(fid, name, psize, x, y, z, csize, idx)
 	_checkErrorCode(ier)
-	return gid
 
 def cg_iRIC_Write_Grid_Real_Node(fid, name, v_arr):
 	v = RealArrayContainer(v_arr.size)

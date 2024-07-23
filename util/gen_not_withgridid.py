@@ -47,6 +47,8 @@ def gen_not_withgridid_header():
                     if 'IRICLIBDLL' in line and 'WithGridId' in line:
                         if 'WriteGridCoord' in line or (('Write_Grid' in line or 'Write_NamedGrid' in line) and 'd_Coords' in line):
                             newline = gen_not_withgridid_header_line_writegrid(line)
+                        elif (('Write_Grid' in line or 'Write_NamedGrid' in line) and '_Unst_' in line):
+                            newline = gen_not_withgridid_header_line_writegrid(line)
                         else:
                             newline = gen_not_withgridid_header_line(line)
 
@@ -122,6 +124,8 @@ def gen_not_withgridid_source():
                 for line in f:
                     if 'IRICLIBDLL' in line and 'WithGridId' in line:
                         if 'WriteGridCoord' in line or (('Write_Grid' in line or 'Write_NamedGrid' in line) and 'd_Coords' in line):
+                            content = gen_not_withgridid_source_content_writegrid(line)
+                        elif (('Write_Grid' in line or 'Write_NamedGrid' in line) and '_Unst_' in line):
                             content = gen_not_withgridid_source_content_writegrid(line)
                         else:
                             content = gen_not_withgridid_source_content(line)

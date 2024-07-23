@@ -317,6 +317,12 @@ def gen_size_func(fname, args):
 
         return 'cg_iRIC_Read_Grid_TriangleElementsSize2' + suffix, args
 
+    m = re.search('(cg_iRIC_Read_Grid_LineElements)(.*)', fname)
+    if m:
+        m, suffix = m.groups()
+
+        return 'cg_iRIC_Read_Grid_LineElementsSize2' + suffix, args
+
     if fname == 'iRIC_Geo_Polygon_Read_Points':
         return 'iRIC_Geo_Polygon_Read_PointCount', args
 

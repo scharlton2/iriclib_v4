@@ -721,58 +721,46 @@ int cg_iRIC_Write_NamedGrid3d_Coords(int fid, const char* name, int isize, int j
   return cg_iRIC_Write_NamedGrid3d_Coords_WithGridId(fid, name, isize, jsize, ksize, x_arr, y_arr, z_arr, &gid);
 }
 
-int cg_iRIC_Write_Grid2d_Unst_Triangles(int fid, int psize, double* x_arr, double* y_arr, int csize, int* idx_arr, int* gid)
+int cg_iRIC_Write_Grid2d_Unst_Triangles(int fid, int psize, double* x_arr, double* y_arr, int csize, int* idx_arr)
 {
   int gid;
-  int ier = getDefault2dGridId(fid, &gid);
-  RETURN_IF_ERR;
 
-  return cg_iRIC_Write_Grid2d_Unst_Triangles_WithGridId(fid, psize, x_arr, y_arr, csize, idx_arr, gid);
+  return cg_iRIC_Write_Grid2d_Unst_Triangles_WithGridId(fid, psize, x_arr, y_arr, csize, idx_arr, &gid);
 }
 
-int cg_iRIC_Write_Grid2d_Unst_Lines(int fid, int psize, double* x_arr, double* y_arr, int csize, int* idx_arr, int* gid)
+int cg_iRIC_Write_Grid2d_Unst_Lines(int fid, int psize, double* x_arr, double* y_arr, int csize, int* idx_arr)
 {
   int gid;
-  int ier = getDefault2dGridId(fid, &gid);
-  RETURN_IF_ERR;
 
-  return cg_iRIC_Write_Grid2d_Unst_Lines_WithGridId(fid, psize, x_arr, y_arr, csize, idx_arr, gid);
+  return cg_iRIC_Write_Grid2d_Unst_Lines_WithGridId(fid, psize, x_arr, y_arr, csize, idx_arr, &gid);
 }
 
-int cg_iRIC_Write_Grid3d_Unst_Lines(int fid, int psize, double* x_arr, double* y_arr, double* z_arr, int csize, int* idx_arr, int* gid)
+int cg_iRIC_Write_Grid3d_Unst_Lines(int fid, int psize, double* x_arr, double* y_arr, double* z_arr, int csize, int* idx_arr)
 {
   int gid;
-  int ier = getlastGridId(fid, &gid);
-  RETURN_IF_ERR;
 
-  return cg_iRIC_Write_Grid3d_Unst_Lines_WithGridId(fid, psize, x_arr, y_arr, z_arr, csize, idx_arr, gid);
+  return cg_iRIC_Write_Grid3d_Unst_Lines_WithGridId(fid, psize, x_arr, y_arr, z_arr, csize, idx_arr, &gid);
 }
 
-int cg_iRIC_Write_NamedGrid2d_Unst_Triangles(int fid, const char* name, int psize, double* x_arr, double* y_arr, int csize, int* idx_arr, int* gid)
+int cg_iRIC_Write_NamedGrid2d_Unst_Triangles(int fid, const char* name, int psize, double* x_arr, double* y_arr, int csize, int* idx_arr)
 {
   int gid;
-  int ier = getDefault2dGridId(fid, &gid);
-  RETURN_IF_ERR;
 
-  return cg_iRIC_Write_NamedGrid2d_Unst_Triangles_WithGridId(fid, name, psize, x_arr, y_arr, csize, idx_arr, gid);
+  return cg_iRIC_Write_NamedGrid2d_Unst_Triangles_WithGridId(fid, name, psize, x_arr, y_arr, csize, idx_arr, &gid);
 }
 
-int cg_iRIC_Write_NamedGrid2d_Unst_Lines(int fid, const char* name, int psize, double* x_arr, double* y_arr, int csize, int* idx_arr, int* gid)
+int cg_iRIC_Write_NamedGrid2d_Unst_Lines(int fid, const char* name, int psize, double* x_arr, double* y_arr, int csize, int* idx_arr)
 {
   int gid;
-  int ier = getDefault2dGridId(fid, &gid);
-  RETURN_IF_ERR;
 
-  return cg_iRIC_Write_NamedGrid2d_Unst_Lines_WithGridId(fid, name, psize, x_arr, y_arr, csize, idx_arr, gid);
+  return cg_iRIC_Write_NamedGrid2d_Unst_Lines_WithGridId(fid, name, psize, x_arr, y_arr, csize, idx_arr, &gid);
 }
 
-int cg_iRIC_Write_NamedGrid3d_Unst_Lines(int fid, const char* name, int psize, double* x_arr, double* y_arr, double* z_arr, int csize, int* idx_arr, int* gid)
+int cg_iRIC_Write_NamedGrid3d_Unst_Lines(int fid, const char* name, int psize, double* x_arr, double* y_arr, double* z_arr, int csize, int* idx_arr)
 {
   int gid;
-  int ier = getlastGridId(fid, &gid);
-  RETURN_IF_ERR;
 
-  return cg_iRIC_Write_NamedGrid3d_Unst_Lines_WithGridId(fid, name, psize, x_arr, y_arr, z_arr, csize, idx_arr, gid);
+  return cg_iRIC_Write_NamedGrid3d_Unst_Lines_WithGridId(fid, name, psize, x_arr, y_arr, z_arr, csize, idx_arr, &gid);
 }
 
 int cg_iRIC_Write_Grid_Real_Node(int fid, const char* name, double* v_arr)

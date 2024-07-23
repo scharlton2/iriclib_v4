@@ -2234,40 +2234,40 @@ void IRICLIBDLL FMNAME(cg_iric_write_namedgrid3d_coords_f2c, CG_IRIC_WRITE_NAMED
 	*ier = cg_iRIC_Write_NamedGrid3d_Coords(*fid, c_name, *isize, *jsize, *ksize, x_arr, y_arr, z_arr);
 }
 
-void IRICLIBDLL FMNAME(cg_iric_write_grid2d_unst_triangles_f2c, CG_IRIC_WRITE_GRID2D_UNST_TRIANGLES_F2C) (int* fid, int* psize, double* x_arr, double* y_arr, int* csize, int* idx_arr, int* gid, int *ier) {
-	*ier = cg_iRIC_Write_Grid2d_Unst_Triangles(*fid, *psize, x_arr, y_arr, *csize, idx_arr, gid);
+void IRICLIBDLL FMNAME(cg_iric_write_grid2d_unst_triangles_f2c, CG_IRIC_WRITE_GRID2D_UNST_TRIANGLES_F2C) (int* fid, int* psize, double* x_arr, double* y_arr, int* csize, int* idx_arr, int *ier) {
+	*ier = cg_iRIC_Write_Grid2d_Unst_Triangles(*fid, *psize, x_arr, y_arr, *csize, idx_arr);
 }
 
-void IRICLIBDLL FMNAME(cg_iric_write_grid2d_unst_lines_f2c, CG_IRIC_WRITE_GRID2D_UNST_LINES_F2C) (int* fid, int* psize, double* x_arr, double* y_arr, int* csize, int* idx_arr, int* gid, int *ier) {
-	*ier = cg_iRIC_Write_Grid2d_Unst_Lines(*fid, *psize, x_arr, y_arr, *csize, idx_arr, gid);
+void IRICLIBDLL FMNAME(cg_iric_write_grid2d_unst_lines_f2c, CG_IRIC_WRITE_GRID2D_UNST_LINES_F2C) (int* fid, int* psize, double* x_arr, double* y_arr, int* csize, int* idx_arr, int *ier) {
+	*ier = cg_iRIC_Write_Grid2d_Unst_Lines(*fid, *psize, x_arr, y_arr, *csize, idx_arr);
 }
 
-void IRICLIBDLL FMNAME(cg_iric_write_grid3d_unst_lines_f2c, CG_IRIC_WRITE_GRID3D_UNST_LINES_F2C) (int* fid, int* psize, double* x_arr, double* y_arr, double* z_arr, int* csize, int* idx_arr, int* gid, int *ier) {
-	*ier = cg_iRIC_Write_Grid3d_Unst_Lines(*fid, *psize, x_arr, y_arr, z_arr, *csize, idx_arr, gid);
+void IRICLIBDLL FMNAME(cg_iric_write_grid3d_unst_lines_f2c, CG_IRIC_WRITE_GRID3D_UNST_LINES_F2C) (int* fid, int* psize, double* x_arr, double* y_arr, double* z_arr, int* csize, int* idx_arr, int *ier) {
+	*ier = cg_iRIC_Write_Grid3d_Unst_Lines(*fid, *psize, x_arr, y_arr, z_arr, *csize, idx_arr);
 }
 
-void IRICLIBDLL FMNAME(cg_iric_write_namedgrid2d_unst_triangles_f2c, CG_IRIC_WRITE_NAMEDGRID2D_UNST_TRIANGLES_F2C) (int* fid, STR_PSTR(name), int* psize, double* x_arr, double* y_arr, int* csize, int* idx_arr, int* gid, int *ier STR_PLEN(name)) {
+void IRICLIBDLL FMNAME(cg_iric_write_namedgrid2d_unst_triangles_f2c, CG_IRIC_WRITE_NAMEDGRID2D_UNST_TRIANGLES_F2C) (int* fid, STR_PSTR(name), int* psize, double* x_arr, double* y_arr, int* csize, int* idx_arr, int *ier STR_PLEN(name)) {
 	char c_name[STRINGMAXLEN + 1];
 	string_2_C_string(STR_PTR(name), STR_LEN(name), c_name, STRINGMAXLEN, ier);
 	if (*ier != 0) return;
 
-	*ier = cg_iRIC_Write_NamedGrid2d_Unst_Triangles(*fid, c_name, *psize, x_arr, y_arr, *csize, idx_arr, gid);
+	*ier = cg_iRIC_Write_NamedGrid2d_Unst_Triangles(*fid, c_name, *psize, x_arr, y_arr, *csize, idx_arr);
 }
 
-void IRICLIBDLL FMNAME(cg_iric_write_namedgrid2d_unst_lines_f2c, CG_IRIC_WRITE_NAMEDGRID2D_UNST_LINES_F2C) (int* fid, STR_PSTR(name), int* psize, double* x_arr, double* y_arr, int* csize, int* idx_arr, int* gid, int *ier STR_PLEN(name)) {
+void IRICLIBDLL FMNAME(cg_iric_write_namedgrid2d_unst_lines_f2c, CG_IRIC_WRITE_NAMEDGRID2D_UNST_LINES_F2C) (int* fid, STR_PSTR(name), int* psize, double* x_arr, double* y_arr, int* csize, int* idx_arr, int *ier STR_PLEN(name)) {
 	char c_name[STRINGMAXLEN + 1];
 	string_2_C_string(STR_PTR(name), STR_LEN(name), c_name, STRINGMAXLEN, ier);
 	if (*ier != 0) return;
 
-	*ier = cg_iRIC_Write_NamedGrid2d_Unst_Lines(*fid, c_name, *psize, x_arr, y_arr, *csize, idx_arr, gid);
+	*ier = cg_iRIC_Write_NamedGrid2d_Unst_Lines(*fid, c_name, *psize, x_arr, y_arr, *csize, idx_arr);
 }
 
-void IRICLIBDLL FMNAME(cg_iric_write_namedgrid3d_unst_lines_f2c, CG_IRIC_WRITE_NAMEDGRID3D_UNST_LINES_F2C) (int* fid, STR_PSTR(name), int* psize, double* x_arr, double* y_arr, double* z_arr, int* csize, int* idx_arr, int* gid, int *ier STR_PLEN(name)) {
+void IRICLIBDLL FMNAME(cg_iric_write_namedgrid3d_unst_lines_f2c, CG_IRIC_WRITE_NAMEDGRID3D_UNST_LINES_F2C) (int* fid, STR_PSTR(name), int* psize, double* x_arr, double* y_arr, double* z_arr, int* csize, int* idx_arr, int *ier STR_PLEN(name)) {
 	char c_name[STRINGMAXLEN + 1];
 	string_2_C_string(STR_PTR(name), STR_LEN(name), c_name, STRINGMAXLEN, ier);
 	if (*ier != 0) return;
 
-	*ier = cg_iRIC_Write_NamedGrid3d_Unst_Lines(*fid, c_name, *psize, x_arr, y_arr, z_arr, *csize, idx_arr, gid);
+	*ier = cg_iRIC_Write_NamedGrid3d_Unst_Lines(*fid, c_name, *psize, x_arr, y_arr, z_arr, *csize, idx_arr);
 }
 
 void IRICLIBDLL FMNAME(cg_iric_write_grid_real_node_f2c, CG_IRIC_WRITE_GRID_REAL_NODE_F2C) (int* fid, STR_PSTR(name), double* v_arr, int *ier STR_PLEN(name)) {

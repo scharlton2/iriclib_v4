@@ -123,6 +123,7 @@ int H5CgnsZone::cellCount() const
 	cellDims(&dims);
 	int c = 1;
 	for (auto d : dims) {
+		if (d == 0) {d = 1;}
 		c *= static_cast<int>(d);
 	}
 	return c;

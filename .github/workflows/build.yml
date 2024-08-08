@@ -20,7 +20,7 @@ env:
   GENERATOR: Ninja Multi-Config
   SGEN: ninja-x64
   PYTHON_INSTALL_DIR: C:\Python-x64
-  PYTHON_VERSION: 3.8.10
+  PYTHON_VERSION: 3.12.4
 
   # oneAPI
   # Based on https://github.com/oneapi-src/oneapi-ci/blob/master/.github/workflows/build_all.yml
@@ -36,7 +36,7 @@ jobs:
 
     steps:
       - name: Checkout iricdev
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: i-RIC/iricdev-2019
 
@@ -44,13 +44,13 @@ jobs:
         run: .\init.github_env.ps1 | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
       - name: Setup path for msbuild
-        uses: microsoft/setup-msbuild@v1.1
+        uses: microsoft/setup-msbuild@v2
         with:
           vs-version: '[16.9,17)'
 
       - name: Cache hdf5
         id: cache-hdf5
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{ github.workspace }}/lib/install/hdf5-${{ env.HDF5_VER }}
           key: ${{ runner.os }}-hdf5-${{ hashFiles('./hdf5.*') }}
@@ -77,7 +77,7 @@ jobs:
 
     steps:
       - name: Checkout iricdev
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: i-RIC/iricdev-2019
 
@@ -85,13 +85,13 @@ jobs:
         run: .\init.github_env.ps1 | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
       - name: Setup path for msbuild
-        uses: microsoft/setup-msbuild@v1.1
+        uses: microsoft/setup-msbuild@v2
         with:
           vs-version: '[16.9,17)'
 
       - name: Cache poco
         id: cache-poco
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{ github.workspace }}/lib/install/poco-${{ env.POCO_VER }}
           key: ${{ runner.os }}-poco-${{ hashFiles('./poco.*') }}
@@ -109,14 +109,14 @@ jobs:
 
     steps:
       - name: Checkout iricdev
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           repository: i-RIC/iricdev-2019
           persist-credentials: false               # required to commit with a Personal access token
           ref: 2019                                # @todo change to master_v4 or develop_v4
 
       - name: Checkout iriclib
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           path: lib/src/iriclib-git
 
@@ -124,20 +124,20 @@ jobs:
         run: .\init.github_env.ps1 | Out-File -FilePath $env:GITHUB_ENV -Encoding utf8 -Append
 
       - name: Setup path for msbuild
-        uses: microsoft/setup-msbuild@v1.1
+        uses: microsoft/setup-msbuild@v2
         with:
           vs-version: '[16.9,17)'
 
       - name: Cache hdf5
         id: cache-hdf5
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{ github.workspace }}/lib/install/hdf5-${{ env.HDF5_VER }}
           key: ${{ runner.os }}-hdf5-${{ hashFiles('./hdf5.*') }}
 
       - name: Cache poco
         id: cache-poco
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         with:
           path: ${{ github.workspace }}/lib/install/poco-${{ env.POCO_VER }}
           key: ${{ runner.os }}-poco-${{ hashFiles('./poco.*') }}
@@ -163,7 +163,7 @@ jobs:
 
       # Debug Python based on https://github.com/actions/virtual-environments/issues/786#issuecomment-620524456
       - name: Cache python
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         id: cache-python
         with:
           path: '${{ env.PYTHON_INSTALL_DIR }}\'
@@ -193,6 +193,17 @@ jobs:
       - name: List linker libs
         if: runner.os == 'Windows'
         run: ${{ env.PYTHON_INSTALL_DIR }}\python -c "import sysconfig;import os; print(os.listdir(sysconfig.get_config_vars('prefix')[0] + '/libs'))"
+
+      - name: Debug Configure iriclib
+        run: |
+          Get-Command cmake
+          cmake --version
+          Set-Location lib/src/iriclib-git
+          Get-ChildItem -Recurse ../../install
+          # HDF5_DIR ${{ env.HDF5_VER }}
+          Get-ChildItem D:/a/iriclib_v4/iriclib_v4/lib/src/iriclib-git/../../install/hdf5-${{ env.HDF5_VER }}/share/cmake/hdf5
+          # PocoFoundation_DIR ${{ env.POCO_VER }}
+          Get-ChildItem D:/a/iriclib_v4/iriclib_v4/lib/src/iriclib-git/../../install/poco-${{ env.POCO_VER }}/lib/cmake/Poco
 
       - name: Configure iriclib
         run: |
@@ -231,7 +242,7 @@ jobs:
 
       - name: Upload artifact (user forks and pull requests)
         if: ${{ github.repository != 'i-RIC/iriclib_v4' || github.event_name == 'pull_request' }}
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: iricsdk
           path: .\lib\install

@@ -8,7 +8,7 @@ endif()
 
 project (
   iriclib
-  VERSION 4.0.51
+  VERSION 4.0.54
   LANGUAGES CXX C
 )
 
@@ -34,7 +34,7 @@ if(IRICLIB_FORTRAN_TESTING)
   enable_language(Fortran)
 endif()
 
-find_package(HDF5 1.8 REQUIRED)
+find_package(HDF5 1.12 REQUIRED CONFIG)
 
 find_package(PocoFoundation REQUIRED)
 

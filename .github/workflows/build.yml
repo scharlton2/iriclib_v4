@@ -223,12 +223,12 @@ jobs:
       - name: Test iriclib debug
         run: |
           Set-Location lib/src/iriclib-git
-          ctest --build --preset vs2019_no_fortran --build-config debug
+          ctest --preset vs2019_no_fortran --build-config debug
 
       - name: Test iriclib release
         run: |
           Set-Location lib/src/iriclib-git
-          ctest --build --preset vs2019_no_fortran --build-config release
+          ctest --preset vs2019_no_fortran --build-config release
 
       - name: Install iriclib debug
         run: |
